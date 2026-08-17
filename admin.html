@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Dashboard — Cloudceipt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141A24;--ink-2:#232C3B;--slate:#4B5563;--slate-2:#626D7F;
+  --mist:#F2F4F8;--surface:#fff;--line:#E1E6EE;--line-2:#CFD6E2;
+  --pine:#1E6C58;--pine-soft:#E6F1EE;--mint:#63C7A8;
+  --alert:#B0413E;--alert-soft:#FBECEB;--amber:#B5822A;--amber-soft:#FBF3E4;
+  --radius:10px;--shadow-sm:0 1px 2px rgba(20,26,36,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Archivo',system-ui,sans-serif;background:var(--mist);color:var(--ink);
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+button,input{font-family:inherit;font-size:inherit;color:inherit;}
+.hidden{display:none !important;}
+.mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;}
+a{color:var(--pine);}
+:focus-visible{outline:3px solid var(--pine);outline-offset:2px;border-radius:4px;}
+.skip-link{position:absolute;left:8px;top:-60px;background:var(--ink);color:#fff;padding:10px 16px;
+  border-radius:8px;font-weight:600;z-index:60;transition:top .15s;}
+.skip-link:focus{top:8px;}
+
+.mark{display:inline-flex;align-items:center;gap:9px;text-decoration:none;color:inherit;}
+.mark-glyph{width:26px;height:26px;border-radius:6px;background:var(--ink);display:grid;place-items:center;flex-shrink:0;}
+.mark-glyph::before{content:"";width:12px;height:12px;border-radius:3px;
+  background:linear-gradient(160deg,#fff 0 55%,var(--pine) 55% 100%);}
+.mark-word{font-weight:700;letter-spacing:-.02em;font-size:1.05rem;}
+.mark-word em{font-style:normal;color:var(--pine);}
+.tagpill{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;
+  text-transform:uppercase;background:var(--ink);color:#fff;padding:3px 8px;border-radius:20px;margin-left:4px;}
+
+.topbar{background:var(--surface);border-bottom:1px solid var(--line);padding:0 22px;height:58px;
+  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;gap:12px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.btn{border:1px solid transparent;border-radius:8px;padding:9px 16px;font-weight:600;font-size:.88rem;
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  transition:background .15s,border-color .15s,opacity .15s;}
+.btn-primary{background:var(--ink);color:#fff;} .btn-primary:hover{background:var(--ink-2);}
+.btn-outline{background:var(--surface);border-color:var(--line-2);} .btn-outline:hover{background:var(--mist);}
+.btn-quiet{background:transparent;color:var(--slate);padding:6px 10px;font-size:.82rem;font-weight:500;}
+.btn-quiet:hover{color:var(--ink);background:var(--mist);}
+.btn-block{width:100%;}
+.btn[disabled]{opacity:.55;cursor:not-allowed;}
+
+main{max-width:1120px;margin:0 auto;padding:24px 22px 80px;}
+
+/* gate / signin */
+.gate{min-height:100vh;display:grid;place-items:center;padding:32px 20px;}
+.gate-card{width:100%;max-width:360px;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:30px;box-shadow:var(--shadow-sm);}
+.gate-card h1{font-size:1.35rem;letter-spacing:-.02em;margin:18px 0 5px;}
+.gate-card .sub{color:var(--slate);font-size:.9rem;margin-bottom:22px;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--slate);margin-bottom:6px;}
+.field input{width:100%;padding:10px 12px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);}
+.field input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(20,26,36,.08);}
+.msg{border-radius:8px;padding:9px 12px;font-size:.85rem;margin-bottom:14px;line-height:1.45;}
+.msg-error{background:var(--alert-soft);color:var(--alert);border:1px solid #F0CFCD;}
+
+/* headline metrics */
+.rail{background:var(--ink);color:#fff;border-radius:var(--radius);display:grid;
+  grid-template-columns:repeat(4,1fr);overflow:hidden;margin-bottom:18px;}
+.rail-cell{padding:16px 18px;border-right:1px solid rgba(255,255,255,.09);}
+.rail-cell:last-child{border-right:none;}
+.rail-label{font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;color:#8C97A8;margin-bottom:5px;}
+.rail-val{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;letter-spacing:-.02em;}
+.rail-val.accent{color:var(--mint);}
+.rail-note{font-size:.72rem;color:#7C8799;margin-top:3px;}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);}
+.card-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;
+  align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.card-head h2{font-size:.92rem;font-weight:700;letter-spacing:-.01em;}
+.card-head .hint{font-size:.76rem;color:var(--slate-2);}
+.card-body{padding:16px 18px;}
+
+.stat{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  padding:7px 0;border-bottom:1px solid var(--line);font-size:.87rem;}
+.stat:last-child{border-bottom:none;}
+.stat .k{color:var(--slate);}
+.stat .v{font-family:'JetBrains Mono',monospace;font-weight:600;}
+.stat .v.good{color:var(--pine);}
+.stat .v.warn{color:var(--amber);}
+.stat .v.bad{color:var(--alert);}
+
+/* chart */
+.chart{display:flex;align-items:flex-end;gap:3px;height:120px;padding-top:6px;}
+.bar{flex:1;background:var(--pine-soft);border-radius:2px 2px 0 0;position:relative;min-height:2px;}
+.bar span{position:absolute;inset:auto 0 0 0;background:var(--pine);border-radius:2px 2px 0 0;}
+.chart-axis{display:flex;justify-content:space-between;font-size:.68rem;color:var(--slate-2);
+  margin-top:6px;font-family:'JetBrains Mono',monospace;}
+
+/* table */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.85rem;}
+th{text-align:left;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--slate-2);
+  font-weight:600;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap;}
+td{padding:11px 14px;border-bottom:1px solid var(--line);}
+tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:var(--mist);}
+td.num{font-family:'JetBrains Mono',monospace;text-align:right;font-variant-numeric:tabular-nums;}
+.biz{font-weight:600;}
+.sub{font-size:.76rem;color:var(--slate-2);}
+.pill{display:inline-block;font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:20px;
+  border:1px solid var(--line);background:var(--mist);color:var(--slate);white-space:nowrap;}
+.pill.live{background:var(--pine-soft);color:var(--pine);border-color:#C6E2DA;}
+.pill.quiet{background:var(--amber-soft);color:var(--amber);border-color:#EBDCBB;}
+.pill.cold{background:var(--alert-soft);color:var(--alert);border-color:#F0CFCD;}
+.empty{padding:36px 20px;text-align:center;color:var(--slate);}
+.empty strong{display:block;color:var(--ink);margin-bottom:4px;}
+
+.foot{text-align:center;font-size:.76rem;color:var(--slate-2);margin-top:20px;}
+.foot a{color:var(--slate);}
+.spin{width:15px;height:15px;border:2px solid var(--line-2);border-top-color:var(--pine);
+  border-radius:50%;animation:sp .7s linear infinite;display:inline-block;vertical-align:-2px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:2.5s;}}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr;}
+  .rail{grid-template-columns:1fr 1fr;}
+  .rail-cell:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.09);}
+  .rail-cell:nth-child(2n){border-right:none;}
+  main{padding:16px 14px 60px;}
+  .topbar{padding:0 14px;}
+}
+</style>
+</head>
+<body>
+<a href="#content" class="skip-link">Skip to main content</a>
+
+<!-- ============ SIGN IN / NOT AUTHORISED ============ -->
+<div id="gate" class="gate hidden">
+  <div class="gate-card">
+    <span class="mark"><span class="mark-glyph" aria-hidden="true"></span>
+      <span class="mark-word">Cloud<em>ceipt</em></span></span>
+    <h1 id="gateTitle">Dashboard</h1>
+    <p class="sub" id="gateSub">Sign in with your founder account.</p>
+    <div id="gateMsg" class="msg hidden" role="alert" aria-live="assertive"></div>
+
+    <div id="gateForm">
+      <div class="field"><label for="gEmail">Email</label>
+        <input type="email" id="gEmail" autocomplete="email"></div>
+      <div class="field"><label for="gPass">Password</label>
+        <input type="password" id="gPass" autocomplete="current-password"></div>
+      <button class="btn btn-primary btn-block" id="gSubmit">Sign in</button>
+    </div>
+
+    <div id="gateDenied" class="hidden">
+      <p style="color:var(--slate);font-size:.88rem;margin-bottom:16px;">
+        This account isn't an administrator. If it should be, add it to the
+        <code>admins</code> table in Supabase.
+      </p>
+      <button class="btn btn-outline btn-block" id="gSignOut">Sign out</button>
+    </div>
+
+    <p style="margin-top:18px;text-align:center;font-size:.82rem;">
+      <a href="index.html">Back to the app</a>
+    </p>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div id="app" class="hidden">
+  <header class="topbar">
+    <span class="mark"><span class="mark-glyph" aria-hidden="true"></span>
+      <span class="mark-word">Cloud<em>ceipt</em></span><span class="tagpill">Dashboard</span></span>
+    <div class="topbar-right">
+      <span class="sub mono" id="stamp"></span>
+      <button class="btn btn-quiet" id="refreshBtn">Refresh</button>
+      <button class="btn btn-quiet" id="signOutBtn">Sign out</button>
+    </div>
+  </header>
+
+  <main id="content">
+    <div class="rail">
+      <div class="rail-cell">
+        <div class="rail-label">Accounts</div>
+        <div class="rail-val accent" id="mAccounts">—</div>
+        <div class="rail-note" id="mAccountsNote">&nbsp;</div>
+      </div>
+      <div class="rail-cell">
+        <div class="rail-label">Still filing (30d)</div>
+        <div class="rail-val" id="mActive">—</div>
+        <div class="rail-note" id="mActiveNote">&nbsp;</div>
+      </div>
+      <div class="rail-cell">
+        <div class="rail-label">Receipts filed</div>
+        <div class="rail-val" id="mReceipts">—</div>
+        <div class="rail-note" id="mReceiptsNote">&nbsp;</div>
+      </div>
+      <div class="rail-cell">
+        <div class="rail-label">Value processed</div>
+        <div class="rail-val" id="mValue">—</div>
+        <div class="rail-note" id="mValueNote">&nbsp;</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-head"><h2>Funnel</h2><span class="hint">signup → habit</span></div>
+        <div class="card-body" id="funnel"><span class="spin" aria-label="Loading"></span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>Running costs</h2><span class="hint">estimated</span></div>
+        <div class="card-body" id="costs"><span class="spin" aria-label="Loading"></span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>Revenue</h2><span class="hint">if all accounts paid</span></div>
+        <div class="card-body" id="revenue"><span class="spin" aria-label="Loading"></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Receipts filed per day</h2><span class="hint">last 30 days</span></div>
+      <div class="card-body">
+        <div class="chart" id="chart"></div>
+        <div class="chart-axis"><span id="axisFrom">—</span><span id="axisTo">—</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <div class="card-head">
+        <h2>Accounts</h2>
+        <span class="hint">activity only — receipt contents are never shown here</span>
+      </div>
+      <div class="table-wrap" id="accountsWrap">
+        <div class="empty"><span class="spin" aria-label="Loading"></span></div>
+      </div>
+    </div>
+
+    <p class="foot">
+      <a href="index.html">App</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
+    </p>
+  </main>
+</div>
+
+<script>
+// ============================================================
+//  SUPABASE CONNECTION
+// ============================================================
+window.CLOUDCEIPT_CONFIG = {
+  SUPABASE_URL: "https://mpilbizcbowtppqqwyll.supabase.co",
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1waWxiaXpjYm93dHBwcXF3eWxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MTI5MTcsImV4cCI6MjEwMTk4ODkxN30.nwckV8G-cadJvY3Prbihzk1knciQmlSlRpbz7aFe0pA",
+};
+
+// ---- Pricing assumptions. Edit these as your numbers change. ----
+window.CLOUDCEIPT_ECONOMICS = {
+  supabaseMonthly: 25.00,   // Pro plan, fixed regardless of client count
+  costPerScan:     0.008,   // Claude Sonnet, ~0.8c per receipt
+  domainMonthly:   1.00,
+  pricePerAccount: 39.00,   // standard plan
+  foundingPrice:   29.00,
+};
+</script>
+
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
+
+const $ = id => document.getElementById(id);
+const CFG = window.CLOUDCEIPT_CONFIG;
+const ECON = window.CLOUDCEIPT_ECONOMICS;
+
+const supabase = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, {
+  auth: { persistSession: true, autoRefreshToken: true },
+});
+
+const money  = n => "$" + (Number(n)||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const money0 = n => "$" + Math.round(Number(n)||0).toLocaleString("en-US");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pct = (a,b) => b ? Math.round(a/b*100) + "%" : "—";
+const day = d => d ? new Date(d).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"2-digit"}) : "—";
+
+function gateMsg(text){
+  const el = $("gateMsg");
+  if(!text){ el.className="msg hidden"; el.textContent=""; return; }
+  el.className="msg msg-error"; el.textContent=text;
+}
+
+/* ---------------- auth ---------------- */
+async function signIn(){
+  const email = $("gEmail").value.trim().toLowerCase();
+  const pass  = $("gPass").value;
+  if(!email || !pass) return gateMsg("Enter your email and password.");
+  $("gSubmit").disabled = true; $("gSubmit").textContent = "Signing in…";
+  try{
+    const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
+    if(error) throw error;
+  }catch(err){
+    gateMsg(/invalid login/i.test(err.message) ? "Incorrect email or password." : err.message);
+  }finally{
+    $("gSubmit").disabled = false; $("gSubmit").textContent = "Sign in";
+  }
+}
+$("gSubmit").addEventListener("click", signIn);
+["gEmail","gPass"].forEach(id => $(id).addEventListener("keydown", e => { if(e.key==="Enter") signIn(); }));
+$("gSignOut").addEventListener("click", () => supabase.auth.signOut());
+$("signOutBtn").addEventListener("click", () => supabase.auth.signOut());
+$("refreshBtn").addEventListener("click", () => load(true));
+
+supabase.auth.onAuthStateChange(async (_e, session) => {
+  if(session?.user) await checkAdmin();
+  else showGate("form");
+});
+
+function showGate(which){
+  $("app").classList.add("hidden");
+  $("gate").classList.remove("hidden");
+  const denied = which === "denied";
+  $("gateForm").classList.toggle("hidden", denied);
+  $("gateDenied").classList.toggle("hidden", !denied);
+  $("gateTitle").textContent = denied ? "Not authorised" : "Dashboard";
+  $("gateSub").textContent   = denied ? "You're signed in, but not as an admin."
+                                      : "Sign in with your founder account.";
+  if(!denied) gateMsg("");
+}
+
+async function checkAdmin(){
+  const { data, error } = await supabase.rpc("is_admin");
+  if(error || !data) return showGate("denied");
+  $("gate").classList.add("hidden");
+  $("app").classList.remove("hidden");
+  load();
+}
+
+/* ---------------- data ---------------- */
+async function load(manual){
+  if(manual) $("stamp").textContent = "refreshing…";
+  const [ov, acc, daily] = await Promise.all([
+    supabase.rpc("admin_overview"),
+    supabase.rpc("admin_accounts"),
+    supabase.rpc("admin_daily", { days: 30 }),
+  ]);
+
+  if(ov.error){
+    $("funnel").innerHTML = `<p style="color:var(--alert);font-size:.86rem;">
+      Could not load stats. Have you run <code>admin.sql</code> in Supabase?</p>`;
+    return;
+  }
+
+  renderOverview(ov.data);
+  renderAccounts(acc.data || []);
+  renderChart(daily.data || []);
+  $("stamp").textContent = "updated " + new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
+}
+
+function renderOverview(o){
+  $("mAccounts").textContent = o.accounts_total;
+  $("mAccountsNote").textContent = o.accounts_7d + " in the last 7 days";
+
+  $("mActive").textContent = o.accounts_active_30d;
+  $("mActiveNote").textContent = o.accounts_activated
+    ? pct(o.accounts_active_30d, o.accounts_activated) + " of activated accounts"
+    : "nobody has filed yet";
+
+  $("mReceipts").textContent = o.receipts_total;
+  $("mReceiptsNote").textContent = o.receipts_7d + " this week · " + o.receipts_today + " today";
+
+  $("mValue").textContent = money0(o.value_total);
+  $("mValueNote").textContent = money0(o.value_30d) + " in the last 30 days";
+
+  // ---- funnel: the numbers that say whether this is a business ----
+  const activationRate = o.accounts_total ? o.accounts_activated / o.accounts_total : 0;
+  const stickRate = o.accounts_activated ? o.accounts_active_30d / o.accounts_activated : 0;
+  $("funnel").innerHTML = `
+    <div class="stat"><span class="k">Signed up</span><span class="v">${o.accounts_total}</span></div>
+    <div class="stat"><span class="k">Confirmed email</span><span class="v">${o.accounts_confirmed}</span></div>
+    <div class="stat"><span class="k">Filed ≥1 receipt</span>
+      <span class="v ${activationRate>=0.7?'good':activationRate>=0.4?'warn':'bad'}">
+        ${o.accounts_activated} · ${pct(o.accounts_activated,o.accounts_total)}</span></div>
+    <div class="stat"><span class="k">Filed in last 30d</span>
+      <span class="v ${stickRate>=0.6?'good':stickRate>=0.3?'warn':'bad'}">
+        ${o.accounts_active_30d} · ${pct(o.accounts_active_30d,o.accounts_activated)}</span></div>
+    <div class="stat"><span class="k">Filed in last 7d</span><span class="v">${o.accounts_active_7d}</span></div>
+    <div class="stat"><span class="k">Receipts per active account</span>
+      <span class="v">${o.accounts_active_30d ? (o.receipts_30d/o.accounts_active_30d).toFixed(1) : "—"}</span></div>`;
+
+  // ---- costs ----
+  const scanCost = o.receipts_30d * ECON.costPerScan;
+  const fixed = ECON.supabaseMonthly + ECON.domainMonthly;
+  const total = fixed + scanCost;
+  const perAccount = o.accounts_active_30d ? total / o.accounts_active_30d : 0;
+  $("costs").innerHTML = `
+    <div class="stat"><span class="k">Supabase Pro</span><span class="v">${money(ECON.supabaseMonthly)}</span></div>
+    <div class="stat"><span class="k">Domain</span><span class="v">${money(ECON.domainMonthly)}</span></div>
+    <div class="stat"><span class="k">Scans (${o.receipts_30d} × ${(ECON.costPerScan*100).toFixed(1)}¢)</span>
+      <span class="v">${money(scanCost)}</span></div>
+    <div class="stat"><span class="k"><strong>Total / month</strong></span>
+      <span class="v"><strong>${money(total)}</strong></span></div>
+    <div class="stat"><span class="k">Per active account</span>
+      <span class="v">${o.accounts_active_30d ? money(perAccount) : "—"}</span></div>`;
+
+  // ---- revenue ----
+  const mrrStd = o.accounts_active_30d * ECON.pricePerAccount;
+  const mrrFnd = o.accounts_active_30d * ECON.foundingPrice;
+  const margin = mrrStd ? (mrrStd - total) / mrrStd : 0;
+  $("revenue").innerHTML = `
+    <div class="stat"><span class="k">At founding rate (${money0(ECON.foundingPrice)})</span>
+      <span class="v">${money(mrrFnd)}</span></div>
+    <div class="stat"><span class="k">At standard rate (${money0(ECON.pricePerAccount)})</span>
+      <span class="v">${money(mrrStd)}</span></div>
+    <div class="stat"><span class="k">Gross margin at standard</span>
+      <span class="v ${margin>=0.8?'good':margin>0?'warn':'bad'}">${mrrStd?Math.round(margin*100)+"%":"—"}</span></div>
+    <div class="stat"><span class="k">Accounts to cover fixed costs</span>
+      <span class="v">${Math.ceil(fixed/ECON.pricePerAccount)}</span></div>
+    <div class="stat"><span class="k">Annual run rate</span><span class="v">${money0(mrrStd*12)}</span></div>`;
+}
+
+function renderChart(rows){
+  if(!rows.length){ $("chart").innerHTML = ""; return; }
+  const max = Math.max(1, ...rows.map(r => Number(r.receipts)));
+  $("chart").innerHTML = rows.map(r => {
+    const h = Math.round(Number(r.receipts) / max * 100);
+    return `<div class="bar" title="${r.day}: ${r.receipts}">
+      <span style="height:${h}%"></span></div>`;
+  }).join("");
+  $("axisFrom").textContent = day(rows[0].day);
+  $("axisTo").textContent   = day(rows[rows.length-1].day);
+}
+
+function renderAccounts(rows){
+  if(!rows.length){
+    $("accountsWrap").innerHTML =
+      `<div class="empty"><strong>No accounts yet</strong>Sign up in the app and it'll appear here.</div>`;
+    return;
+  }
+  $("accountsWrap").innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Business</th><th>Signed up</th><th>Status</th>
+        <th style="text-align:right;">Receipts</th><th>Last filed</th>
+      </tr></thead>
+      <tbody>${rows.map(r => {
+        const q = r.days_quiet;
+        let pill = '<span class="pill">never filed</span>';
+        if(r.receipt_count > 0){
+          if(q <= 7)       pill = '<span class="pill live">active</span>';
+          else if(q <= 21) pill = `<span class="pill quiet">quiet ${q}d</span>`;
+          else             pill = `<span class="pill cold">cold ${q}d</span>`;
+        }
+        if(!r.confirmed) pill = '<span class="pill quiet">unconfirmed</span>';
+        return `<tr>
+          <td><div class="biz">${esc(r.business_name)}</div>
+              <div class="sub">${esc(r.email)}</div></td>
+          <td class="sub">${day(r.signed_up)}</td>
+          <td>${pill}</td>
+          <td class="num">${r.receipt_count}</td>
+          <td class="sub">${day(r.last_filed)}</td>
+        </tr>`;
+      }).join("")}</tbody>
+    </table>`;
+}
+
+/* ---------------- boot ---------------- */
+(async function boot(){
+  const { data } = await supabase.auth.getSession();
+  if(data?.session?.user) await checkAdmin();
+  else showGate("form");
+})();
+</script>
+</body>
+</html>
