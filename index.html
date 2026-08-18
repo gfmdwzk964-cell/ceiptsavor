@@ -3,10 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cloudceipt — Receipt filing for small business</title>
-<meta name="description" content="Photograph a receipt and it's read, categorised and filed. Hand your accountant one clean export at tax time.">
+<title>CeiptSavor — Receipt filing for small business</title>
+<meta name="description" content="Photograph a receipt and it's read, categorised and filed. Making receipt capturing easier, one click at a time.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#141A24">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CeiptSavor">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -217,7 +222,7 @@ a{color:var(--pine);}
 <!-- ============ SETUP GATE ============ -->
 <div id="setupView" class="hidden">
   <div class="setup-card">
-    <div class="mark"><span class="mark-glyph"></span><span class="mark-word">Cloud<em>ceipt</em></span></div>
+    <div class="mark"><span class="mark-glyph"></span><span class="mark-word">Ceipt<em>Savor</em></span></div>
     <h2>Finish connecting the backend</h2>
     <p>Open this file in a text editor and paste your Supabase project URL and anon key into the block at the top, then reload this page.</p>
     <ol>
@@ -233,7 +238,7 @@ a{color:var(--pine);}
 <!-- ============ AUTH ============ -->
 <div id="authView" class="hidden">
   <div class="auth-brand">
-    <div class="mark"><span class="mark-glyph"></span><span class="mark-word">Cloud<em>ceipt</em></span></div>
+    <div class="mark"><span class="mark-glyph"></span><span class="mark-word">Ceipt<em>Savor</em></span></div>
     <div>
       <div class="stack" aria-hidden="true">
         <div class="stack-slip"><div class="slip-line w2"></div><div class="slip-line w1"></div><div class="amt">$248.19 · Supplies</div></div>
@@ -241,11 +246,11 @@ a{color:var(--pine);}
         <div class="stack-slip"><div class="slip-line w2"></div><div class="slip-line w3"></div><div class="amt">$62.40 · Fuel</div></div>
       </div>
       <div class="auth-pitch">
-        <h1>Every receipt, filed and ready.</h1>
+        <h1>Making receipt capturing easier, one click at a time.</h1>
         <p>Photograph a receipt and it's read, categorised and stored — original image included. When tax season arrives, hand your accountant one clean export instead of a shoebox.</p>
       </div>
     </div>
-    <div class="auth-foot">Built for Minnesota small businesses.</div>
+    <div class="auth-foot">Built for small businesses.</div>
   </div>
 
   <main class="auth-panel" id="mainContent">
@@ -290,7 +295,7 @@ a{color:var(--pine);}
 <!-- ============ APP ============ -->
 <div id="appView" class="hidden">
   <header class="topbar">
-    <div class="mark"><span class="mark-glyph"></span><span class="mark-word">Cloud<em>ceipt</em></span></div>
+    <div class="mark"><span class="mark-glyph"></span><span class="mark-word">Ceipt<em>Savor</em></span></div>
     <div class="topbar-right">
       <div class="acct">
         <div class="biz" id="acctBiz"></div>
@@ -412,7 +417,7 @@ a{color:var(--pine);}
 //  Supabase Dashboard → Project Settings → API
 //  Keep the quote marks. Replace only what's inside them.
 // ============================================================
-window.CLOUDCEIPT_CONFIG = {
+window.CEIPTSAVOR_CONFIG = {
   SUPABASE_URL: "https://mpilbizcbowtppqqwyll.supabase.co",
   SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1waWxiaXpjYm93dHBwcXF3eWxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MTI5MTcsImV4cCI6MjEwMTk4ODkxN30.nwckV8G-cadJvY3Prbihzk1knciQmlSlRpbz7aFe0pA",
 };
@@ -424,13 +429,13 @@ window.CLOUDCEIPT_CONFIG = {
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
 const $ = id => document.getElementById(id);
-const CFG = window.CLOUDCEIPT_CONFIG || {};
+const CFG = window.CEIPTSAVOR_CONFIG || {};
 
 /* ---------- setup gate ---------- */
 if (!CFG.SUPABASE_URL || CFG.SUPABASE_URL.includes("YOUR-PROJECT-REF") ||
     !CFG.SUPABASE_ANON_KEY || CFG.SUPABASE_ANON_KEY.includes("YOUR-ANON-KEY")) {
   $("setupView").classList.remove("hidden");
-  throw new Error("Cloudceipt: the config block at the top of this file is not filled in yet.");
+  throw new Error("CeiptSavor: the config block at the top of this file is not filled in yet.");
 }
 
 const supabase = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, {
@@ -911,7 +916,7 @@ $("exportBtn").addEventListener("click", () => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "cloudceipt-" + String(profile.business_name || "export").toLowerCase().replace(/[^a-z0-9]+/g,"-") + "-" + new Date().toISOString().slice(0,10) + ".csv";
+  a.download = "ceiptsavor-" + String(profile.business_name || "export").toLowerCase().replace(/[^a-z0-9]+/g,"-") + "-" + new Date().toISOString().slice(0,10) + ".csv";
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
 });
