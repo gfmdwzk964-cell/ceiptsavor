@@ -1,0 +1,26 @@
+{
+  "name": "CeiptSavor",
+  "short_name": "CeiptSavor",
+  "description": "Making receipt capturing easier, one click at a time.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F2F4F8",
+  "theme_color": "#141A24",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "business", "productivity"],
+  "screenshots": []
+}
