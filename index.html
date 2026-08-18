@@ -104,6 +104,19 @@ a{color:var(--pine);}
 .msg-error{background:var(--alert-soft);color:var(--alert);border:1px solid #F0CFCD;}
 .msg-ok{background:var(--pine-soft);color:var(--pine);border:1px solid #C6E2DA;}
 
+/* ---------- SOCIAL LOGIN ---------- */
+.social-divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--slate-2);font-size:.8rem;}
+.social-divider::before,.social-divider::after{content:"";flex:1;height:1px;background:var(--line);}
+.social-btns{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+.btn-social{background:var(--surface);border:1px solid var(--line-2);color:var(--ink);
+  width:100%;padding:10px 16px;border-radius:8px;font-weight:500;font-size:.9rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:background .15s,border-color .15s;}
+.btn-social:hover{background:var(--mist);border-color:var(--slate-2);}
+.btn-social svg{flex-shrink:0;}
+.btn-social.apple{background:var(--ink);color:#fff;border-color:var(--ink);}
+.btn-social.apple:hover{background:var(--ink-2);}
+
 .trust{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);}
 .trust h2{font-size:.74rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
   color:var(--slate);margin-bottom:9px;}
@@ -182,6 +195,16 @@ a{color:var(--pine);}
 .bd-fill{height:100%;border-radius:3px;background:var(--pine);}
 .bd-amt{font-family:'JetBrains Mono',monospace;text-align:right;font-weight:500;}
 
+/* category source badge */
+.cat-badge{display:inline-block;font-size:.66rem;font-weight:600;letter-spacing:.04em;
+  padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:middle;}
+.cat-badge.history{background:var(--pine-soft);color:var(--pine);}
+.cat-badge.ai{background:var(--mist);color:var(--slate-2);}
+/* duplicate warning */
+.dupe-warn{background:#FBF3E4;border:1px solid #EBDCBB;color:#7A5230;border-radius:8px;
+  padding:10px 14px;font-size:.85rem;margin-top:12px;display:flex;align-items:center;gap:10px;}
+.dupe-warn strong{color:#5A3A10;}
+
 /* image viewer */
 .modal{position:fixed;inset:0;background:rgba(20,26,36,.7);display:grid;place-items:center;z-index:50;padding:24px;}
 .modal-inner{background:var(--surface);border-radius:var(--radius);padding:14px;max-width:640px;width:100%;max-height:90vh;display:flex;flex-direction:column;gap:10px;}
@@ -259,6 +282,15 @@ a{color:var(--pine);}
       <p class="sub" id="authSub">Access your receipt ledger.</p>
       <div id="authMsg" class="msg hidden" role="alert" aria-live="assertive"></div>
 
+      <div id="socialBtns" class="social-btns">
+        <button class="btn-social" id="googleBtn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </button>
+
+      </div>
+      <div class="social-divider" id="socialDivider">or sign in with email</div>
+
       <div class="field hidden" id="bizField">
         <label for="aBiz">Business name</label>
         <input type="text" id="aBiz" placeholder="Central Air Heating &amp; Cooling" autocomplete="organization">
@@ -301,6 +333,7 @@ a{color:var(--pine);}
         <div class="biz" id="acctBiz"></div>
         <div class="em" id="acctEmail"></div>
       </div>
+      <button class="btn btn-quiet" id="refreshReceiptsBtn" title="Refresh" aria-label="Refresh receipts">↻</button>
       <button class="btn btn-quiet" id="signOutBtn">Sign out</button>
     </div>
   </header>
@@ -351,6 +384,11 @@ a{color:var(--pine);}
 
         <div id="working" class="working hidden" role="status" aria-live="polite"><span class="spin" aria-hidden="true"></span><span id="workingText">Reading the receipt…</span></div>
         <div id="scanMsg" class="msg hidden" role="alert" aria-live="assertive" style="margin-top:14px;margin-bottom:0;"></div>
+        <div id="dupeWarn" class="dupe-warn hidden" role="alert">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div><strong>Possible duplicate.</strong> <span id="dupeDetail">A receipt from this vendor on the same date for the same amount was already filed.</span>
+          <button class="linkbtn" id="dupeIgnore" style="font-size:.82rem;margin-left:8px;">File anyway</button></div>
+        </div>
 
         <div id="reviewForm" class="hidden" style="margin-top:18px;">
           <div class="grid2">
@@ -395,8 +433,7 @@ a{color:var(--pine);}
     </div>
 
     <p class="app-foot">
-      <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> ·
-      Categories are a starting point, not tax advice.
+      <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Categories are a starting point, not tax advice.
     </p>
   </main>
 </div>
@@ -439,7 +476,12 @@ if (!CFG.SUPABASE_URL || CFG.SUPABASE_URL.includes("YOUR-PROJECT-REF") ||
 }
 
 const supabase = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, {
-  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    storageKey: "ceiptsavor-auth",
+  },
 });
 
 /* ============================================================
@@ -450,6 +492,7 @@ let profile = null;
 let receipts = [];
 let pending = null;      // { blob, base64, dataUrl, mediaType }
 let mode = "signin";      // signin | signup | reset
+let supplierMemory = []; // cached after first load — vendor → category history
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const CAT_COLORS = {
@@ -494,6 +537,9 @@ function setMode(next){
   $("bizField").classList.toggle("hidden", !isSignup);
   $("passField").classList.toggle("hidden", isReset);
   $("forgotWrap").classList.toggle("hidden", isReset || isSignup);
+  $("socialBtns").classList.toggle("hidden", isReset);
+  $("socialDivider").classList.toggle("hidden", isReset);
+  $("socialDivider").textContent = isSignup ? "or sign up with email" : "or sign in with email";
   $("authSubmit").textContent = isSignup ? "Create account" : isReset ? "Send reset link" : "Sign in";
   $("aPass").setAttribute("autocomplete", isSignup ? "new-password" : "current-password");
   $("switchLine").innerHTML = isSignup
@@ -509,6 +555,21 @@ $("switchLine").addEventListener("click", e => {
   if(b) setMode(b.dataset.mode);
 });
 $("forgotBtn").addEventListener("click", () => setMode("reset"));
+
+async function signInWithProvider(provider){
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: window.location.origin,
+      queryParams: provider === "google"
+        ? { access_type: "offline", prompt: "consent" }
+        : undefined,
+    },
+  });
+  if(error) authMsg(error.message || "Could not connect to " + provider + ". Try again.");
+}
+$("googleBtn").addEventListener("click", () => signInWithProvider("google"));
+
 
 async function submitAuth(){
   const email = $("aEmail").value.trim().toLowerCase();
@@ -563,6 +624,13 @@ function friendlyAuthError(err){
 $("authSubmit").addEventListener("click", submitAuth);
 ["aEmail","aPass","aBiz"].forEach(id => $(id).addEventListener("keydown", e => { if(e.key === "Enter") submitAuth(); }));
 $("signOutBtn").addEventListener("click", async () => { await supabase.auth.signOut(); });
+$("refreshReceiptsBtn").addEventListener("click", async () => {
+  $("refreshReceiptsBtn").disabled = true;
+  await loadReceipts();
+  render();
+  $("refreshReceiptsBtn").disabled = false;
+  toast("Refreshed");
+});
 
 /* ============================================================
    SESSION → APP
@@ -573,6 +641,7 @@ supabase.auth.onAuthStateChange(async (event, session) => {
     await enterApp();
   } else {
     user = null; profile = null; receipts = [];
+    if(_refreshInterval){ clearInterval(_refreshInterval); _refreshInterval = null; }
     resetScanUI();
     $("appView").classList.add("hidden");
     $("authView").classList.remove("hidden");
@@ -580,20 +649,53 @@ supabase.auth.onAuthStateChange(async (event, session) => {
   }
 });
 
+let _refreshInterval = null;
 async function enterApp(){
   document.querySelector(".skip-link").setAttribute("href", "#mainContent2");
   $("authView").classList.add("hidden");
   $("appView").classList.remove("hidden");
   $("acctEmail").textContent = user.email;
-  await loadProfile();
-  await loadReceipts();
+  await Promise.all([loadProfile(), loadReceipts(), loadSupplierMemory()]);
   render();
+  if(_refreshInterval) clearInterval(_refreshInterval);
+  _refreshInterval = setInterval(async () => {
+    await loadReceipts();
+    render();
+  }, 60000);
+}
+
+async function loadSupplierMemory(){
+  try{
+    const { data } = await supabase.rpc("supplier_memory");
+    supplierMemory = data || [];
+  }catch(e){
+    supplierMemory = [];
+  }
+}
+
+function bestCategory(vendor){
+  if(!vendor || !supplierMemory.length) return null;
+  const norm = v => v.toLowerCase().replace(/[^a-z0-9]/g," ").replace(/\s+/g," ").trim();
+  const n = norm(vendor);
+  const exact = supplierMemory.filter(m => norm(m.vendor) === n);
+  if(exact.length) return exact[0].category;
+  const partial = supplierMemory.filter(m => { const mn=norm(m.vendor); return n.includes(mn)||mn.includes(n); });
+  if(partial.length) return partial[0].category;
+  return null;
 }
 
 async function loadProfile(){
   const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
   if(error) console.error(error);
-  profile = data || { business_name: user.user_metadata?.business_name || "My business" };
+  profile = data || { business_name: user.user_metadata?.business_name || user.user_metadata?.full_name || "My business" };
+  // If they signed in via OAuth and have no business name set, prompt once
+  if(!data && (!profile.business_name || profile.business_name === "My business")){
+    const biz = prompt("What is your business name? (You can change this later)");
+    if(biz && biz.trim()){
+      profile.business_name = biz.trim();
+      await supabase.from("profiles").upsert({ id: user.id, business_name: biz.trim() });
+    }
+  }
   $("acctBiz").textContent = profile.business_name;
 }
 
@@ -682,9 +784,47 @@ function fillForm(d = {}){
   $("fCategory").value = [...$("fCategory").options].some(o => o.value === d.category) ? d.category : "Other";
   $("fPayment").value  = d.payment_method || "";
   $("fNotes").value    = d.items_summary || "";
+  // show category source badge
+  const existingBadge = document.querySelector(".cat-badge");
+  if(existingBadge) existingBadge.remove();
+  // if edge function used history, great; if not, try local cache as fallback
+  const localCategory = bestCategory(d.vendor || "");
+  if(d.category_source === "history" || (localCategory && !d.category_source)){
+    if(localCategory && !d.category_source){
+      $("fCategory").value = localCategory;
+    }
+    const badge = document.createElement("span");
+    badge.className = "cat-badge history";
+    badge.textContent = "from your history";
+    $("fCategory").parentElement.querySelector("label").appendChild(badge);
+  } else if(d.category_source === "ai"){
+    const badge = document.createElement("span");
+    badge.className = "cat-badge ai";
+    badge.textContent = "AI suggestion";
+    $("fCategory").parentElement.querySelector("label").appendChild(badge);
+  }
+  // hide any previous dupe warning
+  $("dupeWarn").classList.add("hidden");
 }
 
 $("cancelBtn").addEventListener("click", resetScanUI);
+
+async function checkDuplicate(vendor, date, total){
+  try{
+    const { data, error } = await supabase.rpc("check_duplicate", {
+      p_vendor: vendor,
+      p_date: date,
+      p_total: parseFloat(total) || 0,
+    });
+    if(error || !data || !data.length) return;
+    const d = data[0];
+    const filed = new Date(d.filed_at).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+    $("dupeDetail").textContent = `A receipt from this vendor on the same date for $${Number(d.existing_total).toFixed(2)} was already filed on ${filed}.`;
+    $("dupeWarn").classList.remove("hidden");
+  }catch(e){ /* silent — duplicate check is advisory only */ }
+}
+$("dupeIgnore").addEventListener("click", () => $("dupeWarn").classList.add("hidden"));
+
 $("discardBtn").addEventListener("click", resetScanUI);
 
 $("scanBtn").addEventListener("click", async () => {
@@ -702,6 +842,10 @@ $("scanBtn").addEventListener("click", async () => {
     fillForm(data);
     $("reviewForm").classList.remove("hidden");
     scanMsg("Check the details below, then file it.", "ok");
+    // duplicate check
+    if(data.vendor && data.date && data.total != null){
+      checkDuplicate(data.vendor, data.date, data.total);
+    }
   }catch(err){
     fillForm({});
     $("reviewForm").classList.remove("hidden");
@@ -762,6 +906,9 @@ $("saveBtn").addEventListener("click", async () => {
     resetScanUI();
     render();
     toast("Receipt filed");
+    loadReceipts().then(render).catch(()=>{});
+    // refresh supplier memory so next scan uses the latest history
+    loadSupplierMemory();
   }catch(err){
     scanMsg(err.message, "error");
   }finally{
