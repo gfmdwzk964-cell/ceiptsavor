@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Dashboard — Cloudceipt</title>
+<title>Dashboard — CeiptSavor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -143,7 +143,7 @@ td.num{font-family:'JetBrains Mono',monospace;text-align:right;font-variant-nume
 <div id="gate" class="gate hidden">
   <div class="gate-card">
     <span class="mark"><span class="mark-glyph" aria-hidden="true"></span>
-      <span class="mark-word">Cloud<em>ceipt</em></span></span>
+      <span class="mark-word">Ceipt<em>Savor</em></span></span>
     <h1 id="gateTitle">Dashboard</h1>
     <p class="sub" id="gateSub">Sign in with your founder account.</p>
     <div id="gateMsg" class="msg hidden" role="alert" aria-live="assertive"></div>
@@ -174,7 +174,7 @@ td.num{font-family:'JetBrains Mono',monospace;text-align:right;font-variant-nume
 <div id="app" class="hidden">
   <header class="topbar">
     <span class="mark"><span class="mark-glyph" aria-hidden="true"></span>
-      <span class="mark-word">Cloud<em>ceipt</em></span><span class="tagpill">Dashboard</span></span>
+      <span class="mark-word">Ceipt<em>Savor</em></span><span class="tagpill">Dashboard</span></span>
     <div class="topbar-right">
       <span class="sub mono" id="stamp"></span>
       <button class="btn btn-quiet" id="refreshBtn">Refresh</button>
@@ -251,13 +251,13 @@ td.num{font-family:'JetBrains Mono',monospace;text-align:right;font-variant-nume
 // ============================================================
 //  SUPABASE CONNECTION
 // ============================================================
-window.CLOUDCEIPT_CONFIG = {
+window.CEIPTSAVOR_CONFIG = {
   SUPABASE_URL: "https://mpilbizcbowtppqqwyll.supabase.co",
   SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1waWxiaXpjYm93dHBwcXF3eWxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MTI5MTcsImV4cCI6MjEwMTk4ODkxN30.nwckV8G-cadJvY3Prbihzk1knciQmlSlRpbz7aFe0pA",
 };
 
 // ---- Pricing assumptions. Edit these as your numbers change. ----
-window.CLOUDCEIPT_ECONOMICS = {
+window.CEIPTSAVOR_ECONOMICS = {
   supabaseMonthly: 25.00,   // Pro plan, fixed regardless of client count
   costPerScan:     0.008,   // Claude Sonnet, ~0.8c per receipt
   domainMonthly:   1.00,
@@ -270,8 +270,8 @@ window.CLOUDCEIPT_ECONOMICS = {
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
 const $ = id => document.getElementById(id);
-const CFG = window.CLOUDCEIPT_CONFIG;
-const ECON = window.CLOUDCEIPT_ECONOMICS;
+const CFG = window.CEIPTSAVOR_CONFIG;
+const ECON = window.CEIPTSAVOR_ECONOMICS;
 
 const supabase = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true },
