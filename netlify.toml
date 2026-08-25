@@ -1,2 +1,55 @@
+# ============================================================
+#  CEIPTSAVOR — netlify.toml
+#  Security headers + redirect rules
+# ============================================================
+
 [build]
   publish = "."
+
+# ---- Security headers on every response --------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+
+    # HSTS — force HTTPS for 1 year, include subdomains
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+    # Clickjacking protection — no iframes from other origins
+    X-Frame-Options = "DENY"
+
+    # Stop MIME-type sniffing
+    X-Content-Type-Options = "nosniff"
+
+    # Referrer — only send origin, not full path
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Permissions — disable features the app doesn't use
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()"
+
+    # Content Security Policy
+    # - default-src self: only load resources from our own origin by default
+    # - script-src: allow esm.sh for Supabase SDK, fonts.googleapis.com for fonts
+    # - style-src: allow inline styles (needed for dynamic colour values) and Google Fonts
+    # - img-src: allow data URIs (canvas/receipt preview), blob URIs, and Supabase storage
+    # - connect-src: allow Supabase API, Anthropic (via edge function), Google OAuth
+    # - font-src: allow Google Fonts
+    # - frame-ancestors none: belt-and-braces clickjacking protection
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co https://*.supabase.in; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.anthropic.com https://accounts.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+
+    # Cross-origin isolation (helps with SharedArrayBuffer if ever needed)
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
+    Cross-Origin-Resource-Policy = "same-origin"
+
+# ---- Redirect www to apex --------------------------------
+[[redirects]]
+  from = "https://www.ceiptsavor.com/*"
+  to = "https://ceiptsavor.com/:splat"
+  status = 301
+  force = true
+
+# ---- SPA fallback (admin.html has its own routing) -------
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Role = ["anonymous"]}
