@@ -201,6 +201,89 @@ a{color:var(--pine);}
 .cat-badge.history{background:var(--pine-soft);color:var(--pine);}
 .cat-badge.ai{background:var(--mist);color:var(--slate-2);}
 /* duplicate warning */
+/* job tag */
+.job-tag-badge{display:inline-block;font-size:.68rem;font-weight:600;
+  padding:2px 9px;border-radius:20px;background:#EEF0FB;color:#3B4DB5;
+  border:1px solid #C8CEF0;margin-right:6px;}
+.job-none{color:var(--slate-2);font-size:.78rem;font-style:italic;}
+
+/* confidence badge */
+.conf-high{color:var(--pine);}
+.conf-medium{color:var(--amber);}
+.conf-low{color:var(--alert);}
+.conf-badge{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:6px;}
+.conf-badge.high{background:var(--pine-soft);color:var(--pine);}
+.conf-badge.medium{background:var(--amber-soft);color:var(--amber);}
+.conf-badge.low{background:var(--alert-soft);color:var(--alert);}
+
+/* fraud warning */
+.fraud-warn{background:#FFF8F0;border:1px solid #F5D5A0;color:#7A4F10;border-radius:8px;
+  padding:10px 14px;font-size:.82rem;margin-top:10px;display:flex;align-items:flex-start;gap:10px;}
+.fraud-warn.high-risk{background:var(--alert-soft);border-color:#F0CFCD;color:var(--alert);}
+.fraud-flags{margin:4px 0 0 0;padding:0 0 0 16px;font-size:.79rem;opacity:.85;}
+.fraud-flags li{margin-bottom:2px;}
+
+/* tabs */
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--line);margin-bottom:18px;}
+.tab-btn{background:none;border:none;padding:10px 18px;font-weight:600;font-size:.88rem;
+  color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;
+  transition:color .15s,border-color .15s;}
+.tab-btn.active{color:var(--pine);border-bottom-color:var(--pine);}
+.tab-pane{display:none;} .tab-pane.active{display:block;}
+
+/* income */
+.inc-row{display:grid;grid-template-columns:96px 1fr 120px 110px 44px;
+  align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line);}
+.inc-row:last-child{border-bottom:none;}
+.inc-row:hover{background:var(--mist);}
+.inc-row .amount{font-family:'JetBrains Mono',monospace;font-weight:700;
+  text-align:right;color:var(--pine);}
+
+/* P&L */
+.pnl-bar-wrap{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.pnl-label{width:34px;font-size:.72rem;color:var(--slate-2);font-family:'JetBrains Mono',monospace;}
+.pnl-track{flex:1;height:10px;background:var(--mist);border-radius:4px;overflow:hidden;position:relative;}
+.pnl-inc-bar{position:absolute;left:0;top:0;height:100%;background:var(--pine);border-radius:4px;opacity:.85;}
+.pnl-exp-bar{position:absolute;left:0;top:0;height:100%;background:var(--alert);border-radius:4px;opacity:.7;}
+.pnl-net{font-family:'JetBrains Mono',monospace;font-size:.75rem;width:78px;text-align:right;}
+.pnl-net.pos{color:var(--pine);} .pnl-net.neg{color:var(--alert);}
+.pnl-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.pnl-kpi{background:var(--mist);border-radius:8px;padding:12px 14px;}
+.pnl-kpi .k{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--slate-2);margin-bottom:4px;}
+.pnl-kpi .v{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;}
+.pnl-kpi .v.pos{color:var(--pine);} .pnl-kpi .v.neg{color:var(--alert);}
+
+/* ---- onboarding questionnaire ---- */
+.ob-overlay{position:fixed;inset:0;background:rgba(20,26,36,.55);
+  backdrop-filter:blur(4px);z-index:100;display:grid;place-items:center;padding:20px;}
+.ob-card{background:var(--surface);border-radius:14px;width:100%;max-width:580px;
+  max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(20,26,36,.25);}
+.ob-head{padding:24px 28px 0;border-bottom:1px solid var(--line);position:sticky;top:0;
+  background:var(--surface);z-index:2;}
+.ob-head h2{font-size:1.3rem;letter-spacing:-.02em;margin-bottom:4px;}
+.ob-head .sub{color:var(--slate);font-size:.88rem;margin-bottom:16px;}
+.ob-progress{height:4px;background:var(--mist);border-radius:2px;margin-bottom:0;}
+.ob-bar{height:100%;background:var(--pine);border-radius:2px;transition:width .3s ease;}
+.ob-body{padding:28px;}
+.ob-q{margin-bottom:28px;}
+.ob-q-num{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--pine);margin-bottom:5px;}
+.ob-q-text{font-weight:600;font-size:.98rem;margin-bottom:14px;}
+.ob-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ob-opt{border:1.5px solid var(--line-2);border-radius:8px;padding:10px 13px;
+  font-size:.86rem;cursor:pointer;text-align:left;background:var(--surface);
+  transition:border-color .15s,background .15s,color .15s;line-height:1.35;}
+.ob-opt:hover{border-color:var(--pine);background:var(--pine-soft);}
+.ob-opt.selected{border-color:var(--pine);background:var(--pine-soft);
+  color:var(--pine);font-weight:600;}
+.ob-opt.full{grid-column:1/-1;}
+.ob-notes{width:100%;border:1.5px solid var(--line-2);border-radius:8px;
+  padding:10px 12px;font-family:inherit;font-size:.88rem;resize:vertical;
+  min-height:80px;margin-top:10px;}
+.ob-notes:focus{outline:none;border-color:var(--pine);}
+.ob-foot{padding:0 28px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.ob-foot-note{font-size:.78rem;color:var(--slate-2);}
+
 .dupe-warn{background:#FBF3E4;border:1px solid #EBDCBB;color:#7A5230;border-radius:8px;
   padding:10px 14px;font-size:.85rem;margin-top:12px;display:flex;align-items:center;gap:10px;}
 .dupe-warn strong{color:#5A3A10;}
@@ -384,6 +467,17 @@ a{color:var(--pine);}
 
         <div id="working" class="working hidden" role="status" aria-live="polite"><span class="spin" aria-hidden="true"></span><span id="workingText">Reading the receipt…</span></div>
         <div id="scanMsg" class="msg hidden" role="alert" aria-live="assertive" style="margin-top:14px;margin-bottom:0;"></div>
+        <div id="confBadge" class="hidden" style="margin-top:10px;font-size:.82rem;color:var(--slate);">
+          Extraction confidence: <span id="confLevel"></span>
+        </div>
+        <div id="fraudWarn" class="fraud-warn hidden" role="alert">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div>
+            <strong id="fraudTitle">Review this receipt</strong> — some unusual signals were detected.
+            <ul class="fraud-flags" id="fraudFlags"></ul>
+            <span style="font-size:.76rem;opacity:.75;">This is advisory only. You can still file it.</span>
+          </div>
+        </div>
         <div id="dupeWarn" class="dupe-warn hidden" role="alert">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <div><strong>Possible duplicate.</strong> <span id="dupeDetail">A receipt from this vendor on the same date for the same amount was already filed.</span>
@@ -406,6 +500,11 @@ a{color:var(--pine);}
             </div>
             <div class="field"><label for="fPayment">Payment method</label><input type="text" id="fPayment" placeholder="Visa ••4412"></div>
             <div class="field full"><label for="fNotes">Items / notes</label><input type="text" id="fNotes"></div>
+            <div class="field full">
+              <label for="fJob">Job / project <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--slate-2)">(optional — e.g. "Henderson install")</span></label>
+              <input type="text" id="fJob" list="jobSuggestions" placeholder="Leave blank if not job-specific" autocomplete="off">
+              <datalist id="jobSuggestions"></datalist>
+            </div>
           </div>
           <div class="row-actions">
             <button class="btn btn-primary" id="saveBtn">File receipt</button>
@@ -415,21 +514,83 @@ a{color:var(--pine);}
       </div>
     </div>
 
-    <div class="filters">
-      <select id="fltYear"><option value="">All years</option></select>
-      <select id="fltMonth"><option value="">All months</option></select>
-      <select id="fltCategory"><option value="">All categories</option></select>
-      <button class="btn btn-outline" id="exportBtn">Export CSV</button>
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="receipts">Receipts</button>
+      <button class="tab-btn" data-tab="income">Income</button>
+      <button class="tab-btn" data-tab="pnl">P&amp;L</button>
     </div>
 
-    <div class="card">
-      <div class="card-head"><h3>Filed receipts</h3><span class="hint" id="rowsHint"></span></div>
-      <div class="rows" id="rowsWrap"></div>
+    <!-- RECEIPTS TAB -->
+    <div class="tab-pane active" id="tab-receipts">
+      <div class="filters">
+        <select id="fltYear"><option value="">All years</option></select>
+        <select id="fltMonth"><option value="">All months</option></select>
+        <select id="fltCategory"><option value="">All categories</option></select>
+        <select id="fltJob"><option value="">All jobs</option></select>
+        <button class="btn btn-outline" id="exportBtn">Export CSV</button>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Filed receipts</h3><span class="hint" id="rowsHint"></span></div>
+        <div class="rows" id="rowsWrap"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Spend by category</h3></div>
+        <div class="card-body" id="breakdown"></div>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="card-head"><h3>Spend by category</h3></div>
-      <div class="card-body" id="breakdown"></div>
+    <!-- INCOME TAB -->
+    <div class="tab-pane" id="tab-income">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+        <div style="font-size:.88rem;color:var(--slate);">Log payments and invoices received.</div>
+        <button class="btn btn-pine" id="addIncomeBtn">+ Log income</button>
+      </div>
+      <div class="card" id="incomeFormCard" style="display:none;margin-bottom:14px;">
+        <div class="card-head"><h3>Log income</h3></div>
+        <div class="card-body">
+          <div class="grid2">
+            <div class="field"><label for="iDate">Date</label><input type="date" id="iDate"></div>
+            <div class="field"><label for="iAmount">Amount ($)</label><input type="text" id="iAmount" inputmode="decimal"></div>
+            <div class="field"><label for="iSource">Source / client</label><input type="text" id="iSource" placeholder="e.g. Central Air — Invoice #42"></div>
+            <div class="field"><label for="iCategory">Category</label>
+              <select id="iCategory">
+                <option>Revenue</option><option>Service Income</option>
+                <option>Product Sales</option><option>Retainer</option>
+                <option>Reimbursement</option><option>Other Income</option>
+              </select>
+            </div>
+            <div class="field"><label for="iJob">Job / project (optional)</label>
+              <input type="text" id="iJob" list="jobSuggestions" placeholder="Links to a job tag"></div>
+            <div class="field full"><label for="iNotes">Notes</label><input type="text" id="iNotes"></div>
+          </div>
+          <div class="row-actions">
+            <button class="btn btn-primary" id="saveIncomeBtn">Save income</button>
+            <button class="btn btn-outline" id="cancelIncomeBtn">Cancel</button>
+          </div>
+          <div id="incomeMsg" class="msg hidden" style="margin-top:12px;"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Income entries</h3><span class="hint" id="incomeHint"></span></div>
+        <div class="rows" id="incomeWrap"><div class="empty"><strong>No income logged yet</strong>Tap "+ Log income" to add your first entry.</div></div>
+      </div>
+    </div>
+
+    <!-- P&L TAB -->
+    <div class="tab-pane" id="tab-pnl">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+        <select id="pnlYear" class="filters" style="min-width:100px;flex:none;"></select>
+        <span style="font-size:.82rem;color:var(--slate-2);">Select year to view</span>
+      </div>
+      <div class="pnl-summary-grid">
+        <div class="pnl-kpi"><div class="k">Total income</div><div class="v pos" id="pnlIncome">—</div></div>
+        <div class="pnl-kpi"><div class="k">Total expenses</div><div class="v neg" id="pnlExpenses">—</div></div>
+        <div class="pnl-kpi"><div class="k">Net profit</div><div class="v" id="pnlNet">—</div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Monthly breakdown</h3></div>
+        <div class="card-body" id="pnlChart"><div class="empty"><strong>No data yet</strong>File receipts and log income to see your P&amp;L.</div></div>
+      </div>
     </div>
 
     <p class="app-foot">
@@ -655,13 +816,27 @@ async function enterApp(){
   $("authView").classList.add("hidden");
   $("appView").classList.remove("hidden");
   $("acctEmail").textContent = user.email;
-  await Promise.all([loadProfile(), loadReceipts(), loadSupplierMemory()]);
+  await Promise.all([loadProfile(), loadReceipts(), loadSupplierMemory(), loadJobs(), loadIncome()]);
   render();
+  checkShowOnboarding();
   if(_refreshInterval) clearInterval(_refreshInterval);
   _refreshInterval = setInterval(async () => {
-    await loadReceipts();
+    await Promise.all([loadReceipts(), loadIncome()]);
     render();
+    renderIncome();
   }, 60000);
+}
+
+let knownJobs = [];
+async function loadJobs(){
+  try{
+    const { data } = await supabase.rpc("get_jobs");
+    knownJobs = data || [];
+    const dl = $("jobSuggestions");
+    if(dl) dl.innerHTML = knownJobs.map(j =>
+      `<option value="${esc(j.job_tag)}">${esc(j.job_tag)} (${j.receipt_count} receipts · ${money(j.total_spend)})</option>`
+    ).join("");
+  }catch(e){}
 }
 
 async function loadSupplierMemory(){
@@ -720,9 +895,14 @@ function scanMsg(text, kind){
 
 function resetScanUI(){
   pending = null;
+  window._lastScanConfidence = null;
   $("previewWrap").classList.add("hidden");
   $("reviewForm").classList.add("hidden");
   $("working").classList.add("hidden");
+  $("confBadge").classList.add("hidden");
+  $("fraudWarn").classList.add("hidden");
+  window._lastFraudFlags = [];
+  window._lastFraudScore = 0;
   scanMsg("");
   $("fileInput").value = "";
 }
@@ -803,8 +983,22 @@ function fillForm(d = {}){
     badge.textContent = "AI suggestion";
     $("fCategory").parentElement.querySelector("label").appendChild(badge);
   }
-  // hide any previous dupe warning
+  // hide any previous dupe/fraud warning
   $("dupeWarn").classList.add("hidden");
+  $("fraudWarn").classList.add("hidden");
+  // confidence indicator
+  const confBadge = $("confBadge");
+  const confLevel = $("confLevel");
+  if(d.scan_confidence){
+    confBadge.classList.remove("hidden");
+    confLevel.className = "conf-badge " + d.scan_confidence;
+    const labels = {high:"High — looks good", medium:"Medium — please verify the total", low:"Low — please check all fields"};
+    confLevel.textContent = labels[d.scan_confidence] || d.scan_confidence;
+  } else {
+    confBadge.classList.add("hidden");
+  }
+  // job tag
+  if(d.job_tag !== undefined) $("fJob").value = d.job_tag || "";
 }
 
 $("cancelBtn").addEventListener("click", resetScanUI);
@@ -839,9 +1033,21 @@ $("scanBtn").addEventListener("click", async () => {
     });
     if(error) throw new Error(await readFunctionError(error));
     if(data?.error) throw new Error(data.error);
+    window._lastScanConfidence = data.scan_confidence || null;
+    window._lastFraudFlags   = data.fraud_flags || [];
+    window._lastFraudScore   = data.fraud_score || 0;
     fillForm(data);
     $("reviewForm").classList.remove("hidden");
     scanMsg("Check the details below, then file it.", "ok");
+    // show fraud warning if score > 20
+    if(window._lastFraudScore > 20 && window._lastFraudFlags.length){
+      const fw = $("fraudWarn");
+      const highRisk = window._lastFraudScore > 60;
+      fw.className = "fraud-warn" + (highRisk ? " high-risk" : "");
+      $("fraudTitle").textContent = highRisk ? "High suspicion — please verify carefully" : "Review this receipt";
+      $("fraudFlags").innerHTML = window._lastFraudFlags.map(f => `<li>${esc(f)}</li>`).join("");
+      fw.classList.remove("hidden");
+    }
     // duplicate check
     if(data.vendor && data.date && data.total != null){
       checkDuplicate(data.vendor, data.date, data.total);
@@ -894,6 +1100,10 @@ $("saveBtn").addEventListener("click", async () => {
       category: $("fCategory").value,
       payment_method: $("fPayment").value.trim() || null,
       notes: $("fNotes").value.trim() || null,
+      job_tag: $("fJob").value.trim() || null,
+      scan_confidence: window._lastScanConfidence || null,
+      fraud_flags: window._lastFraudFlags || [],
+      fraud_score: window._lastFraudScore || 0,
       image_path: imagePath,
     }).select().single();
 
@@ -972,11 +1182,13 @@ document.addEventListener("keydown", e => {
    FILTERS + RENDER
    ============================================================ */
 function filtered(){
-  const y = $("fltYear").value, m = $("fltMonth").value, c = $("fltCategory").value;
+  const y = $("fltYear").value, m = $("fltMonth").value,
+        c = $("fltCategory").value, j = $("fltJob").value;
   return receipts.filter(r =>
     (!y || yearOf(r.receipt_date) === y) &&
     (!m || monthOf(r.receipt_date) === m) &&
-    (!c || r.category === c));
+    (!c || r.category === c) &&
+    (!j || (r.job_tag || "") === j));
 }
 
 function rebuildFilters(){
@@ -991,8 +1203,10 @@ function rebuildFilters(){
   build($("fltYear"), years, v => v, "All years");
   build($("fltMonth"), months, v => MONTHS[parseInt(v,10)-1], "All months");
   build($("fltCategory"), cats, v => v, "All categories");
+  const jobs = [...new Set(receipts.map(r => r.job_tag).filter(Boolean))].sort();
+  build($("fltJob"), jobs, v => v, "All jobs");
 }
-["fltYear","fltMonth","fltCategory"].forEach(id => $(id).addEventListener("change", render));
+["fltYear","fltMonth","fltCategory","fltJob"].forEach(id => $(id).addEventListener("change", render));
 
 function render(){
   rebuildFilters();
@@ -1017,11 +1231,11 @@ function render(){
 
   $("rowsWrap").innerHTML = list.length ? list.map(r => `
     <div class="rrow">
-      <span class="tab" style="background:${catColor(r.category)}"></span>
+      <span class="tab" style="background:${r.fraud_score>60?'var(--alert)':r.fraud_score>20?'var(--amber)':catColor(r.category)}"></span>
       <div class="date">${esc(r.receipt_date || "—")}</div>
       <div>
         <div class="vendor">${esc(r.vendor || "Unknown vendor")}</div>
-        <div class="vsub">${esc(r.notes || r.payment_method || "")}</div>
+        <div class="vsub">${(r.job_tag ? `<span class="job-tag-badge">${esc(r.job_tag)}</span>` : "") + esc(r.notes || r.payment_method || "")}</div>
       </div>
       <div class="catcell"><span class="chip" style="color:${catColor(r.category)};border-color:${catColor(r.category)}33">${esc(r.category || "Other")}</span></div>
       <div class="amtcell">
@@ -1055,9 +1269,9 @@ function render(){
 $("exportBtn").addEventListener("click", () => {
   const list = filtered().slice().sort((a,b) => (a.receipt_date||"").localeCompare(b.receipt_date||""));
   if(!list.length) return toast("Nothing to export in this view.");
-  const headers = ["Business","Date","Vendor","Category","Total","Sales Tax","Payment Method","Items / Notes","Filed At"];
+  const headers = ["Business","Date","Vendor","Category","Job / Project","Total","Sales Tax","Payment Method","Items / Notes","Filed At"];
   const cell = v => { const s = String(v ?? ""); return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s; };
-  const rows = list.map(r => [profile.business_name, r.receipt_date, r.vendor, r.category, r.total, r.tax, r.payment_method, r.notes, r.created_at]);
+  const rows = list.map(r => [profile.business_name, r.receipt_date, r.vendor, r.category, r.job_tag || "", r.total, r.tax, r.payment_method, r.notes, r.created_at]);
   const csv = [headers, ...rows].map(r => r.map(cell).join(",")).join("\r\n");
   const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
@@ -1067,6 +1281,365 @@ $("exportBtn").addEventListener("click", () => {
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
 });
+
+/* ============================================================
+   INCOME TRACKER
+   ============================================================ */
+let incomeEntries = [];
+
+async function loadIncome(){
+  const { data, error } = await supabase
+    .from("income_entries").select("*")
+    .order("entry_date", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false });
+  if(error){ console.error(error); incomeEntries = []; return; }
+  incomeEntries = data || [];
+  renderIncome();
+}
+
+function renderIncome(){
+  const wrap = $("incomeWrap");
+  const hint = $("incomeHint");
+  if(!incomeEntries.length){
+    wrap.innerHTML = `<div class="empty"><strong>No income logged yet</strong>Tap "+ Log income" to add your first entry.</div>`;
+    hint.textContent = "";
+    return;
+  }
+  const total = incomeEntries.reduce((s,e) => s + Number(e.amount||0), 0);
+  hint.textContent = incomeEntries.length + " entries · " + money(total) + " total";
+  wrap.innerHTML = incomeEntries.map(e => `
+    <div class="inc-row">
+      <div class="date mono">${esc(e.entry_date || "—")}</div>
+      <div>
+        <div class="vendor">${esc(e.source || "Income")}</div>
+        <div class="vsub">${esc(e.category || "")}${e.job_tag ? ' · <span class="job-tag-badge">'+esc(e.job_tag)+'</span>' : ""}</div>
+      </div>
+      <div><span class="chip">${esc(e.category || "Revenue")}</span></div>
+      <div class="amount">${money(e.amount)}</div>
+      <div><button class="icon-btn danger del-income" data-id="${e.id}" aria-label="Delete income entry">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+      </button></div>
+    </div>`).join("");
+}
+
+$("addIncomeBtn").addEventListener("click", () => {
+  $("incomeFormCard").style.display = "block";
+  $("iDate").value = new Date().toISOString().slice(0,10);
+  $("iAmount").value = "";
+  $("iSource").value = "";
+  $("iNotes").value = "";
+  $("iJob").value = "";
+});
+$("cancelIncomeBtn").addEventListener("click", () => {
+  $("incomeFormCard").style.display = "none";
+});
+
+$("saveIncomeBtn").addEventListener("click", async () => {
+  const amount = parseFloat($("iAmount").value);
+  if(!Number.isFinite(amount) || amount <= 0){
+    const m = $("incomeMsg");
+    m.className = "msg msg-error"; m.textContent = "Enter a valid amount."; m.classList.remove("hidden");
+    return;
+  }
+  $("saveIncomeBtn").disabled = true;
+  try{
+    const { data, error } = await supabase.from("income_entries").insert({
+      user_id: user.id,
+      entry_date: $("iDate").value || null,
+      amount,
+      source: $("iSource").value.trim() || null,
+      category: $("iCategory").value,
+      job_tag: $("iJob").value.trim() || null,
+      notes: $("iNotes").value.trim() || null,
+    }).select().single();
+    if(error) throw new Error(error.message);
+    incomeEntries.unshift(data);
+    $("incomeFormCard").style.display = "none";
+    renderIncome();
+    loadPnl();
+    toast("Income logged");
+  }catch(err){
+    const m = $("incomeMsg");
+    m.className = "msg msg-error"; m.textContent = err.message; m.classList.remove("hidden");
+  }finally{
+    $("saveIncomeBtn").disabled = false;
+  }
+});
+
+$("incomeWrap").addEventListener("click", async e => {
+  const btn = e.target.closest(".del-income");
+  if(!btn) return;
+  const id = btn.dataset.id;
+  if(!confirm("Delete this income entry?")) return;
+  const { error } = await supabase.from("income_entries").delete().eq("id", id);
+  if(error) return toast("Could not delete that entry.");
+  incomeEntries = incomeEntries.filter(e => e.id !== id);
+  renderIncome();
+  loadPnl();
+  toast("Deleted");
+});
+
+/* ============================================================
+   P&L TAB
+   ============================================================ */
+async function loadPnl(){
+  const year = parseInt($("pnlYear").value) || new Date().getFullYear();
+  const { data, error } = await supabase.rpc("pnl_summary", { p_year: year });
+  if(error || !data){ $("pnlChart").innerHTML = `<div class="empty"><strong>Could not load P&L</strong>Run feature-update-3.sql in Supabase first.</div>`; return; }
+
+  const totalIncome   = data.reduce((s,r) => s + Number(r.income||0), 0);
+  const totalExpenses = data.reduce((s,r) => s + Number(r.expenses||0), 0);
+  const netProfit     = totalIncome - totalExpenses;
+
+  $("pnlIncome").textContent   = money(totalIncome);
+  $("pnlExpenses").textContent = money(totalExpenses);
+  $("pnlNet").textContent      = money(netProfit);
+  $("pnlNet").className        = "v " + (netProfit >= 0 ? "pos" : "neg");
+
+  const maxVal = Math.max(1, ...data.map(r => Math.max(Number(r.income||0), Number(r.expenses||0))));
+  $("pnlChart").innerHTML = data.map(r => {
+    const inc = Number(r.income||0), exp = Number(r.expenses||0);
+    const net = inc - exp;
+    const incW = (inc/maxVal*100).toFixed(0);
+    const expW = (exp/maxVal*100).toFixed(0);
+    return `<div class="pnl-bar-wrap">
+      <div class="pnl-label">${esc(r.period)}</div>
+      <div class="pnl-track">
+        <div class="pnl-inc-bar" style="width:${incW}%" title="Income: ${money(inc)}"></div>
+        <div class="pnl-exp-bar" style="width:${expW}%;opacity:.65" title="Expenses: ${money(exp)}"></div>
+      </div>
+      <div class="pnl-net ${net>=0?'pos':'neg'}">${money(net)}</div>
+    </div>`;
+  }).join("");
+}
+
+// Populate year selector
+function buildPnlYears(){
+  const years = [...new Set([
+    ...receipts.map(r => r.receipt_date ? r.receipt_date.slice(0,4) : null),
+    ...incomeEntries.map(e => e.entry_date ? e.entry_date.slice(0,4) : null),
+    String(new Date().getFullYear()),
+  ].filter(Boolean))].sort().reverse();
+  const sel = $("pnlYear");
+  sel.innerHTML = years.map(y => `<option value="${y}">${y}</option>`).join("");
+}
+$("pnlYear").addEventListener("change", loadPnl);
+
+/* Tab navigation */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    $("tab-" + btn.dataset.tab).classList.add("active");
+    if(btn.dataset.tab === "pnl"){ buildPnlYears(); loadPnl(); }
+    if(btn.dataset.tab === "income") renderIncome();
+  });
+});
+
+/* ============================================================
+   ONBOARDING QUESTIONNAIRE
+   ============================================================ */
+const OB_QUESTIONS = [
+  {
+    key: "business_type",
+    q: "What type of business do you run?",
+    options: [
+      { val: "Sole trader / self-employed", label: "Sole trader / self-employed" },
+      { val: "Partnership", label: "Partnership" },
+      { val: "LLC", label: "LLC" },
+      { val: "S-Corp / Corporation", label: "S-Corp / Corporation" },
+    ]
+  },
+  {
+    key: "industry",
+    q: "What industry are you in?",
+    options: [
+      { val: "HVAC", label: "HVAC" },
+      { val: "Landscaping", label: "Landscaping" },
+      { val: "Plumbing", label: "Plumbing" },
+      { val: "Electrical", label: "Electrical" },
+      { val: "Cleaning", label: "Cleaning services" },
+      { val: "Construction", label: "Construction" },
+      { val: "Retail / shop", label: "Retail / shop" },
+      { val: "Other", label: "Other", full: true },
+    ]
+  },
+  {
+    key: "employee_count",
+    q: "How many people work in your business?",
+    options: [
+      { val: "Just me", label: "Just me" },
+      { val: "2-5", label: "2–5 people" },
+      { val: "6-15", label: "6–15 people" },
+      { val: "16+", label: "16 or more" },
+    ]
+  },
+  {
+    key: "years_in_business",
+    q: "How long have you been in business?",
+    options: [
+      { val: "Less than 1 year", label: "Less than a year" },
+      { val: "1-3 years", label: "1–3 years" },
+      { val: "3-10 years", label: "3–10 years" },
+      { val: "10+ years", label: "10 or more years" },
+    ]
+  },
+  {
+    key: "monthly_receipts",
+    q: "Roughly how many receipts do you generate per month?",
+    options: [
+      { val: "Fewer than 20", label: "Fewer than 20" },
+      { val: "20-50", label: "20–50" },
+      { val: "50-100", label: "50–100" },
+      { val: "More than 100", label: "More than 100" },
+    ]
+  },
+  {
+    key: "current_method",
+    q: "How do you currently handle receipts?",
+    options: [
+      { val: "Shoebox / drawer", label: "Shoebox or drawer" },
+      { val: "Spreadsheet", label: "Spreadsheet" },
+      { val: "QuickBooks", label: "QuickBooks" },
+      { val: "Nothing — I lose them", label: "Nothing — I lose them" },
+      { val: "Another app", label: "Another app" },
+    ]
+  },
+  {
+    key: "accountant",
+    q: "Do you work with an accountant or bookkeeper?",
+    options: [
+      { val: "Yes, regularly", label: "Yes, regularly" },
+      { val: "Yes, just at tax time", label: "Yes, just at tax time" },
+      { val: "No", label: "No — I do it myself" },
+      { val: "Looking for one", label: "Looking for one" },
+    ]
+  },
+  {
+    key: "biggest_pain",
+    q: "What's your biggest pain with receipts right now?",
+    options: [
+      { val: "Losing them", label: "Losing them" },
+      { val: "Tax prep stress", label: "Tax prep is stressful" },
+      { val: "Categorising expenses", label: "Categorising everything" },
+      { val: "Not knowing my cash flow", label: "Not knowing my cash flow" },
+      { val: "All of the above", label: "All of the above", full: true },
+    ]
+  },
+  {
+    key: "goals",
+    q: "What do you most want CeiptSavor to do for you?",
+    options: [
+      { val: "Save time", label: "Save time" },
+      { val: "Reduce stress at tax time", label: "Reduce tax stress" },
+      { val: "Impress my accountant", label: "Impress my accountant" },
+      { val: "Understand my finances", label: "Understand my finances" },
+      { val: "All of the above", label: "All of the above", full: true },
+    ]
+  },
+  {
+    key: "referral_source",
+    q: "How did you hear about CeiptSavor?",
+    options: [
+      { val: "Word of mouth", label: "Word of mouth" },
+      { val: "Google", label: "Google search" },
+      { val: "From my accountant", label: "From my accountant" },
+      { val: "Social media", label: "Social media" },
+      { val: "Other", label: "Other", full: true },
+    ]
+  },
+];
+
+let obStep = 0;
+const obAnswers = {};
+
+function obRender(){
+  const q = OB_QUESTIONS[obStep];
+  const total = OB_QUESTIONS.length;
+  $("obStep").textContent = `Question ${obStep+1} of ${total}`;
+  $("obTitle").textContent = q.q;
+  $("obBar").style.width = ((obStep+1)/total*100).toFixed(0) + "%";
+  $("obBack").style.display = obStep > 0 ? "block" : "none";
+  $("obNote").textContent = obStep === total-1 ? "Almost done!" : "";
+  $("obNext").textContent = obStep === total-1 ? "Complete ✓" : "Next →";
+
+  const body = $("obBody");
+  body.innerHTML = `<div class="ob-q">
+    <div class="ob-options">${q.options.map(o =>
+      `<button class="ob-opt${o.full?" full":""}${obAnswers[q.key]===o.val?" selected":""}"
+        data-val="${esc(o.val)}">${esc(o.label)}</button>`
+    ).join("")}</div>
+    ${obStep === OB_QUESTIONS.length-1 ?
+      `<textarea class="ob-notes" id="obNotes" placeholder="Anything else you'd like us to know? (optional)">${obAnswers._notes||""}</textarea>` : ""}
+  </div>`;
+
+  body.querySelectorAll(".ob-opt").forEach(btn => {
+    btn.addEventListener("click", () => {
+      body.querySelectorAll(".ob-opt").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      obAnswers[q.key] = btn.dataset.val;
+    });
+  });
+}
+
+$("obNext").addEventListener("click", async () => {
+  const q = OB_QUESTIONS[obStep];
+  if(!obAnswers[q.key]){
+    const btns = $("obBody").querySelectorAll(".ob-opt");
+    btns.forEach(b => { b.style.borderColor="var(--alert)"; setTimeout(()=>b.style.borderColor="",1000); });
+    return;
+  }
+  if(obStep === OB_QUESTIONS.length-1){
+    const notes = $("obNotes");
+    if(notes) obAnswers._notes = notes.value.trim();
+    await submitOnboarding();
+    return;
+  }
+  obStep++;
+  obRender();
+});
+
+$("obBack").addEventListener("click", () => {
+  if(obStep > 0){ obStep--; obRender(); }
+});
+
+async function submitOnboarding(){
+  $("obNext").disabled = true;
+  $("obNext").textContent = "Saving…";
+  try{
+    const { error } = await supabase.rpc("complete_onboarding", {
+      p_business_type:     obAnswers.business_type     || "",
+      p_industry:          obAnswers.industry           || "",
+      p_employee_count:    obAnswers.employee_count     || "",
+      p_years_in_business: obAnswers.years_in_business  || "",
+      p_monthly_receipts:  obAnswers.monthly_receipts   || "",
+      p_current_method:    obAnswers.current_method      || "",
+      p_accountant:        obAnswers.accountant          || "",
+      p_biggest_pain:      obAnswers.biggest_pain        || "",
+      p_goals:             obAnswers.goals               || "",
+      p_referral_source:   obAnswers.referral_source     || "",
+      p_other_notes:       obAnswers._notes              || null,
+    });
+    if(error) throw new Error(error.message);
+    if(profile) profile.onboarding_complete = true;
+    $("obOverlay").classList.add("hidden");
+    toast("Thanks for completing the questionnaire!");
+  }catch(err){
+    console.error(err);
+    $("obNext").textContent = "Try again";
+  }finally{
+    $("obNext").disabled = false;
+  }
+}
+
+function checkShowOnboarding(){
+  if(profile && !profile.onboarding_complete){
+    obStep = 0;
+    $("obOverlay").classList.remove("hidden");
+    obRender();
+  }
+}
 
 /* ============================================================
    BOOT
@@ -1082,5 +1655,24 @@ $("exportBtn").addEventListener("click", () => {
   }
 })();
 </script>
+
+<!-- ============ ONBOARDING QUESTIONNAIRE ============ -->
+<div id="obOverlay" class="ob-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="obTitle">
+  <div class="ob-card">
+    <div class="ob-head">
+      <div class="ob-q-num" id="obStep">Question 1 of 10</div>
+      <h2 id="obTitle">Tell us about your business</h2>
+      <p class="sub">Takes 2 minutes. Helps us tailor CeiptSavor to how you work.</p>
+      <div class="ob-progress"><div class="ob-bar" id="obBar" style="width:10%"></div></div>
+    </div>
+    <div class="ob-body" id="obBody"></div>
+    <div class="ob-foot">
+      <button class="btn btn-outline" id="obBack" style="display:none">← Back</button>
+      <span class="ob-foot-note" id="obNote"></span>
+      <button class="btn btn-primary" id="obNext">Next →</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
