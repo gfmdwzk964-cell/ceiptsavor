@@ -241,6 +241,16 @@ td.num{font-family:'JetBrains Mono',monospace;text-align:right;font-variant-nume
       </div>
     </div>
 
+    <div class="card" style="margin-top:18px;">
+      <div class="card-head">
+        <h2>Onboarding questionnaires</h2>
+        <span class="hint" id="obHint">Loading…</span>
+      </div>
+      <div class="table-wrap" id="obWrap">
+        <div class="empty"><span class="spin" aria-label="Loading"></span></div>
+      </div>
+    </div>
+
     <p class="foot">
       <a href="index.html">App</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
     </p>
@@ -336,6 +346,43 @@ async function checkAdmin(){
 }
 
 /* ---------------- data ---------------- */
+async function loadOnboarding(){
+  const { data, error } = await supabase.rpc("admin_onboarding");
+  if(error){
+    $("obWrap").innerHTML = `<div class="empty"><strong>Run feature-update-4.sql first</strong></div>`;
+    $("obHint").textContent = "";
+    return;
+  }
+  const rows = data || [];
+  $("obHint").textContent = rows.length + " completed";
+  if(!rows.length){
+    $("obWrap").innerHTML = `<div class="empty"><strong>No responses yet</strong>Questionnaire appears to new users after sign-in.</div>`;
+    return;
+  }
+  const FIELDS = [
+    ["business_type","Business type"],["industry","Industry"],
+    ["employee_count","Team size"],["years_in_business","Years in business"],
+    ["monthly_receipts","Receipts / month"],["current_method","Current method"],
+    ["accountant","Accountant"],["biggest_pain","Biggest pain"],
+    ["goals","Goals"],["referral_source","How they found you"],
+  ];
+  $("obWrap").innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Business</th><th>Completed</th>
+        ${FIELDS.map(([,l]) => `<th>${esc(l)}</th>`).join("")}
+        <th>Notes</th>
+      </tr></thead>
+      <tbody>${rows.map(r => `<tr>
+        <td><div class="biz">${esc(r.business_name)}</div>
+            <div class="sub">${esc(r.email)}</div></td>
+        <td class="sub">${day(r.completed_at)}</td>
+        ${FIELDS.map(([k]) => `<td class="sub">${esc(r[k]||"—")}</td>`).join("")}
+        <td class="sub" style="max-width:180px;white-space:normal">${esc(r.other_notes||"—")}</td>
+      </tr>`).join("")}</tbody>
+    </table>`;
+}
+
 async function load(manual){
   if(manual) $("stamp").textContent = "refreshing…";
   const [ov, acc, daily] = await Promise.all([
@@ -343,6 +390,7 @@ async function load(manual){
     supabase.rpc("admin_accounts"),
     supabase.rpc("admin_daily", { days: 30 }),
   ]);
+  loadOnboarding();
 
   if(ov.error){
     $("funnel").innerHTML = `<p style="color:var(--alert);font-size:.86rem;">
