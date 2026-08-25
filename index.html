@@ -578,18 +578,91 @@ a{color:var(--pine);}
 
     <!-- P&L TAB -->
     <div class="tab-pane" id="tab-pnl">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
-        <select id="pnlYear" class="filters" style="min-width:100px;flex:none;"></select>
-        <span style="font-size:.82rem;color:var(--slate-2);">Select year to view</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <select id="pnlYear" style="padding:8px 11px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);font-size:.86rem;"></select>
+          <span style="font-size:.82rem;color:var(--slate-2);">financial year</span>
+        </div>
+        <button class="btn btn-outline" id="importBankBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import bank CSV
+        </button>
       </div>
+
+      <!-- bank import panel -->
+      <div class="card" id="bankImportCard" style="display:none;margin-bottom:16px;">
+        <div class="card-head"><h3>Import bank statement</h3><span class="hint">CSV export from your bank</span></div>
+        <div class="card-body">
+          <p style="color:var(--slate);font-size:.88rem;margin-bottom:14px;">
+            Export a CSV from your bank's online portal (most US banks support this under Transactions → Export/Download). 
+            We'll read the dates, amounts and descriptions and let you categorise each one.
+          </p>
+          <div class="field">
+            <label for="bankCsvFile">Bank statement CSV</label>
+            <input type="file" id="bankCsvFile" accept=".csv,.txt" style="padding:8px;border:1px solid var(--line-2);border-radius:8px;width:100%;background:var(--surface);">
+          </div>
+          <div class="field">
+            <label for="bankColDate">Date column name (or number)</label>
+            <input type="text" id="bankColDate" placeholder="Date" value="Date">
+          </div>
+          <div class="field">
+            <label for="bankColAmount">Amount column name (or number)</label>
+            <input type="text" id="bankColAmount" placeholder="Amount" value="Amount">
+          </div>
+          <div class="field">
+            <label for="bankColDesc">Description column name</label>
+            <input type="text" id="bankColDesc" placeholder="Description" value="Description">
+          </div>
+          <button class="btn btn-pine" id="parseBankBtn">Parse statement</button>
+          <div id="bankParseMsg" class="msg hidden" style="margin-top:12px;"></div>
+        </div>
+      </div>
+
+      <!-- bank transactions review -->
+      <div class="card" id="bankTxCard" style="display:none;margin-bottom:16px;">
+        <div class="card-head">
+          <h3>Review transactions</h3>
+          <span class="hint" id="bankTxHint"></span>
+        </div>
+        <div class="card-body">
+          <p style="color:var(--slate);font-size:.85rem;margin-bottom:14px;">
+            Mark each transaction as <strong>Income</strong>, <strong>Expense</strong> (already in your ledger), or <strong>Skip</strong>. 
+            Income entries will be added to your ledger. Expenses matching a filed receipt are highlighted.
+          </p>
+          <div id="bankTxList"></div>
+          <div class="row-actions" style="margin-top:14px;">
+            <button class="btn btn-primary" id="importBankConfirmBtn">Import selected</button>
+            <button class="btn btn-outline" id="importBankCancelBtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI rail -->
       <div class="pnl-summary-grid">
         <div class="pnl-kpi"><div class="k">Total income</div><div class="v pos" id="pnlIncome">—</div></div>
         <div class="pnl-kpi"><div class="k">Total expenses</div><div class="v neg" id="pnlExpenses">—</div></div>
-        <div class="pnl-kpi"><div class="k">Net profit</div><div class="v" id="pnlNet">—</div></div>
+        <div class="pnl-kpi"><div class="k">Net profit / loss</div><div class="v" id="pnlNet">—</div></div>
       </div>
-      <div class="card">
-        <div class="card-head"><h3>Monthly breakdown</h3></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+        <div class="pnl-kpi"><div class="k">Tax collected</div><div class="v" id="pnlTax" style="font-size:1rem;">—</div></div>
+        <div class="pnl-kpi"><div class="k">Profit margin</div><div class="v" id="pnlMargin" style="font-size:1rem;">—</div></div>
+      </div>
+
+      <!-- charts -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-head"><h3>Monthly P&amp;L</h3><span class="hint" style="display:flex;gap:12px;"><span style="color:var(--pine);">█ Income</span><span style="color:var(--alert);">█ Expenses</span></span></div>
         <div class="card-body" id="pnlChart"><div class="empty"><strong>No data yet</strong>File receipts and log income to see your P&amp;L.</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div class="card">
+          <div class="card-head"><h3>Top expense categories</h3></div>
+          <div class="card-body" id="pnlCategories"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Job profitability</h3></div>
+          <div class="card-body" id="pnlJobs"><div style="color:var(--slate-2);font-size:.85rem;">Tag receipts and income to a job to see job P&amp;L.</div></div>
+        </div>
       </div>
     </div>
 
@@ -1384,33 +1457,82 @@ $("incomeWrap").addEventListener("click", async e => {
    ============================================================ */
 async function loadPnl(){
   const year = parseInt($("pnlYear").value) || new Date().getFullYear();
-  const { data, error } = await supabase.rpc("pnl_summary", { p_year: year });
-  if(error || !data){ $("pnlChart").innerHTML = `<div class="empty"><strong>Could not load P&L</strong>Run feature-update-3.sql in Supabase first.</div>`; return; }
-
+  const [pnlRes, jobRes] = await Promise.all([
+    supabase.rpc("pnl_summary", { p_year: year }),
+    supabase.rpc("job_pnl"),
+  ]);
+  if(pnlRes.error || !pnlRes.data){
+    $("pnlChart").innerHTML = `<div class="empty"><strong>Could not load P&L</strong>Run feature-update-3.sql in Supabase first.</div>`;
+    return;
+  }
+  const data = pnlRes.data;
   const totalIncome   = data.reduce((s,r) => s + Number(r.income||0), 0);
   const totalExpenses = data.reduce((s,r) => s + Number(r.expenses||0), 0);
+  const totalTax      = data.reduce((s,r) => s + Number(r.tax_collected||0), 0);
   const netProfit     = totalIncome - totalExpenses;
+  const margin        = totalIncome > 0 ? (netProfit / totalIncome * 100) : 0;
 
   $("pnlIncome").textContent   = money(totalIncome);
   $("pnlExpenses").textContent = money(totalExpenses);
   $("pnlNet").textContent      = money(netProfit);
   $("pnlNet").className        = "v " + (netProfit >= 0 ? "pos" : "neg");
+  $("pnlTax").textContent      = money(totalTax);
+  $("pnlMargin").textContent   = totalIncome > 0 ? margin.toFixed(1) + "%" : "—";
+  $("pnlMargin").className     = "v " + (margin >= 0 ? "pos" : "neg");
 
+  // Monthly chart
   const maxVal = Math.max(1, ...data.map(r => Math.max(Number(r.income||0), Number(r.expenses||0))));
   $("pnlChart").innerHTML = data.map(r => {
     const inc = Number(r.income||0), exp = Number(r.expenses||0);
     const net = inc - exp;
     const incW = (inc/maxVal*100).toFixed(0);
     const expW = (exp/maxVal*100).toFixed(0);
-    return `<div class="pnl-bar-wrap">
+    return `<div class="pnl-bar-wrap" style="margin-bottom:8px;">
       <div class="pnl-label">${esc(r.period)}</div>
-      <div class="pnl-track">
+      <div class="pnl-track" style="height:14px;">
         <div class="pnl-inc-bar" style="width:${incW}%" title="Income: ${money(inc)}"></div>
-        <div class="pnl-exp-bar" style="width:${expW}%;opacity:.65" title="Expenses: ${money(exp)}"></div>
+        <div class="pnl-exp-bar" style="width:${expW}%" title="Expenses: ${money(exp)}"></div>
       </div>
-      <div class="pnl-net ${net>=0?'pos':'neg'}">${money(net)}</div>
+      <div class="pnl-net ${net>=0?'pos':'neg'}" style="width:90px;">${money(net)}</div>
     </div>`;
   }).join("");
+
+  // Category breakdown
+  const catTotals = {};
+  receipts.forEach(r => {
+    if(r.receipt_date && r.receipt_date.startsWith(String(year))){
+      const k = r.category||"Other";
+      catTotals[k] = (catTotals[k]||0) + Number(r.total||0);
+    }
+  });
+  const catSorted = Object.entries(catTotals).sort((a,b)=>b[1]-a[1]);
+  const maxCat = Math.max(1, ...Object.values(catTotals));
+  $("pnlCategories").innerHTML = catSorted.length ? catSorted.map(([k,v]) => `
+    <div class="bd-row">
+      <div class="bd-name">${esc(k)}</div>
+      <div class="bd-track"><div class="bd-fill" style="width:${(Number(v)/maxCat*100).toFixed(0)}%;background:${catColor(k)}"></div></div>
+      <div class="bd-amt">${money(v)}</div>
+    </div>`).join("")
+    : `<div style="color:var(--slate-2);font-size:.85rem;">No expenses for ${year}.</div>`;
+
+  // Job P&L
+  const jobs = jobRes.data || [];
+  $("pnlJobs").innerHTML = jobs.length ? `
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem;">
+      <thead><tr>
+        <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);color:var(--slate-2);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;">Job</th>
+        <th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--line);color:var(--slate-2);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;">Income</th>
+        <th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--line);color:var(--slate-2);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;">Expenses</th>
+        <th style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--line);color:var(--slate-2);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;">Net</th>
+      </tr></thead>
+      <tbody>${jobs.map(j => `<tr>
+        <td style="padding:8px;border-bottom:1px solid var(--line);font-weight:600;">${esc(j.job_tag)}</td>
+        <td style="padding:8px;border-bottom:1px solid var(--line);text-align:right;font-family:'JetBrains Mono',monospace;color:var(--pine);">${money(j.income)}</td>
+        <td style="padding:8px;border-bottom:1px solid var(--line);text-align:right;font-family:'JetBrains Mono',monospace;color:var(--alert);">${money(j.expenses)}</td>
+        <td style="padding:8px;border-bottom:1px solid var(--line);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;" class="${Number(j.net)>=0?'conf-high':'conf-low'}">${money(j.net)}</td>
+      </tr>`).join("")}</tbody>
+    </table>`
+    : `<div style="color:var(--slate-2);font-size:.85rem;">Tag receipts and income to a job to see profitability by job.</div>`;
 }
 
 // Populate year selector
@@ -1639,6 +1761,178 @@ function checkShowOnboarding(){
     $("obOverlay").classList.remove("hidden");
     obRender();
   }
+}
+
+/* ============================================================
+   BANK CSV IMPORT
+   ============================================================ */
+let bankTxs = []; // parsed transactions waiting for review
+
+$("importBankBtn").addEventListener("click", () => {
+  const card = $("bankImportCard");
+  card.style.display = card.style.display === "none" ? "block" : "none";
+  $("bankTxCard").style.display = "none";
+});
+$("importBankCancelBtn").addEventListener("click", () => {
+  $("bankTxCard").style.display = "none";
+  $("bankImportCard").style.display = "none";
+  $("bankCsvFile").value = "";
+  bankTxs = [];
+});
+
+$("parseBankBtn").addEventListener("click", async () => {
+  const file = $("bankCsvFile").files[0];
+  if(!file) return bankParseMsg("Choose a CSV file first.", "error");
+  bankParseMsg("Reading…");
+  try{
+    const text = await file.text();
+    const rows = parseCSV(text);
+    if(rows.length < 2) throw new Error("No data rows found in that file.");
+
+    const headers = rows[0].map(h => h.trim().toLowerCase());
+    const dateCol   = findCol(headers, $("bankColDate").value);
+    const amountCol = findCol(headers, $("bankColAmount").value);
+    const descCol   = findCol(headers, $("bankColDesc").value);
+
+    if(dateCol < 0)   throw new Error(`Can't find column "${$("bankColDate").value}". Try adjusting the column name.`);
+    if(amountCol < 0) throw new Error(`Can't find column "${$("bankColAmount").value}". Try adjusting the column name.`);
+
+    bankTxs = rows.slice(1)
+      .map(r => ({
+        date:   r[dateCol]?.trim() || "",
+        amount: parseFloat((r[amountCol]||"").replace(/[^0-9.\-]/g,"")),
+        desc:   descCol >= 0 ? (r[descCol]?.trim()||"") : "",
+        action: "skip",  // income | expense | skip
+      }))
+      .filter(t => Number.isFinite(t.amount) && t.date);
+
+    if(!bankTxs.length) throw new Error("No valid transactions found. Check column names.");
+
+    bankParseMsg(`Found ${bankTxs.length} transactions. Review below.`, "ok");
+    renderBankTxs();
+    $("bankTxCard").style.display = "block";
+    $("bankImportCard").style.display = "none";
+  }catch(err){
+    bankParseMsg(err.message, "error");
+  }
+});
+
+function parseCSV(text){
+  const rows = [];
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  for(const line of lines){
+    const cells = []; let cur = "", inQ = false;
+    for(let i=0; i<line.length; i++){
+      const c = line[i];
+      if(c === '"' && !inQ){ inQ=true; continue; }
+      if(c === '"' && inQ){ inQ=false; continue; }
+      if(c === ',' && !inQ){ cells.push(cur); cur=""; continue; }
+      cur += c;
+    }
+    cells.push(cur);
+    rows.push(cells);
+  }
+  return rows;
+}
+
+function findCol(headers, nameOrNum){
+  const n = parseInt(nameOrNum);
+  if(Number.isFinite(n) && n >= 0) return n;
+  const lower = nameOrNum.trim().toLowerCase();
+  const idx = headers.indexOf(lower);
+  if(idx >= 0) return idx;
+  // fuzzy: contains
+  return headers.findIndex(h => h.includes(lower) || lower.includes(h));
+}
+
+function bankParseMsg(text, kind){
+  const el = $("bankParseMsg");
+  if(!text){ el.className="msg hidden"; el.textContent=""; return; }
+  el.className = "msg " + (kind==="ok"?"msg-ok":kind==="error"?"msg-error":"");
+  el.textContent = text;
+  el.classList.remove("hidden");
+}
+
+function renderBankTxs(){
+  const income = bankTxs.filter(t=>t.action==="income").length;
+  const skip   = bankTxs.filter(t=>t.action==="skip").length;
+  $("bankTxHint").textContent = `${bankTxs.length} transactions · ${income} marked as income · ${skip} skipped`;
+
+  $("bankTxList").innerHTML = `
+    <div style="display:grid;grid-template-columns:90px 1fr 100px 180px;gap:8px;padding:8px 0;border-bottom:2px solid var(--line);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--slate-2);">
+      <div>Date</div><div>Description</div><div>Amount</div><div>Mark as</div>
+    </div>
+    ${bankTxs.map((t,i) => `
+    <div style="display:grid;grid-template-columns:90px 1fr 100px 180px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:.84rem;" id="btx-${i}">
+      <div class="mono" style="font-size:.76rem;color:var(--slate);">${esc(t.date)}</div>
+      <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(t.desc)}">${esc(t.desc||"—")}</div>
+      <div class="mono" style="font-weight:600;color:${t.amount>=0?'var(--pine)':'var(--alert)'};">${money(Math.abs(t.amount))}</div>
+      <div style="display:flex;gap:4px;">
+        ${['income','expense','skip'].map(a => `
+          <button onclick="setBankAction(${i},'${a}')"
+            style="padding:3px 8px;border-radius:6px;border:1px solid var(--line-2);font-size:.72rem;font-weight:600;cursor:pointer;
+              background:${t.action===a?(a==='income'?'var(--pine)':a==='expense'?'var(--alert)':'var(--slate)'):'var(--surface)'};
+              color:${t.action===a?'#fff':'var(--slate)'};transition:all .1s;">${a}</button>
+        `).join("")}
+      </div>
+    </div>`).join("")}`;
+}
+
+window.setBankAction = (i, action) => {
+  bankTxs[i].action = action;
+  renderBankTxs();
+};
+
+$("importBankConfirmBtn").addEventListener("click", async () => {
+  const toImport = bankTxs.filter(t => t.action === "income");
+  if(!toImport.length){ toast("No transactions marked as income."); return; }
+  $("importBankConfirmBtn").disabled = true;
+  $("importBankConfirmBtn").textContent = "Importing…";
+  try{
+    const entries = toImport.map(t => ({
+      user_id: user.id,
+      entry_date: parseDate(t.date),
+      amount: Math.abs(t.amount),
+      source: t.desc || "Bank import",
+      category: "Revenue",
+      notes: "Imported from bank CSV",
+    })).filter(e => e.entry_date);
+
+    const { error } = await supabase.from("income_entries").insert(entries);
+    if(error) throw new Error(error.message);
+
+    await loadIncome();
+    bankTxs = [];
+    $("bankTxCard").style.display = "none";
+    $("bankImportCard").style.display = "none";
+    $("bankCsvFile").value = "";
+    buildPnlYears(); loadPnl();
+    toast(`${entries.length} income entries imported`);
+  }catch(err){
+    toast("Import failed: " + err.message);
+  }finally{
+    $("importBankConfirmBtn").disabled = false;
+    $("importBankConfirmBtn").textContent = "Import selected";
+  }
+});
+
+// Parse common US date formats into YYYY-MM-DD
+function parseDate(str){
+  if(!str) return null;
+  str = str.trim();
+  // YYYY-MM-DD
+  if(/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+  // MM/DD/YYYY or MM-DD-YYYY
+  const m1 = str.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
+  if(m1) return `${m1[3]}-${m1[1].padStart(2,"0")}-${m1[2].padStart(2,"0")}`;
+  // DD/MM/YYYY — try to detect
+  const m2 = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m2 && parseInt(m2[1]) > 12) return `${m2[3]}-${m2[2].padStart(2,"0")}-${m2[1].padStart(2,"0")}`;
+  // Month name: Jan 15, 2026 or 15 Jan 2026
+  const months = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  const m3 = str.match(/([A-Za-z]{3})\s+(\d{1,2}),?\s+(\d{4})/);
+  if(m3){ const mo = months[m3[1].toLowerCase()]; if(mo) return `${m3[3]}-${String(mo).padStart(2,"0")}-${m3[2].padStart(2,"0")}`; }
+  return null;
 }
 
 /* ============================================================
