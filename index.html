@@ -4,14 +4,75 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CeiptSavor — Receipt filing for small business</title>
-<meta name="description" content="Photograph a receipt and it's read, categorised and filed. Making receipt capturing easier, one click at a time.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="description" content="CeiptSavor helps contractors and small businesses in Minnesota capture receipts, track expenses and save tax. AI-powered scanning files receipts in one click — hand your accountant one clean export at tax time.">
+
+<!-- SEO -->
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="contractor tax software Minnesota, small business receipt scanning, save tax contractor, accountant expense tracking, HVAC bookkeeping software, landscaping expense tracker, Minnesota small business tax, receipt management software, contractor accounting app, tax deduction tracker, small business accountant tools, expense filing software, AI receipt scanner, job costing software contractors">
+<link rel="canonical" href="https://ceiptsavor.com/">
+<meta name="author" content="CeiptSavor">
+
+<!-- Open Graph (Facebook, LinkedIn previews) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ceiptsavor.com/">
+<meta property="og:title" content="CeiptSavor — Receipt filing made easy for small businesses">
+<meta property="og:description" content="The tax-saving receipt tool built for Minnesota contractors. AI scans your receipts, tracks job costs and gives your accountant one clean export — saving you hours and money at tax time.">
+<meta property="og:image" content="https://ceiptsavor.com/og-image.png">
+<meta property="og:site_name" content="CeiptSavor">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter / X card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://ceiptsavor.com/">
+<meta name="twitter:title" content="CeiptSavor — Receipt filing made easy">
+<meta name="twitter:description" content="The tax-saving receipt tool for Minnesota contractors. AI scans, categorises and files receipts in one click. Save tax, impress your accountant.">
+<meta name="twitter:image" content="https://ceiptsavor.com/og-image.png">
+
+<!-- Favicons -->
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#141A24">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="CeiptSavor">
+
+<!-- Structured data (Google rich results) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "CeiptSavor",
+  "url": "https://ceiptsavor.com",
+  "description": "Tax-saving receipt and expense tracking software for contractors and small businesses in Minnesota. AI-powered scanning, job costing, invoicing and accountant-ready exports.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, iOS, Android",
+  "offers": {
+    "@type": "Offer",
+    "price": "39.00",
+    "priceCurrency": "USD",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "39.00",
+      "priceCurrency": "USD",
+      "unitCode": "MON"
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Reuben Smith",
+    "email": "reuben@ceiptsavor.com"
+  },
+  "areaServed": {
+    "@type": "State",
+    "name": "Minnesota"
+  }
+}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -252,6 +313,84 @@ a{color:var(--pine);}
 .pnl-kpi .k{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--slate-2);margin-bottom:4px;}
 .pnl-kpi .v{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;}
 .pnl-kpi .v.pos{color:var(--pine);} .pnl-kpi .v.neg{color:var(--alert);}
+
+/* ---- HOME DASHBOARD ---- */
+.home-greeting{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:4px;}
+.home-sub{color:var(--slate);font-size:.9rem;margin-bottom:20px;}
+.home-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.home-kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 16px;box-shadow:var(--shadow-sm);}
+.home-kpi .k{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-2);margin-bottom:5px;}
+.home-kpi .v{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700;letter-spacing:-.02em;}
+.home-kpi .v.pos{color:var(--pine);}
+.home-kpi .v.neg{color:var(--alert);}
+.home-kpi .note{font-size:.72rem;color:var(--slate-2);margin-top:3px;}
+
+/* health score */
+.health-card{background:var(--ink);color:#fff;border-radius:var(--radius);
+  padding:18px 20px;display:flex;align-items:center;gap:20px;margin-bottom:18px;}
+.health-ring{position:relative;width:72px;height:72px;flex-shrink:0;}
+.health-ring svg{transform:rotate(-90deg);}
+.health-ring .score-text{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;}
+.health-ring .score-num{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700;line-height:1;}
+.health-ring .score-label{font-size:.6rem;color:#8C97A8;letter-spacing:.06em;text-transform:uppercase;}
+.health-components{flex:1;}
+.health-components h3{font-size:.88rem;font-weight:600;margin-bottom:10px;}
+.hc-bar{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:.76rem;}
+.hc-name{width:120px;color:#A8B2C2;flex-shrink:0;}
+.hc-track{flex:1;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;}
+.hc-fill{height:100%;border-radius:3px;background:var(--mint);}
+.hc-val{width:28px;text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:.76rem;}
+
+/* alerts */
+.alert-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.alert-item{display:flex;align-items:flex-start;gap:12px;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;
+  cursor:pointer;transition:background .15s;box-shadow:var(--shadow-sm);}
+.alert-item:hover{background:var(--mist);}
+.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.alert-dot.red{background:var(--alert);}
+.alert-dot.amber{background:var(--amber);}
+.alert-dot.green{background:var(--pine);}
+.alert-msg{font-weight:600;font-size:.88rem;}
+.alert-detail{font-size:.78rem;color:var(--slate);margin-top:1px;}
+
+/* AI chat */
+.chat-wrap{display:flex;flex-direction:column;height:420px;}
+.chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
+.chat-bubble{max-width:85%;padding:10px 13px;border-radius:10px;font-size:.87rem;line-height:1.5;}
+.chat-bubble.user{background:var(--ink);color:#fff;align-self:flex-end;border-radius:10px 10px 2px 10px;}
+.chat-bubble.ai{background:var(--mist);color:var(--ink);align-self:flex-start;border-radius:10px 10px 10px 2px;border:1px solid var(--line);}
+.chat-bubble.ai.loading{color:var(--slate-2);font-style:italic;}
+.chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line);}
+.chat-input{flex:1;padding:10px 13px;border:1px solid var(--line-2);border-radius:8px;
+  font-family:inherit;font-size:.88rem;resize:none;}
+.chat-input:focus{outline:none;border-color:var(--ink);}
+.chat-suggestions{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 10px;}
+.chat-sug{background:var(--mist);border:1px solid var(--line);border-radius:20px;
+  padding:5px 12px;font-size:.76rem;cursor:pointer;transition:background .15s;color:var(--ink);}
+.chat-sug:hover{background:var(--pine-soft);border-color:var(--pine);color:var(--pine);}
+
+/* invoices */
+.inv-row{display:grid;grid-template-columns:80px 1fr 100px 90px 100px 44px;
+  align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);font-size:.85rem;}
+.inv-row:last-child{border-bottom:none;}
+.inv-row:hover{background:var(--mist);}
+.inv-status{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;padding:2px 8px;border-radius:20px;}
+.inv-status.draft{background:var(--mist);color:var(--slate);}
+.inv-status.sent{background:#EEF0FB;color:#3B4DB5;}
+.inv-status.paid{background:var(--pine-soft);color:var(--pine);}
+.inv-status.overdue{background:var(--alert-soft);color:var(--alert);}
+.inv-status.cancelled{background:var(--mist);color:var(--slate-2);}
+
+@media(max-width:760px){
+  .home-grid{grid-template-columns:1fr 1fr;}
+  .health-card{flex-direction:column;text-align:center;}
+  .hc-name{width:90px;}
+  .inv-row{grid-template-columns:1fr auto;gap:6px 10px;}
+}
 
 /* ---- onboarding questionnaire ---- */
 .ob-overlay{position:fixed;inset:0;background:rgba(20,26,36,.55);
@@ -515,13 +654,89 @@ a{color:var(--pine);}
     </div>
 
     <div class="tab-bar">
-      <button class="tab-btn active" data-tab="receipts">Receipts</button>
+      <button class="tab-btn active" data-tab="home">Home</button>
+      <button class="tab-btn" data-tab="receipts">Receipts</button>
       <button class="tab-btn" data-tab="income">Income</button>
       <button class="tab-btn" data-tab="pnl">P&amp;L</button>
+      <button class="tab-btn" data-tab="invoices">Invoices</button>
+      <button class="tab-btn" data-tab="ai">AI Chat</button>
+    </div>
+
+    <!-- HOME TAB -->
+    <div class="tab-pane active" id="tab-home">
+      <div id="homeGreeting" class="home-greeting">Good morning</div>
+      <div class="home-sub" id="homeSub">Here's how your business is doing.</div>
+
+      <div class="home-grid">
+        <div class="home-kpi">
+          <div class="k">Revenue this month</div>
+          <div class="v pos" id="hmIncome">—</div>
+          <div class="note" id="hmIncomeNote">&nbsp;</div>
+        </div>
+        <div class="home-kpi">
+          <div class="k">Expenses this month</div>
+          <div class="v" id="hmExpenses">—</div>
+          <div class="note" id="hmExpNote">&nbsp;</div>
+        </div>
+        <div class="home-kpi">
+          <div class="k">Net profit</div>
+          <div class="v" id="hmProfit">—</div>
+          <div class="note" id="hmProfitNote">&nbsp;</div>
+        </div>
+        <div class="home-kpi">
+          <div class="k">Receipts filed</div>
+          <div class="v" id="hmReceipts">—</div>
+          <div class="note" id="hmReceiptsNote">&nbsp;</div>
+        </div>
+      </div>
+
+      <!-- Business Health Score -->
+      <div class="health-card" id="healthCard">
+        <div class="health-ring">
+          <svg width="72" height="72" viewBox="0 0 72 72">
+            <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="6"/>
+            <circle id="healthArc" cx="36" cy="36" r="30" fill="none" stroke="#63C7A8"
+              stroke-width="6" stroke-linecap="round"
+              stroke-dasharray="188.5" stroke-dashoffset="188.5"/>
+          </svg>
+          <div class="score-text">
+            <span class="score-num" id="healthNum">—</span>
+            <span class="score-label">score</span>
+          </div>
+        </div>
+        <div class="health-components">
+          <h3>Business Health Score</h3>
+          <div id="healthBars"></div>
+        </div>
+      </div>
+
+      <!-- Alerts -->
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-head">
+          <h3>Things needing attention</h3>
+          <span class="hint" id="alertsHint"></span>
+        </div>
+        <div id="alertsList" style="padding:6px 0;">
+          <div class="empty"><span class="spin"></span></div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <button class="btn btn-outline" onclick="switchTab('receipts')" style="padding:14px;">
+          📸 Scan receipt
+        </button>
+        <button class="btn btn-outline" onclick="switchTab('income')" style="padding:14px;">
+          💰 Log income
+        </button>
+        <button class="btn btn-outline" onclick="switchTab('invoices')" style="padding:14px;">
+          📄 New invoice
+        </button>
+      </div>
     </div>
 
     <!-- RECEIPTS TAB -->
-    <div class="tab-pane active" id="tab-receipts">
+    <div class="tab-pane" id="tab-receipts">
       <div class="filters">
         <select id="fltYear"><option value="">All years</option></select>
         <select id="fltMonth"><option value="">All months</option></select>
@@ -662,6 +877,79 @@ a{color:var(--pine);}
         <div class="card">
           <div class="card-head"><h3>Job profitability</h3></div>
           <div class="card-body" id="pnlJobs"><div style="color:var(--slate-2);font-size:.85rem;">Tag receipts and income to a job to see job P&amp;L.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVOICES TAB -->
+    <div class="tab-pane" id="tab-invoices">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+        <div style="font-size:.88rem;color:var(--slate);">Create and track client invoices.</div>
+        <button class="btn btn-pine" id="newInvoiceBtn">+ New invoice</button>
+      </div>
+      <div class="card" id="invoiceFormCard" style="display:none;margin-bottom:14px;">
+        <div class="card-head"><h3>New invoice</h3></div>
+        <div class="card-body">
+          <div class="grid2">
+            <div class="field"><label for="invClient">Client name</label>
+              <input type="text" id="invClient" placeholder="Evans Landscaping"></div>
+            <div class="field"><label for="invEmail">Client email (optional)</label>
+              <input type="email" id="invEmail" placeholder="client@email.com"></div>
+            <div class="field"><label for="invIssueDate">Issue date</label>
+              <input type="date" id="invIssueDate"></div>
+            <div class="field"><label for="invDueDate">Due date</label>
+              <input type="date" id="invDueDate"></div>
+            <div class="field"><label for="invJob">Job / project (optional)</label>
+              <input type="text" id="invJob" list="jobSuggestions"></div>
+            <div class="field"><label for="invTaxRate">Tax rate %</label>
+              <input type="text" id="invTaxRate" placeholder="0" value="0" inputmode="decimal"></div>
+          </div>
+          <div style="margin:16px 0 10px;font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);">Line items</div>
+          <div id="invLineItems"></div>
+          <button class="btn btn-quiet" id="addLineBtn" style="margin-top:8px;">+ Add line item</button>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:20px;font-size:.9rem;">
+            <span>Subtotal: <strong id="invSubtotal">$0.00</strong></span>
+            <span>Tax: <strong id="invTaxAmt">$0.00</strong></span>
+            <span style="font-size:1rem;">Total: <strong id="invTotal" style="color:var(--pine);">$0.00</strong></span>
+          </div>
+          <div class="field" style="margin-top:14px;"><label for="invNotes">Notes</label>
+            <input type="text" id="invNotes" placeholder="Payment terms, thank you message..."></div>
+          <div class="row-actions">
+            <button class="btn btn-primary" id="saveInvoiceBtn">Save invoice</button>
+            <button class="btn btn-outline" id="cancelInvoiceBtn">Cancel</button>
+          </div>
+          <div id="invoiceMsg" class="msg hidden" style="margin-top:12px;"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Invoices</h3><span class="hint" id="invHint"></span></div>
+        <div id="invoiceWrap"><div class="empty"><strong>No invoices yet</strong>Create your first invoice above.</div></div>
+      </div>
+    </div>
+
+    <!-- AI CHAT TAB -->
+    <div class="tab-pane" id="tab-ai">
+      <div style="margin-bottom:14px;">
+        <div style="font-size:.88rem;color:var(--slate);margin-bottom:4px;">Ask questions about your business finances. Answers come from your own data.</div>
+        <div style="font-size:.76rem;color:var(--slate-2);">Not tax advice — consult your accountant for tax questions.</div>
+      </div>
+      <div class="card">
+        <div class="chat-wrap">
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-bubble ai">Hi! I can answer questions about your receipts, income, expenses and jobs. What would you like to know?</div>
+          </div>
+          <div class="chat-suggestions">
+            <button class="chat-sug" data-q="How much did I spend this month?">This month spend</button>
+            <button class="chat-sug" data-q="What are my top expense categories?">Top categories</button>
+            <button class="chat-sug" data-q="How much have I made this year?">Year to date income</button>
+            <button class="chat-sug" data-q="Which job is most profitable?">Most profitable job</button>
+            <button class="chat-sug" data-q="Am I on track for a good month?">Monthly outlook</button>
+          </div>
+          <div class="chat-input-row">
+            <textarea class="chat-input" id="chatInput" rows="1"
+              placeholder="Ask anything about your finances..."></textarea>
+            <button class="btn btn-primary" id="chatSend">Send</button>
+          </div>
         </div>
       </div>
     </div>
@@ -889,8 +1177,9 @@ async function enterApp(){
   $("authView").classList.add("hidden");
   $("appView").classList.remove("hidden");
   $("acctEmail").textContent = user.email;
-  await Promise.all([loadProfile(), loadReceipts(), loadSupplierMemory(), loadJobs(), loadIncome()]);
+  await Promise.all([loadProfile(), loadReceipts(), loadSupplierMemory(), loadJobs(), loadIncome(), loadInvoices()]);
   render();
+  loadHome();
   checkShowOnboarding();
   if(_refreshInterval) clearInterval(_refreshInterval);
   _refreshInterval = setInterval(async () => {
@@ -1547,16 +1836,9 @@ function buildPnlYears(){
 }
 $("pnlYear").addEventListener("change", loadPnl);
 
-/* Tab navigation */
+/* Tab navigation — handled by switchTab() above */
 document.querySelectorAll(".tab-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
-    btn.classList.add("active");
-    $("tab-" + btn.dataset.tab).classList.add("active");
-    if(btn.dataset.tab === "pnl"){ buildPnlYears(); loadPnl(); }
-    if(btn.dataset.tab === "income") renderIncome();
-  });
+  btn.addEventListener("click", () => switchTab(btn.dataset.tab));
 });
 
 /* ============================================================
@@ -1933,6 +2215,357 @@ function parseDate(str){
   const m3 = str.match(/([A-Za-z]{3})\s+(\d{1,2}),?\s+(\d{4})/);
   if(m3){ const mo = months[m3[1].toLowerCase()]; if(mo) return `${m3[3]}-${String(mo).padStart(2,"0")}-${m3[2].padStart(2,"0")}`; }
   return null;
+}
+
+/* ============================================================
+   HOME DASHBOARD
+   ============================================================ */
+function getGreeting(){
+  const h = new Date().getHours();
+  if(h < 12) return "Good morning";
+  if(h < 17) return "Good afternoon";
+  return "Good evening";
+}
+
+async function loadHome(){
+  const biz = profile?.business_name || "there";
+  $("homeGreeting").textContent = getGreeting() + ", " + biz + ".";
+
+  // KPIs from existing data
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0,10);
+  const monthReceipts = receipts.filter(r => r.receipt_date >= monthStart);
+  const monthIncome = incomeEntries.filter(e => e.entry_date >= monthStart);
+  const mExpenses = monthReceipts.reduce((s,r) => s+Number(r.total||0), 0);
+  const mIncome   = monthIncome.reduce((s,e) => s+Number(e.amount||0), 0);
+  const mProfit   = mIncome - mExpenses;
+
+  $("hmIncome").textContent = money(mIncome);
+  $("hmExpenses").textContent = money(mExpenses);
+  $("hmProfit").textContent = money(mProfit);
+  $("hmProfit").className = "v " + (mProfit >= 0 ? "pos" : "neg");
+  $("hmReceipts").textContent = monthReceipts.length;
+  $("hmReceiptsNote").textContent = "this month";
+  $("hmExpNote").textContent = "this month";
+  $("hmIncomeNote").textContent = "this month";
+  $("hmProfitNote").textContent = mProfit >= 0 ? "profitable" : "loss";
+
+  // Health score
+  loadHealthScore();
+
+  // Alerts
+  loadAlerts();
+}
+
+async function loadHealthScore(){
+  try{
+    const { data, error } = await supabase.rpc("business_health_score");
+    if(error || !data) return;
+
+    const score = data.total || 0;
+    $("healthNum").textContent = score;
+
+    // Animate the ring
+    const circumference = 188.5;
+    const offset = circumference - (score / 100 * circumference);
+    $("healthArc").style.strokeDashoffset = offset;
+    $("healthArc").style.stroke = score >= 80 ? "#63C7A8" : score >= 60 ? "#B5822A" : "#B0413E";
+
+    const comp = data.components || {};
+    const labels = {
+      receipt_activity: "Filing activity",
+      cash_flow: "Cash flow",
+      invoices: "Invoices",
+      tax_readiness: "Tax readiness",
+      fraud_risk: "Fraud risk",
+    };
+    const maxes = { receipt_activity:25, cash_flow:25, invoices:25, tax_readiness:15, fraud_risk:10 };
+    $("healthBars").innerHTML = Object.entries(labels).map(([k,label]) => {
+      const val = comp[k] || 0;
+      const max = maxes[k] || 25;
+      const pct = (val/max*100).toFixed(0);
+      return `<div class="hc-bar">
+        <div class="hc-name">${label}</div>
+        <div class="hc-track"><div class="hc-fill" style="width:${pct}%"></div></div>
+        <div class="hc-val">${val}/${max}</div>
+      </div>`;
+    }).join("");
+  }catch(e){ console.error("health score:", e); }
+}
+
+async function loadAlerts(){
+  try{
+    const { data, error } = await supabase.rpc("get_alerts");
+    const alerts = data || [];
+    const hint = $("alertsHint");
+    const list = $("alertsList");
+
+    if(!alerts.length){
+      hint.textContent = "all clear";
+      list.innerHTML = `<div class="empty" style="padding:20px;">
+        <strong>Nothing needs attention</strong>Your books look clean.</div>`;
+      return;
+    }
+
+    const reds = alerts.filter(a=>a.severity==="red").length;
+    const ambers = alerts.filter(a=>a.severity==="amber").length;
+    hint.textContent = [
+      reds   ? reds   + " urgent"  : null,
+      ambers ? ambers + " review"  : null,
+    ].filter(Boolean).join(" · ") || alerts.length + " items";
+
+    list.innerHTML = `<div class="alert-list" style="padding:8px 14px;">` +
+      alerts.map(a => `
+        <div class="alert-item" onclick="switchTab('${esc(a.action_tab)}')">
+          <div class="alert-dot ${a.severity}"></div>
+          <div>
+            <div class="alert-msg">${esc(a.message)}</div>
+            <div class="alert-detail">${esc(a.detail||"")}</div>
+          </div>
+        </div>`).join("") + `</div>`;
+  }catch(e){ console.error("alerts:", e); }
+}
+
+/* ============================================================
+   INVOICES
+   ============================================================ */
+let invoices = [];
+let invLines = [];
+
+async function loadInvoices(){
+  const { data, error } = await supabase
+    .from("invoices").select("*")
+    .order("issue_date", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false });
+  if(error){ console.error(error); invoices=[]; return; }
+  invoices = data || [];
+  renderInvoices();
+}
+
+function renderInvoices(){
+  const wrap = $("invoiceWrap");
+  const hint = $("invHint");
+  if(!invoices.length){
+    wrap.innerHTML = `<div class="empty"><strong>No invoices yet</strong>Create your first invoice above.</div>`;
+    hint.textContent = "";
+    return;
+  }
+  const totalOwed = invoices
+    .filter(i => i.status !== "paid" && i.status !== "cancelled")
+    .reduce((s,i) => s+Number(i.total||0), 0);
+  hint.textContent = invoices.length + " invoices · " + money(totalOwed) + " outstanding";
+
+  wrap.innerHTML = `
+    <div class="inv-row" style="font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--slate-2);border-bottom:2px solid var(--line);">
+      <div>Number</div><div>Client</div><div>Total</div><div>Due</div><div>Status</div><div></div>
+    </div>` +
+    invoices.map(inv => `
+    <div class="inv-row">
+      <div class="mono" style="font-size:.78rem;color:var(--slate);">#${esc(inv.invoice_number||"—")}</div>
+      <div>
+        <div style="font-weight:600;">${esc(inv.client_name)}</div>
+        ${inv.job_tag ? `<div class="vsub"><span class="job-tag-badge">${esc(inv.job_tag)}</span></div>` : ""}
+      </div>
+      <div class="mono" style="font-weight:700;">${money(inv.total)}</div>
+      <div style="font-size:.78rem;color:var(--slate);">${inv.due_date||"—"}</div>
+      <div><span class="inv-status ${inv.status}">${inv.status}</span></div>
+      <div style="display:flex;gap:2px;">
+        <button class="icon-btn mark-paid" data-id="${inv.id}" title="Mark paid"
+          style="${inv.status==='paid'?'opacity:.3;pointer-events:none;':''}" aria-label="Mark as paid">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+        <button class="icon-btn danger del-invoice" data-id="${inv.id}" aria-label="Delete invoice">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+        </button>
+      </div>
+    </div>`).join("");
+}
+
+function calcInvoiceTotals(){
+  const subtotal = invLines.reduce((s,l) => s + (parseFloat(l.qty||1) * parseFloat(l.price||0)), 0);
+  const taxRate = parseFloat($("invTaxRate").value) || 0;
+  const taxAmt = subtotal * taxRate / 100;
+  const total = subtotal + taxAmt;
+  $("invSubtotal").textContent = money(subtotal);
+  $("invTaxAmt").textContent = money(taxAmt);
+  $("invTotal").textContent = money(total);
+  return { subtotal, taxAmt, total };
+}
+
+function renderLineItems(){
+  $("invLineItems").innerHTML = invLines.map((line,i) => `
+    <div style="display:grid;grid-template-columns:1fr 60px 90px 30px;gap:8px;margin-bottom:8px;align-items:center;">
+      <input type="text" class="field input" placeholder="Description" value="${esc(line.desc||"")}"
+        onchange="invLines[${i}].desc=this.value;calcInvoiceTotals()"
+        style="padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;font-size:.86rem;">
+      <input type="text" inputmode="decimal" placeholder="Qty" value="${esc(line.qty||"1")}"
+        onchange="invLines[${i}].qty=this.value;calcInvoiceTotals()"
+        style="padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;font-size:.86rem;text-align:center;">
+      <input type="text" inputmode="decimal" placeholder="Price" value="${esc(line.price||"")}"
+        onchange="invLines[${i}].price=this.value;calcInvoiceTotals()"
+        style="padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;font-size:.86rem;text-align:right;">
+      <button onclick="invLines.splice(${i},1);renderLineItems();calcInvoiceTotals()"
+        style="background:none;border:none;color:var(--slate-2);cursor:pointer;font-size:1.1rem;line-height:1;">×</button>
+    </div>`).join("") || `<div style="color:var(--slate-2);font-size:.85rem;padding:8px 0;">No line items yet — click Add below.</div>`;
+  calcInvoiceTotals();
+}
+
+$("newInvoiceBtn").addEventListener("click", () => {
+  invLines = [{ desc:"", qty:"1", price:"" }];
+  $("invIssueDate").value = new Date().toISOString().slice(0,10);
+  const due = new Date(); due.setDate(due.getDate()+30);
+  $("invDueDate").value = due.toISOString().slice(0,10);
+  $("invClient").value = ""; $("invEmail").value = "";
+  $("invJob").value = ""; $("invNotes").value = ""; $("invTaxRate").value = "0";
+  renderLineItems();
+  $("invoiceFormCard").style.display = "block";
+});
+$("cancelInvoiceBtn").addEventListener("click", () => {
+  $("invoiceFormCard").style.display = "none";
+});
+$("addLineBtn").addEventListener("click", () => {
+  invLines.push({ desc:"", qty:"1", price:"" });
+  renderLineItems();
+});
+$("invTaxRate").addEventListener("input", calcInvoiceTotals);
+
+$("saveInvoiceBtn").addEventListener("click", async () => {
+  const client = $("invClient").value.trim();
+  if(!client){ const m=$("invoiceMsg"); m.className="msg msg-error"; m.textContent="Enter a client name."; m.classList.remove("hidden"); return; }
+  $("saveInvoiceBtn").disabled = true;
+  try{
+    const { data: numData } = await supabase.rpc("next_invoice_number");
+    const { subtotal, taxAmt, total } = calcInvoiceTotals();
+    const taxRate = parseFloat($("invTaxRate").value) || 0;
+    const { data, error } = await supabase.from("invoices").insert({
+      user_id: user.id,
+      invoice_number: numData || "0001",
+      client_name: client,
+      client_email: $("invEmail").value.trim() || null,
+      job_tag: $("invJob").value.trim() || null,
+      issue_date: $("invIssueDate").value,
+      due_date: $("invDueDate").value || null,
+      notes: $("invNotes").value.trim() || null,
+      line_items: invLines,
+      subtotal, tax_rate: taxRate, tax_amount: taxAmt, total,
+      status: "draft",
+    }).select().single();
+    if(error) throw new Error(error.message);
+    invoices.unshift(data);
+    $("invoiceFormCard").style.display = "none";
+    renderInvoices();
+    toast("Invoice created");
+  }catch(err){
+    const m=$("invoiceMsg"); m.className="msg msg-error"; m.textContent=err.message; m.classList.remove("hidden");
+  }finally{ $("saveInvoiceBtn").disabled=false; }
+});
+
+$("invoiceWrap").addEventListener("click", async e => {
+  const paid = e.target.closest(".mark-paid");
+  const del  = e.target.closest(".del-invoice");
+  if(paid){
+    const id = paid.dataset.id;
+    const { error } = await supabase.from("invoices").update({ status:"paid" }).eq("id",id);
+    if(error) return toast("Could not update invoice.");
+    const inv = invoices.find(i=>i.id===id); if(inv) inv.status="paid";
+    renderInvoices(); toast("Marked as paid");
+  }
+  if(del){
+    const id = del.dataset.id;
+    if(!confirm("Delete this invoice?")) return;
+    const { error } = await supabase.from("invoices").delete().eq("id",id);
+    if(error) return toast("Could not delete.");
+    invoices = invoices.filter(i=>i.id!==id);
+    renderInvoices(); toast("Deleted");
+  }
+});
+
+/* ============================================================
+   AI CHAT
+   ============================================================ */
+let chatContext = null;
+
+async function loadChatContext(){
+  try{
+    const { data } = await supabase.rpc("ai_chat_context");
+    chatContext = data;
+  }catch(e){ chatContext = null; }
+}
+
+function addChatBubble(text, role, loading=false){
+  const msgs = $("chatMessages");
+  const div = document.createElement("div");
+  div.className = "chat-bubble " + role + (loading?" loading":"");
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+async function sendChat(question){
+  if(!question.trim()) return;
+  $("chatInput").value = "";
+  addChatBubble(question, "user");
+  const loading = addChatBubble("Thinking…", "ai", true);
+
+  try{
+    if(!chatContext) await loadChatContext();
+
+    const systemPrompt = `You are a helpful financial assistant for a small business owner. 
+Answer questions about their business finances using ONLY the data provided.
+Be concise, friendly, and specific. Use dollar amounts and percentages where relevant.
+Never give tax advice — for tax questions, say "Please consult your accountant."
+Never make up data not in the context.
+
+Business financial data:
+${JSON.stringify(chatContext, null, 2)}`;
+
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: "user", content: question }],
+      }),
+    });
+
+    const data = await response.json();
+    const answer = (data.content || []).find(b => b.type==="text")?.text || "Sorry, I couldn't get an answer. Try again.";
+    loading.textContent = answer;
+    loading.classList.remove("loading");
+  }catch(err){
+    loading.textContent = "Something went wrong. Try again.";
+    loading.classList.remove("loading");
+  }
+}
+
+$("chatSend").addEventListener("click", () => {
+  sendChat($("chatInput").value);
+});
+$("chatInput").addEventListener("keydown", e => {
+  if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); sendChat($("chatInput").value); }
+});
+document.querySelectorAll(".chat-sug").forEach(btn => {
+  btn.addEventListener("click", () => sendChat(btn.dataset.q));
+});
+
+/* ============================================================
+   TAB NAVIGATION (updated to include new tabs)
+   ============================================================ */
+function switchTab(tabName){
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+  const btn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+  const pane = $("tab-" + tabName);
+  if(btn) btn.classList.add("active");
+  if(pane) pane.classList.add("active");
+  if(tabName === "pnl"){ buildPnlYears(); loadPnl(); }
+  if(tabName === "income") renderIncome();
+  if(tabName === "home") loadHome();
+  if(tabName === "ai") loadChatContext();
+  if(tabName === "invoices") renderInvoices();
 }
 
 /* ============================================================
