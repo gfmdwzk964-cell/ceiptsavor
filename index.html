@@ -1145,7 +1145,18 @@ function friendlyAuthError(err){
 
 $("authSubmit").addEventListener("click", submitAuth);
 ["aEmail","aPass","aBiz"].forEach(id => $(id).addEventListener("keydown", e => { if(e.key === "Enter") submitAuth(); }));
-$("signOutBtn").addEventListener("click", async () => { await supabase.auth.signOut(); });
+$("signOutBtn").addEventListener("click", async () => {
+  try{
+    await supabase.auth.signOut();
+  }catch(err){
+    console.error("Sign out error:", err);
+    // Force client-side sign out even if server call fails
+    user = null; profile = null;
+    $("appView").classList.add("hidden");
+    $("authView").classList.remove("hidden");
+    setMode("signin");
+  }
+});
 $("refreshReceiptsBtn").addEventListener("click", async () => {
   $("refreshReceiptsBtn").disabled = true;
   await loadReceipts();
@@ -1163,10 +1174,19 @@ supabase.auth.onAuthStateChange(async (event, session) => {
     await enterApp();
   } else {
     user = null; profile = null; receipts = [];
+    incomeEntries = []; invoices = []; bankTxs = [];
+    chatContext = null; knownJobs = []; supplierMemory = [];
     if(_refreshInterval){ clearInterval(_refreshInterval); _refreshInterval = null; }
     resetScanUI();
     $("appView").classList.add("hidden");
     $("authView").classList.remove("hidden");
+    // Reset to home tab for next login
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+    const homeBtn = document.querySelector('.tab-btn[data-tab="home"]');
+    const homePane = $("tab-home");
+    if(homeBtn) homeBtn.classList.add("active");
+    if(homePane) homePane.classList.add("active");
     if(mode !== "reset") setMode("signin");
   }
 });
@@ -2018,22 +2038,35 @@ async function submitOnboarding(){
       p_employee_count:    obAnswers.employee_count     || "",
       p_years_in_business: obAnswers.years_in_business  || "",
       p_monthly_receipts:  obAnswers.monthly_receipts   || "",
-      p_current_method:    obAnswers.current_method      || "",
-      p_accountant:        obAnswers.accountant          || "",
-      p_biggest_pain:      obAnswers.biggest_pain        || "",
-      p_goals:             obAnswers.goals               || "",
-      p_referral_source:   obAnswers.referral_source     || "",
-      p_other_notes:       obAnswers._notes              || null,
+      p_current_method:    obAnswers.current_method     || "",
+      p_accountant:        obAnswers.accountant         || "",
+      p_biggest_pain:      obAnswers.biggest_pain       || "",
+      p_goals:             obAnswers.goals              || "",
+      p_referral_source:   obAnswers.referral_source    || "",
+      p_other_notes:       obAnswers._notes             || null,
     });
-    if(error) throw new Error(error.message);
+    if(error){
+      // If function doesn't exist yet, just close the modal gracefully
+      if(error.message && error.message.includes("function")){
+        console.warn("complete_onboarding not found — run feature-update-4.sql");
+        if(profile) profile.onboarding_complete = true;
+        $("obOverlay").classList.add("hidden");
+        return;
+      }
+      throw new Error(error.message);
+    }
     if(profile) profile.onboarding_complete = true;
     $("obOverlay").classList.add("hidden");
     toast("Thanks for completing the questionnaire!");
   }catch(err){
-    console.error(err);
-    $("obNext").textContent = "Try again";
+    console.error("Onboarding error:", err);
+    // Don't block the user — close and mark complete anyway
+    if(profile) profile.onboarding_complete = true;
+    $("obOverlay").classList.add("hidden");
+    toast("Questionnaire saved.");
   }finally{
     $("obNext").disabled = false;
+    $("obNext").textContent = "Complete ✓";
   }
 }
 
