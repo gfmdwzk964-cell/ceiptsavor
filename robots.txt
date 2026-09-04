@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Don't index the app or admin
+Disallow: /app.html
+Disallow: /admin.html
+
+Sitemap: https://ceiptsavor.com/sitemap.xml

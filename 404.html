@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found — CeiptSavor</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#141A24;--pine:#1E6C58;--mint:#63C7A8;--slate:#5A6577;--mist:#F2F4F8;--line:#E1E6EE;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Archivo',system-ui,sans-serif;background:var(--ink);color:#fff;
+  min-height:100vh;display:grid;place-items:center;padding:32px 20px;
+  -webkit-font-smoothing:antialiased;}
+.wrap{text-align:center;max-width:480px;}
+.mark{display:inline-flex;align-items:center;gap:9px;margin-bottom:40px;text-decoration:none;}
+.mark-glyph{width:32px;height:32px;border-radius:8px;background:#fff;display:grid;place-items:center;}
+.mark-glyph::before{content:"";width:15px;height:15px;border-radius:3px;
+  background:linear-gradient(160deg,var(--ink) 0 55%,var(--pine) 55% 100%);}
+.mark-word{font-weight:700;font-size:1.1rem;letter-spacing:-.02em;color:#fff;}
+.mark-word em{font-style:normal;color:var(--mint);}
+.code{font-family:'JetBrains Mono',monospace;font-size:5rem;font-weight:700;
+  color:rgba(255,255,255,.08);line-height:1;margin-bottom:20px;}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:10px;letter-spacing:-.02em;}
+p{color:#8C97A8;font-size:.95rem;line-height:1.65;margin-bottom:32px;}
+.links{display:flex;flex-direction:column;gap:10px;}
+.link-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:14px 18px;text-decoration:none;color:#fff;
+  display:flex;justify-content:space-between;align-items:center;
+  transition:background .15s;}
+.link-item:hover{background:rgba(255,255,255,.1);}
+.link-item .label{font-weight:600;font-size:.9rem;}
+.link-item .sub{font-size:.78rem;color:#8C97A8;}
+.link-item .arrow{color:var(--mint);font-size:1.1rem;}
+.cta{display:inline-block;background:var(--pine);color:#fff;border-radius:8px;
+  padding:12px 24px;font-weight:600;font-size:.95rem;text-decoration:none;
+  margin-top:24px;transition:background .15s;}
+.cta:hover{background:#2A8A6E;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="/" class="mark">
+    <span class="mark-glyph"></span>
+    <span class="mark-word">Ceipt<em>Savor</em></span>
+  </a>
+  <div class="code">404</div>
+  <h1>That receipt got lost.</h1>
+  <p>The page you're looking for doesn't exist — it may have moved, or you may have followed a broken link.</p>
+
+  <div class="links">
+    <a href="/" class="link-item">
+      <div><div class="label">Homepage</div><div class="sub">Back to ceiptsavor.com</div></div>
+      <span class="arrow">→</span>
+    </a>
+    <a href="app.html" class="link-item">
+      <div><div class="label">Sign in to the app</div><div class="sub">File receipts and track expenses</div></div>
+      <span class="arrow">→</span>
+    </a>
+    <a href="/#pricing" class="link-item">
+      <div><div class="label">Pricing</div><div class="sub">$39/month, cancel any time</div></div>
+      <span class="arrow">→</span>
+    </a>
+    <a href="mailto:reuben@ceiptsavor.com" class="link-item">
+      <div><div class="label">Contact us</div><div class="sub">reuben@ceiptsavor.com</div></div>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+
+  <a href="/" class="cta">Go back home</a>
+</div>
+</body>
+</html>
