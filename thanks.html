@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thanks — CeiptSavor</title>
+<meta name="description" content="Thanks for getting in touch with CeiptSavor. We reply within 24 hours.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#141A24;--pine:#1E6C58;--mint:#63C7A8;--slate:#5A6577;--mist:#F2F4F8;--line:#E1E6EE;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{overflow-x:hidden;max-width:100vw;}
+body{font-family:'Archivo',system-ui,sans-serif;background:var(--mist);color:var(--ink);
+  min-height:100vh;display:grid;place-items:center;padding:32px 20px;
+  -webkit-font-smoothing:antialiased;line-height:1.6;}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:44px 40px;max-width:520px;width:100%;text-align:center;
+  box-shadow:0 4px 24px rgba(20,26,36,.06);}
+.mark{display:inline-flex;align-items:center;gap:9px;margin-bottom:32px;text-decoration:none;}
+.mark-glyph{width:30px;height:30px;border-radius:7px;background:var(--ink);display:grid;place-items:center;}
+.mark-glyph::before{content:"";width:14px;height:14px;border-radius:3px;
+  background:linear-gradient(160deg,#fff 0 55%,var(--pine) 55% 100%);}
+.mark-word{font-weight:700;font-size:1.05rem;letter-spacing:-.02em;color:var(--ink);}
+.mark-word em{font-style:normal;color:var(--pine);}
+.tick{width:64px;height:64px;border-radius:50%;background:var(--pine);
+  display:grid;place-items:center;margin:0 auto 24px;color:#fff;font-size:2rem;}
+h1{font-size:1.7rem;font-weight:700;letter-spacing:-.02em;margin-bottom:12px;}
+p{color:var(--slate);font-size:1rem;margin-bottom:28px;}
+.next{background:var(--mist);border-radius:10px;padding:20px;text-align:left;margin-bottom:28px;}
+.next h2{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--slate);margin-bottom:14px;}
+.next-item{display:flex;gap:12px;align-items:flex-start;padding:8px 0;font-size:.9rem;}
+.next-num{width:22px;height:22px;border-radius:50%;background:var(--pine);color:#fff;
+  font-size:.72rem;font-weight:700;display:grid;place-items:center;flex-shrink:0;margin-top:1px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  border:none;border-radius:9px;padding:13px 26px;font-family:inherit;
+  font-size:.95rem;font-weight:600;cursor:pointer;text-decoration:none;transition:background .15s;}
+.btn-pine{background:var(--pine);color:#fff;}
+.btn-pine:hover{background:#2A8A6E;}
+.btn-outline{background:transparent;border:1.5px solid var(--line);color:var(--ink);margin-left:8px;}
+.btn-outline:hover{border-color:var(--ink);}
+.contact{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:.86rem;color:var(--slate);}
+.contact a{color:var(--pine);text-decoration:none;font-weight:600;}
+.contact a:hover{text-decoration:underline;}
+@media(max-width:520px){
+  .card{padding:32px 24px;}
+  .btn{width:100%;margin:0 0 10px 0;}
+  .btn-outline{margin-left:0;}
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <a href="/" class="mark">
+    <span class="mark-glyph" aria-hidden="true"></span>
+    <span class="mark-word">Ceipt<em>Savor</em></span>
+  </a>
+
+  <div class="tick" aria-hidden="true">✓</div>
+  <h1>Thanks — we've got it.</h1>
+  <p>Your message is with us. We reply within 24 hours, usually much faster.</p>
+
+  <div class="next">
+    <h2>What happens next</h2>
+    <div class="next-item">
+      <span class="next-num">1</span>
+      <span>Reuben reads your message personally — no support queue, no bots.</span>
+    </div>
+    <div class="next-item">
+      <span class="next-num">2</span>
+      <span>You get a reply from <strong>reuben@ceiptsavor.com</strong> within 24 hours.</span>
+    </div>
+    <div class="next-item">
+      <span class="next-num">3</span>
+      <span>If you're setting up, we can walk through your first scan together over the phone.</span>
+    </div>
+  </div>
+
+  <a href="app.html" class="btn btn-pine">Start filing receipts</a>
+  <a href="/" class="btn btn-outline">Back to homepage</a>
+
+  <div class="contact">
+    Need us sooner? <a href="tel:+15075731480">(507) 573-1480</a>
+    or <a href="mailto:reuben@ceiptsavor.com">reuben@ceiptsavor.com</a>
+  </div>
+</div>
+</body>
+</html>
