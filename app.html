@@ -100,6 +100,9 @@
   .btn,.field input,.field select,.card{border:1px solid ButtonBorder;}
   .bd-fill,.tab{forced-color-adjust:none;}
 }
+html,body{overflow-x:hidden;max-width:100vw;}
+img,table,pre,input,select,textarea{max-width:100%;}
+*{min-width:0;}
 body{font-family:'Archivo',system-ui,sans-serif;background:var(--mist);color:var(--ink);
   -webkit-font-smoothing:antialiased;font-size:15px;line-height:1.5;}
 button,input,select{font-family:inherit;font-size:inherit;color:inherit;}
@@ -189,7 +192,7 @@ a{color:var(--pine);}
 .acct{text-align:right;line-height:1.25;}
 .acct .biz{font-weight:600;font-size:.86rem;}
 .acct .em{font-size:.74rem;color:var(--slate-2);}
-.main{flex:1;width:100%;max-width:1080px;margin:0 auto;padding:26px 22px 70px;}
+.main{flex:1;width:100%;max-width:1080px;margin:0 auto;padding:16px 14px 70px;}
 
 .rail{background:var(--ink);color:#fff;border-radius:var(--radius);display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;margin-bottom:22px;}
 .rail-cell{padding:16px 18px;border-right:1px solid rgba(255,255,255,.09);}
@@ -270,6 +273,36 @@ a{color:var(--pine);}
 .conf-badge.medium{background:var(--amber-soft);color:var(--amber);}
 .conf-badge.low{background:var(--alert-soft);color:var(--alert);}
 
+/* needs review */
+.review-row{display:grid;grid-template-columns:80px 1fr 80px;
+  align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:.84rem;}
+.review-row:last-child{border-bottom:none;}
+.review-row:hover{background:var(--mist);}
+.sev-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sev-dot.red{background:var(--alert);}
+.sev-dot.amber{background:var(--amber);}
+.review-reason{font-size:.76rem;color:var(--slate);margin-top:2px;}
+
+/* schedule C */
+.schc-row{display:grid;grid-template-columns:60px 1fr 90px;
+  align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:.84rem;}
+.schc-row:last-child{border-bottom:none;}
+.schc-line{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--pine);font-weight:600;}
+.schc-amt{font-family:'JetBrains Mono',monospace;font-weight:700;text-align:right;}
+.schc-ded{font-family:'JetBrains Mono',monospace;font-size:.78rem;text-align:right;color:var(--pine);}
+
+/* 1099 */
+.c1099-row{display:grid;grid-template-columns:1fr 80px 44px;
+  align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:.84rem;}
+.c1099-row:last-child{border-bottom:none;}
+.w9-badge{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;}
+.w9-badge.yes{background:var(--pine-soft);color:var(--pine);}
+.w9-badge.no{background:var(--alert-soft);color:var(--alert);}
+.status-1099{font-size:.75rem;font-weight:600;}
+.status-1099.urgent{color:var(--alert);}
+.status-1099.file{color:var(--pine);}
+.status-1099.under{color:var(--slate);}
+
 /* fraud warning */
 .fraud-warn{background:#FFF8F0;border:1px solid #F5D5A0;color:#7A4F10;border-radius:8px;
   padding:10px 14px;font-size:.82rem;margin-top:10px;display:flex;align-items:flex-start;gap:10px;}
@@ -278,16 +311,18 @@ a{color:var(--pine);}
 .fraud-flags li{margin-bottom:2px;}
 
 /* tabs */
-.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--line);margin-bottom:18px;}
-.tab-btn{background:none;border:none;padding:10px 18px;font-weight:600;font-size:.88rem;
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--line);margin-bottom:18px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.tab-bar::-webkit-scrollbar{display:none;}
+.tab-btn{background:none;border:none;padding:10px 14px;font-weight:600;font-size:.84rem;
   color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;
-  transition:color .15s,border-color .15s;}
+  transition:color .15s,border-color .15s;white-space:nowrap;flex-shrink:0;}
 .tab-btn.active{color:var(--pine);border-bottom-color:var(--pine);}
 .tab-pane{display:none;} .tab-pane.active{display:block;}
 
 /* income */
-.inc-row{display:grid;grid-template-columns:96px 1fr 120px 110px 44px;
-  align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line);}
+.inc-row{display:grid;grid-template-columns:1fr 90px 44px;
+  align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);}
 .inc-row:last-child{border-bottom:none;}
 .inc-row:hover{background:var(--mist);}
 .inc-row .amount{font-family:'JetBrains Mono',monospace;font-weight:700;
@@ -310,7 +345,8 @@ a{color:var(--pine);}
 /* ---- HOME DASHBOARD ---- */
 .home-greeting{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:4px;}
 .home-sub{color:var(--slate);font-size:.9rem;margin-bottom:20px;}
-.home-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.home-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;}
+@media(min-width:600px){.home-grid{grid-template-columns:repeat(4,1fr);}}
 .home-kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
   padding:14px 16px;box-shadow:var(--shadow-sm);}
 .home-kpi .k{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-2);margin-bottom:5px;}
@@ -321,7 +357,7 @@ a{color:var(--pine);}
 
 /* health score */
 .health-card{background:var(--ink);color:#fff;border-radius:var(--radius);
-  padding:18px 20px;display:flex;align-items:center;gap:20px;margin-bottom:18px;}
+  padding:16px;display:flex;align-items:center;gap:16px;margin-bottom:18px;flex-wrap:wrap;}
 .health-ring{position:relative;width:72px;height:72px;flex-shrink:0;}
 .health-ring svg{transform:rotate(-90deg);}
 .health-ring .score-text{position:absolute;inset:0;display:flex;flex-direction:column;
@@ -366,8 +402,8 @@ a{color:var(--pine);}
 .chat-sug:hover{background:var(--pine-soft);border-color:var(--pine);color:var(--pine);}
 
 /* invoices */
-.inv-row{display:grid;grid-template-columns:80px 1fr 100px 90px 100px 44px;
-  align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);font-size:.85rem;}
+.inv-row{display:grid;grid-template-columns:60px 1fr 90px 80px 44px;
+  align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:.84rem;}
 .inv-row:last-child{border-bottom:none;}
 .inv-row:hover{background:var(--mist);}
 .inv-status{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.05em;
@@ -572,7 +608,7 @@ a{color:var(--pine);}
         <label class="drop" id="dropZone">
           <div class="drop-title">Take a photo or choose a file</div>
           <div class="drop-sub">The receipt is read automatically — you confirm before it's filed</div>
-          <input type="file" id="fileInput" accept="image/*" capture="environment" aria-label="Choose or photograph a receipt image">
+          <input type="file" id="fileInput" accept="image/*,application/pdf" capture="environment" aria-label="Choose or photograph a receipt image">
         </label>
 
         <div id="previewWrap" class="preview hidden" style="margin-top:16px;">
@@ -638,6 +674,7 @@ a{color:var(--pine);}
       <button class="tab-btn" data-tab="income">Income</button>
       <button class="tab-btn" data-tab="pnl">P&amp;L</button>
       <button class="tab-btn" data-tab="invoices">Invoices</button>
+      <button class="tab-btn" data-tab="tax">Tax</button>
       <button class="tab-btn" data-tab="ai">AI Chat</button>
     </div>
 
@@ -700,8 +737,17 @@ a{color:var(--pine);}
         </div>
       </div>
 
+      <!-- Needs Review -->
+      <div class="card" style="margin-top:14px;">
+        <div class="card-head">
+          <h3>Needs review</h3>
+          <span class="hint" id="reviewHint"></span>
+        </div>
+        <div id="reviewList"><div class="empty" style="padding:16px;"><strong>All clear</strong> No receipts need attention.</div></div>
+      </div>
+
       <!-- Quick actions -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;">
         <button class="btn btn-outline" onclick="switchTab('receipts')" style="padding:14px;">
           📸 Scan receipt
         </button>
@@ -906,6 +952,87 @@ a{color:var(--pine);}
       </div>
     </div>
 
+    <!-- TAX TAB -->
+    <div class="tab-pane" id="tab-tax">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px;">
+        <div>
+          <div style="font-size:.78rem;font-weight:600;color:var(--pine);letter-spacing:.08em;margin-bottom:4px;">TAX TOOLS</div>
+          <h2 style="font-size:1.2rem;font-weight:700;letter-spacing:-.01em;">Schedule C &amp; 1099 Tracker</h2>
+        </div>
+        <select id="taxYear" style="padding:8px 11px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);font-size:.86rem;"></select>
+      </div>
+
+      <div style="font-size:.8rem;background:var(--amber-soft);border:1px solid #EBDCBB;color:#7A5230;border-radius:8px;padding:10px 14px;margin-bottom:18px;">
+        ⚠️ This is an organiser, not tax advice. Your accountant confirms all deductions and files your return.
+      </div>
+
+      <!-- Schedule C Report -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-head">
+          <h3>Schedule C — Expense summary</h3>
+          <span class="hint" id="schcHint"></span>
+        </div>
+        <div id="schcWrap"><div class="empty"><span class="spin"></span></div></div>
+      </div>
+
+      <!-- Needs Review Queue -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-head">
+          <h3>Receipts needing attention</h3>
+          <span class="hint" id="reviewHintTax"></span>
+        </div>
+        <div id="reviewListTax"><div class="empty"><span class="spin"></span></div></div>
+      </div>
+
+      <!-- 1099 Tracker -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-head">
+          <h3>1099-NEC tracker</h3>
+          <span class="hint" id="c1099Hint">Contractors paid $600+ need a 1099-NEC by Jan 31</span>
+        </div>
+        <div style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <span style="font-size:.86rem;color:var(--slate);">Track payments to subcontractors and flag who needs a 1099-NEC.</span>
+          <button class="btn btn-pine" id="addContractorBtn" style="font-size:.84rem;padding:8px 14px;">+ Add contractor</button>
+        </div>
+
+        <!-- Add contractor form -->
+        <div id="contractorForm" style="display:none;padding:16px 18px;border-bottom:1px solid var(--line);background:var(--mist);">
+          <div class="grid2">
+            <div class="field"><label for="cName">Name</label><input type="text" id="cName" placeholder="John Smith"></div>
+            <div class="field"><label for="cBiz">Business name (optional)</label><input type="text" id="cBiz" placeholder="Smith Electrical LLC"></div>
+            <div class="field"><label for="cEmail">Email</label><input type="email" id="cEmail"></div>
+            <div class="field"><label for="cPhone">Phone</label><input type="tel" id="cPhone"></div>
+            <div class="field full"><label for="cAddress">Address</label><input type="text" id="cAddress"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+            <input type="checkbox" id="cW9" style="width:16px;height:16px;">
+            <label for="cW9" style="font-size:.88rem;font-weight:500;">W-9 on file</label>
+          </div>
+          <div class="row-actions" style="margin-top:12px;">
+            <button class="btn btn-primary" id="saveContractorBtn">Save contractor</button>
+            <button class="btn btn-outline" id="cancelContractorBtn">Cancel</button>
+          </div>
+        </div>
+
+        <div id="c1099Wrap"><div class="empty"><strong>No contractors yet</strong>Add subcontractors you pay to track 1099-NEC obligations.</div></div>
+      </div>
+
+      <!-- MN Tax Calendar -->
+      <div class="card">
+        <div class="card-head"><h3>Minnesota tax calendar</h3></div>
+        <div class="card-body" id="mnCalendarBody">
+          <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem;"><span>Q1 estimated tax (Federal + MN)</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--pine);">April 15</span></div>
+          <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem;"><span>Q2 estimated tax</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--pine);">June 16</span></div>
+          <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem;"><span>Q3 estimated tax</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--pine);">September 15</span></div>
+          <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem;"><span>Q4 estimated tax</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--pine);">January 15, 2027</span></div>
+          <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem;"><span>MN sales tax (monthly filers)</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--pine);">20th of each month</span></div>
+          <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem;"><span>1099-NEC to contractors</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--pine);">January 31, 2027</span></div>
+          <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem;"><span>Schedule C filing deadline</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--pine);">April 15, 2027</span></div>
+          <p style="margin-top:12px;font-size:.76rem;color:var(--slate-2);">Dates are informational only. Verify with your accountant or the IRS/MN DOR.</p>
+        </div>
+      </div>
+    </div>
+
     <!-- AI CHAT TAB -->
     <div class="tab-pane" id="tab-ai">
       <div style="margin-bottom:14px;">
@@ -934,7 +1061,7 @@ a{color:var(--pine);}
     </div>
 
     <p class="app-foot">
-      <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Categories are a starting point, not tax advice.
+      <a href="/">Home</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · © <span id="appYear">2026</span> CeiptSavor · Categories are a starting point, not tax advice.
     </p>
   </main>
 </div>
@@ -1174,6 +1301,7 @@ async function enterApp(){
   await Promise.all([loadProfile(), loadReceipts(), loadSupplierMemory(), loadJobs(), loadIncome(), loadInvoices()]);
   render();
   loadHome();
+  loadNeedsReview();
   checkShowOnboarding();
   if(_refreshInterval) clearInterval(_refreshInterval);
   _refreshInterval = setInterval(async () => {
@@ -2573,7 +2701,266 @@ function switchTab(tabName){
   if(tabName === "home") loadHome();
   if(tabName === "ai") loadChatContext();
   if(tabName === "invoices") renderInvoices();
+  if(tabName === "tax") loadTaxTab();
 }
+
+/* ============================================================
+   NEEDS REVIEW QUEUE
+   ============================================================ */
+async function loadNeedsReview(){
+  try{
+    const { data, error } = await supabase.rpc("needs_review");
+    const items = data || [];
+
+    // Home tab review list
+    const homeList = $("reviewList");
+    const homeHint = $("reviewHint");
+    if(homeList){
+      if(!items.length){
+        homeHint.textContent = "all clear";
+        homeList.innerHTML = `<div class="empty" style="padding:16px;"><strong>All clear</strong> No receipts need attention right now.</div>`;
+      } else {
+        homeHint.textContent = items.length + " item" + (items.length>1?"s":"");
+        homeList.innerHTML = items.map(r => `
+          <div class="review-row">
+            <div class="mono" style="font-size:.76rem;color:var(--slate);">${esc(r.receipt_date||"—")}</div>
+            <div>
+              <div style="font-weight:600;">${esc(r.vendor||"Unknown vendor")}</div>
+              <div class="review-reason">${esc(r.reason)}</div>
+            </div>
+            <div><span class="sev-dot ${r.severity}"></span></div>
+            <div class="mono" style="font-weight:700;">${money(r.total)}</div>
+            <div><button class="btn btn-quiet" onclick="switchTab('receipts')" style="font-size:.75rem;padding:4px 8px;">View</button></div>
+          </div>`).join("");
+      }
+    }
+
+    // Tax tab review list
+    const taxList = $("reviewListTax");
+    const taxHint = $("reviewHintTax");
+    if(taxList){
+      if(!items.length){
+        if(taxHint) taxHint.textContent = "all clear";
+        taxList.innerHTML = `<div class="empty" style="padding:16px;"><strong>All clear</strong> No receipts need attention.</div>`;
+      } else {
+        if(taxHint) taxHint.textContent = items.length + " item" + (items.length>1?"s":"");
+        taxList.innerHTML = items.map(r => `
+          <div class="review-row">
+            <div class="mono" style="font-size:.76rem;color:var(--slate);">${esc(r.receipt_date||"—")}</div>
+            <div>
+              <div style="font-weight:600;">${esc(r.vendor||"Unknown vendor")}</div>
+              <div class="review-reason">${esc(r.reason)}</div>
+            </div>
+            <div><span class="sev-dot ${r.severity}"></span></div>
+            <div class="mono" style="font-weight:700;">${money(r.total)}</div>
+            <div><button class="btn btn-quiet" onclick="switchTab('receipts')" style="font-size:.75rem;padding:4px 8px;">View</button></div>
+          </div>`).join("");
+      }
+    }
+  }catch(e){ console.error("needs_review:", e); }
+}
+
+/* ============================================================
+   SCHEDULE C REPORT
+   ============================================================ */
+async function loadScheduleC(year){
+  try{
+    const { data, error } = await supabase.rpc("schedule_c_report", { p_year: year });
+    const rows = data || [];
+    const wrap = $("schcWrap");
+    const hint = $("schcHint");
+    if(!wrap) return;
+    if(!rows.length){
+      if(hint) hint.textContent = "";
+      wrap.innerHTML = `<div class="empty" style="padding:16px;"><strong>No expenses for ${year}</strong>File receipts to see your Schedule C breakdown.</div>`;
+      return;
+    }
+    const totalDeductible = rows.reduce((s,r) => s+Number(r.deductible_amt||0), 0);
+    const totalSpend = rows.reduce((s,r) => s+Number(r.total_spend||0), 0);
+    if(hint) hint.textContent = money(totalDeductible) + " estimated deductible of " + money(totalSpend) + " total";
+
+    wrap.innerHTML = `
+      <div class="schc-row" style="font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--slate-2);border-bottom:2px solid var(--line);">
+        <div>Line</div><div>Category</div><div style="text-align:right;">Total</div><div style="text-align:right;">Deductible</div>
+      </div>` +
+      rows.map(r => `
+        <div class="schc-row">
+          <div class="schc-line">${esc(r.sch_c_line)}</div>
+          <div>
+            <div style="font-weight:600;">${esc(r.category)}</div>
+            <div style="font-size:.74rem;color:var(--slate);">${esc(r.line_desc)}${r.deductible_pct<100?' · '+r.deductible_pct+'% deductible':''}</div>
+          </div>
+          <div class="schc-amt">${money(r.total_spend)}</div>
+          <div class="schc-ded">${money(r.deductible_amt)}</div>
+        </div>`).join("") +
+      `<div class="schc-row" style="border-top:2px solid var(--line);border-bottom:none;font-weight:700;">
+        <div></div><div>Total estimated deductible</div>
+        <div class="schc-amt">${money(totalSpend)}</div>
+        <div class="schc-ded" style="font-size:.9rem;">${money(totalDeductible)}</div>
+      </div>
+      <div style="padding:10px 18px;font-size:.76rem;color:var(--slate-2);">
+        Your accountant confirms final deduction amounts. Meals are 50% deductible per IRS rules.
+      </div>`;
+  }catch(e){ console.error("schedule_c:", e); }
+}
+
+/* ============================================================
+   1099-NEC TRACKER
+   ============================================================ */
+let contractors = [];
+
+async function loadContractors(year){
+  try{
+    const { data: cData } = await supabase.from("contractors")
+      .select("*").order("created_at", { ascending: false });
+    contractors = cData || [];
+
+    const { data: sData } = await supabase.rpc("form_1099_summary", { p_year: year });
+    const summary = sData || [];
+
+    const wrap = $("c1099Wrap");
+    const hint = $("c1099Hint");
+    if(!wrap) return;
+
+    const urgent = summary.filter(c => c.status && c.status.includes("NEEDS W-9")).length;
+    const filing = summary.filter(c => c.needs_1099 && c.w9_on_file).length;
+    if(hint) hint.textContent = [
+      urgent ? urgent + " need W-9 urgently" : null,
+      filing ? filing + " to file 1099-NEC" : null,
+      !urgent && !filing ? "Contractors paid $600+ need a 1099-NEC by Jan 31" : null,
+    ].filter(Boolean).join(" · ");
+
+    if(!contractors.length){
+      wrap.innerHTML = `<div class="empty" style="padding:16px;"><strong>No contractors yet</strong>Add subcontractors to track 1099-NEC obligations.</div>`;
+      return;
+    }
+
+    // Merge summary data with contractor list
+    const summaryMap = {};
+    summary.forEach(s => { summaryMap[s.contractor_id] = s; });
+
+    wrap.innerHTML = `
+      <div class="c1099-row" style="font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--slate-2);border-bottom:2px solid var(--line);">
+        <div>Contractor</div><div style="text-align:right;">YTD Paid</div><div>W-9</div><div>Status</div><div></div>
+      </div>` +
+      contractors.map(c => {
+        const sum = summaryMap[c.id] || {};
+        const ytd = sum.ytd_paid || 0;
+        const status = sum.status || "No payments this year";
+        const statusClass = status.includes("URGENTLY") ? "urgent" :
+                           status.includes("File") ? "file" : "under";
+        return `<div class="c1099-row">
+          <div>
+            <div style="font-weight:600;">${esc(c.name)}</div>
+            ${c.business_name ? `<div class="vsub">${esc(c.business_name)}</div>` : ""}
+          </div>
+          <div class="mono" style="font-weight:700;text-align:right;">${money(ytd)}</div>
+          <div><span class="w9-badge ${c.w9_on_file?'yes':'no'}">${c.w9_on_file?'W-9 ✓':'No W-9'}</span></div>
+          <div class="status-1099 ${statusClass}">${esc(status)}</div>
+          <div style="display:flex;gap:4px;">
+            <button class="icon-btn toggle-w9" data-id="${c.id}" data-w9="${c.w9_on_file}"
+              title="${c.w9_on_file?'Remove W-9':'Mark W-9 received'}" aria-label="Toggle W-9 status">
+              ${c.w9_on_file?'📋':'📭'}
+            </button>
+            <button class="icon-btn danger del-contractor" data-id="${c.id}" aria-label="Delete contractor">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+            </button>
+          </div>
+        </div>`;
+      }).join("");
+
+    // Wire up contractor actions
+    wrap.querySelectorAll(".toggle-w9").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const id = btn.dataset.id;
+        const current = btn.dataset.w9 === "true";
+        const { error } = await supabase.from("contractors")
+          .update({ w9_on_file: !current }).eq("id", id);
+        if(error) return toast("Could not update.");
+        await loadContractors(parseInt($("taxYear").value));
+        toast(!current ? "W-9 marked received" : "W-9 removed");
+      });
+    });
+
+    wrap.querySelectorAll(".del-contractor").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        if(!confirm("Delete this contractor and all their payment records?")) return;
+        const { error } = await supabase.from("contractors").delete().eq("id", btn.dataset.id);
+        if(error) return toast("Could not delete.");
+        await loadContractors(parseInt($("taxYear").value));
+        toast("Deleted");
+      });
+    });
+  }catch(e){ console.error("1099:", e); }
+}
+
+$("addContractorBtn").addEventListener("click", () => {
+  $("contractorForm").style.display = "block";
+  $("cName").value = ""; $("cBiz").value = ""; $("cEmail").value = "";
+  $("cPhone").value = ""; $("cAddress").value = ""; $("cW9").checked = false;
+});
+$("cancelContractorBtn").addEventListener("click", () => {
+  $("contractorForm").style.display = "none";
+});
+$("saveContractorBtn").addEventListener("click", async () => {
+  const name = $("cName").value.trim();
+  if(!name) return toast("Enter a contractor name.");
+  $("saveContractorBtn").disabled = true;
+  try{
+    const { error } = await supabase.from("contractors").insert({
+      user_id: user.id,
+      name,
+      business_name: $("cBiz").value.trim() || null,
+      email: $("cEmail").value.trim() || null,
+      phone: $("cPhone").value.trim() || null,
+      address: $("cAddress").value.trim() || null,
+      w9_on_file: $("cW9").checked,
+    });
+    if(error) throw new Error(error.message);
+    $("contractorForm").style.display = "none";
+    await loadContractors(parseInt($("taxYear").value));
+    toast("Contractor added");
+  }catch(err){ toast("Error: " + err.message); }
+  finally{ $("saveContractorBtn").disabled = false; }
+});
+
+/* ============================================================
+   TAX TAB
+   ============================================================ */
+function buildTaxYears(){
+  const years = [...new Set([
+    ...receipts.map(r => r.receipt_date ? r.receipt_date.slice(0,4) : null),
+    String(new Date().getFullYear()),
+  ].filter(Boolean))].sort().reverse();
+  const sel = $("taxYear");
+  if(sel){
+    sel.innerHTML = years.map(y => `<option value="${y}">${y}</option>`).join("");
+  }
+}
+
+async function loadTaxTab(){
+  buildTaxYears();
+  const year = parseInt($("taxYear").value) || new Date().getFullYear();
+  await Promise.all([
+    loadScheduleC(year),
+    loadContractors(year),
+    loadNeedsReview(),
+  ]);
+}
+
+$("taxYear") && $("taxYear").addEventListener("change", async () => {
+  const year = parseInt($("taxYear").value);
+  await Promise.all([loadScheduleC(year), loadContractors(year)]);
+});
+
+/* ============================================================
+   PDF SUPPORT IN SCAN
+   ============================================================ */
+// Override the file read to handle PDFs
+const _origFileChange = null;
+// The fileInput change handler already exists — we need to patch
+// the mediaType detection to support PDFs
+// This is handled by the edge function checking isPDF
 
 /* ============================================================
    BOOT
@@ -2608,5 +2995,10 @@ function switchTab(tabName){
   </div>
 </div>
 
+<script>
+  // Dynamic copyright year
+  var ay = document.getElementById('appYear');
+  if(ay) ay.textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
