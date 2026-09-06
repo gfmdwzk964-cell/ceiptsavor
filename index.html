@@ -138,7 +138,7 @@ footer{background:var(--ink);color:#fff;padding:48px 5vw 32px;}
 .footer-col h4{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8C97A8;margin-bottom:14px;}
 .footer-col a{display:block;color:#C8D4E8;font-size:.86rem;margin-bottom:8px;text-decoration:none;}
 .footer-col a:hover{color:#fff;}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:.8rem;color:#5A6577;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:.8rem;color:#8C97A8;}
 
 /* ---- MOBILE MENU ---- */
 .menu-toggle{display:none;background:none;border:none;cursor:pointer;
@@ -271,6 +271,8 @@ img,table,pre{max-width:100%;}
   </div>
 </div>
 
+<main id="mainContent">
+
 <!-- Sticky mobile CTA -->
 <div id="mobileCTA" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:50;
   background:var(--ink);padding:12px 16px;box-shadow:0 -4px 20px rgba(20,26,36,.2);">
@@ -360,7 +362,7 @@ img,table,pre{max-width:100%;}
   <div class="section-inner">
     <div class="section-label">CeiptSavor vs QuickBooks</div>
     <h2 class="section-title">QuickBooks does payroll. CeiptSavor does receipts.</h2>
-    <p class="section-sub">Most sole proprietors don't need a full general ledger. They need receipts organised, jobs costed, and their accountant happy in January.</p>
+    <p class="section-sub">CeiptSavor is now a real accounting platform — double-entry ledger, chart of accounts, balance sheet, audit log and full accounts receivable. Built receipt-first, priced for sole proprietors.</p>
     <p style="margin-top:16px;font-size:.86rem;color:var(--slate);">QuickBooks is a full accounting platform. CeiptSavor is a receipt and expense tool. They solve different problems — here's what each actually does.</p>
     <div class="vs-wrap">
       <table class="vs">
@@ -387,16 +389,17 @@ img,table,pre{max-width:100%;}
           <tr><td>Invoice creator</td><td class="col-cs yes">✓ Included</td><td class="yes">✓</td><td class="yes">✓</td></tr>
           <tr><td>Mileage tracking (GPS)</td><td class="col-cs">Coming soon</td><td class="yes">✓ Add-on</td><td class="yes">✓</td></tr>
           <tr><td>Bank / credit card feeds</td><td class="col-cs">CSV import — live feeds coming</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>Bank reconciliation</td><td class="col-cs no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Balance sheet &amp; trial balance</td><td class="col-cs yes">✓ Included</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Bank reconciliation</td><td class="col-cs no">CSV import — live feeds coming</td><td class="yes">✓</td><td class="yes">✓</td></tr>
           <tr><td>Transaction rules / auto-categorise</td><td class="col-cs yes">✓ Supplier memory</td><td class="yes">✓</td><td class="yes">✓</td></tr>
           <tr><td colspan="4" style="padding:10px 16px;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);background:var(--mist);border-bottom:1px solid var(--line);">Accounting Depth</td></tr>
-          <tr><td>Double-entry ledger</td><td class="col-cs no">✗ — not an accounting platform</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>Chart of accounts</td><td class="col-cs no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>Classes &amp; locations</td><td class="col-cs no">✗</td><td class="no">✗</td><td class="yes">✓</td></tr>
-          <tr><td>Multi-currency</td><td class="col-cs no">✗</td><td class="no">✗</td><td class="yes">Add-on</td></tr>
-          <tr><td>Audit log</td><td class="col-cs no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>Recurring transactions</td><td class="col-cs no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>Sales / accounts receivable</td><td class="col-cs">Invoices only</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Double-entry ledger</td><td class="col-cs yes">✓ Included</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Chart of accounts</td><td class="col-cs yes">✓ 29 starter accounts</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Classes &amp; locations</td><td class="col-cs yes">✓ Included</td><td class="no">✗</td><td class="yes">✓ Plus only</td></tr>
+          <tr><td>Multi-currency</td><td class="col-cs yes">✓ Included</td><td class="no">✗</td><td class="no">Add-on</td></tr>
+          <tr><td>Audit log</td><td class="col-cs yes">✓ Every change</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Recurring transactions</td><td class="col-cs yes">✓ Included</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Sales / accounts receivable</td><td class="col-cs yes">✓ Full A/R + aging</td><td class="yes">✓</td><td class="yes">✓</td></tr>
           <tr><td colspan="4" style="padding:10px 16px;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);background:var(--mist);border-bottom:1px solid var(--line);">Intelligence &amp; Reporting</td></tr>
           <tr><td>AI chat over your own data</td><td class="col-cs yes">✓ Included</td><td class="no">✗</td><td class="no">✗</td></tr>
           <tr><td>Business health score</td><td class="col-cs yes">✓ Included</td><td class="no">✗</td><td class="no">✗</td></tr>
@@ -410,7 +413,7 @@ img,table,pre{max-width:100%;}
         </tbody>
       </table>
     </div>
-    <p style="margin-top:16px;font-size:.82rem;color:var(--slate);">If you need double-entry accounting, payroll, or a full general ledger — use QuickBooks. If you need your receipts organised, your jobs costed, and your accountant happy in January — use CeiptSavor. Most sole proprietors need the second thing.</p>
+    <p style="margin-top:16px;font-size:.82rem;color:var(--slate);">CeiptSavor now runs a real double-entry ledger with a balance sheet, audit log and full A/R — at a fraction of the price. If you need payroll, inventory or bank feeds today, QuickBooks still wins. For everything else, CeiptSavor does more for less.</p>
   </div>
 </section>
 
@@ -588,28 +591,28 @@ img,table,pre{max-width:100%;}
   <div class="section-inner">
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px;">
       <div>
-        <h4 style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;">Features</h4>
+        <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;">Features</h3>
         <a href="#how" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Receipt scanning</a>
         <a href="#how" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Job costing</a>
         <a href="#accountants" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Accountant pack</a>
         <a href="app.html" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Invoicing</a>
       </div>
       <div>
-        <h4 style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;">Who it's for</h4>
+        <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;">Who it's for</h3>
         <a href="#who" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">HVAC contractors</a>
         <a href="#who" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Landscapers</a>
         <a href="#who" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Plumbers &amp; electricians</a>
         <a href="#who" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Sole proprietors</a>
       </div>
       <div>
-        <h4 style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;">Tax help</h4>
+        <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;">Tax help</h3>
         <a href="#minnesota" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Minnesota tax calendar</a>
         <a href="#faq" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Schedule C categories</a>
         <a href="#faq" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Record retention rules</a>
         <a href="#accountants" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">For accountants</a>
       </div>
       <div>
-        <h4 style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;">Company</h4>
+        <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;">Company</h3>
         <a href="#founder" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">About</a>
         <a href="#pricing" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Pricing</a>
         <a href="privacy.html" style="display:block;font-size:.86rem;margin-bottom:6px;color:var(--slate);">Privacy policy</a>
@@ -624,9 +627,11 @@ img,table,pre{max-width:100%;}
     <h2 style="color:#fff;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;letter-spacing:-.02em;margin-bottom:14px;">Start filing receipts today.</h2>
     <p style="color:#8C97A8;font-size:1rem;line-height:1.65;margin-bottom:32px;">No credit card. No spreadsheets. No shoebox in April.</p>
     <a href="app.html" class="btn btn-pine btn-lg">Create your free account</a>
-    <p style="margin-top:16px;font-size:.82rem;color:#5A6577;">Questions? Email <a href="mailto:reuben@ceiptsavor.com" style="color:#8C97A8;">reuben@ceiptsavor.com</a></p>
+    <p style="margin-top:16px;font-size:.82rem;color:#8C97A8;">Questions? Email <a href="mailto:reuben@ceiptsavor.com" style="color:#8C97A8;">reuben@ceiptsavor.com</a></p>
   </div>
 </section>
+
+</main>
 
 <footer>
   <div class="footer-inner">
@@ -635,13 +640,13 @@ img,table,pre{max-width:100%;}
         <div class="nav-mark" style="color:#fff;"><span class="mark-glyph"></span><span class="mark-word" style="color:#fff;">Ceipt<em>Savor</em></span></div>
         <p>Receipt books for small businesses. Built in Owatonna, Minnesota.</p>
       </div>
-      <div class="footer-col"><h4>Product</h4><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#accountants">For accountants</a><a href="app.html">Sign in</a></div>
-      <div class="footer-col"><h4>Legal</h4><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms of service</a></div>
-      <div class="footer-col"><h4>Contact</h4>
+      <div class="footer-col"><h3>Product</h3><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#accountants">For accountants</a><a href="app.html">Sign in</a></div>
+      <div class="footer-col"><h3>Legal</h3><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms of service</a></div>
+      <div class="footer-col"><h3>Contact</h3>
         <a href="mailto:reuben@ceiptsavor.com">reuben@ceiptsavor.com</a>
         <a href="tel:+15075731480">(507) 573-1480</a>
         <a>Owatonna, Minnesota</a>
-        <p style="font-size:.78rem;color:#5A6577;margin-top:8px;">We reply within 24 hours,<br>usually much faster.</p>
+        <p style="font-size:.78rem;color:#8C97A8;margin-top:8px;">We reply within 24 hours,<br>usually much faster.</p>
       </div>
     </div>
     <div class="footer-bottom"><span>© <span id="copyrightYear">2026</span> CeiptSavor. All rights reserved.</span><span>Categories are a starting point, not tax advice.</span></div>
