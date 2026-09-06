@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>CeiptSavor — Receipt filing for small business</title>
 <meta name="description" content="CeiptSavor helps contractors and small businesses in Minnesota capture receipts, track expenses and save tax. AI-powered scanning files receipts in one click — hand your accountant one clean export at tax time.">
 
@@ -302,6 +303,65 @@ a{color:var(--pine);}
 .status-1099.urgent{color:var(--alert);}
 .status-1099.file{color:var(--pine);}
 .status-1099.under{color:var(--slate);}
+
+/* ---- BOOKS / ACCOUNTING ---- */
+.sub-nav{display:flex;gap:4px;overflow-x:auto;margin-bottom:16px;
+  padding-bottom:8px;scrollbar-width:none;}
+.sub-nav::-webkit-scrollbar{display:none;}
+.sub-btn{background:var(--mist);border:1px solid var(--line);border-radius:20px;
+  padding:6px 14px;font-size:.8rem;font-weight:600;color:var(--slate);
+  cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .15s;}
+.sub-btn.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+.sub-pane{display:none;} .sub-pane.active{display:block;}
+
+.acct-row{display:grid;grid-template-columns:60px 1fr 90px;
+  align-items:center;gap:10px;padding:10px 14px;
+  border-bottom:1px solid var(--line);font-size:.84rem;}
+.acct-row:last-child{border-bottom:none;}
+.acct-code{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--slate-2);}
+.acct-bal{font-family:'JetBrains Mono',monospace;font-weight:600;text-align:right;}
+.acct-type{display:inline-block;font-size:.62rem;font-weight:700;padding:1px 6px;
+  border-radius:20px;text-transform:uppercase;letter-spacing:.04em;margin-left:6px;}
+.acct-type.asset{background:#E6F1EE;color:var(--pine);}
+.acct-type.liability{background:#FBECEB;color:var(--alert);}
+.acct-type.equity{background:#EEF0FB;color:#3B4DB5;}
+.acct-type.income{background:#E6F1EE;color:var(--pine);}
+.acct-type.expense{background:#FBF3E4;color:var(--amber);}
+
+.bs-section{margin-bottom:18px;}
+.bs-head{font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--slate);padding:8px 14px;background:var(--mist);border-radius:6px;margin-bottom:4px;}
+.bs-row{display:flex;justify-content:space-between;padding:7px 14px;font-size:.85rem;
+  border-bottom:1px solid var(--line);}
+.bs-row:last-child{border-bottom:none;}
+.bs-total{display:flex;justify-content:space-between;padding:10px 14px;
+  font-weight:700;font-size:.9rem;border-top:2px solid var(--line);}
+.bs-amt{font-family:'JetBrains Mono',monospace;}
+
+.aging-bucket{display:inline-block;font-size:.66rem;font-weight:700;padding:2px 8px;
+  border-radius:20px;text-transform:uppercase;letter-spacing:.03em;}
+.aging-bucket.current{background:var(--pine-soft);color:var(--pine);}
+.aging-bucket.b30{background:#FBF3E4;color:var(--amber);}
+.aging-bucket.b60{background:#FBECEB;color:#B5822A;}
+.aging-bucket.b90{background:var(--alert-soft);color:var(--alert);}
+
+.audit-row{padding:10px 14px;border-bottom:1px solid var(--line);font-size:.82rem;}
+.audit-row:last-child{border-bottom:none;}
+.audit-action{display:inline-block;font-size:.62rem;font-weight:700;padding:1px 7px;
+  border-radius:20px;text-transform:uppercase;margin-right:6px;}
+.audit-action.INSERT{background:var(--pine-soft);color:var(--pine);}
+.audit-action.UPDATE{background:#EEF0FB;color:#3B4DB5;}
+.audit-action.DELETE{background:var(--alert-soft);color:var(--alert);}
+.audit-time{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--slate-2);}
+
+.tb-row{display:grid;grid-template-columns:55px 1fr 85px 85px;gap:8px;
+  padding:8px 12px;border-bottom:1px solid var(--line);font-size:.8rem;align-items:center;}
+.tb-row:last-child{border-bottom:none;}
+.tb-num{font-family:'JetBrains Mono',monospace;text-align:right;}
+.balanced-badge{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;
+  font-weight:600;padding:6px 12px;border-radius:8px;}
+.balanced-badge.ok{background:var(--pine-soft);color:var(--pine);}
+.balanced-badge.off{background:var(--alert-soft);color:var(--alert);}
 
 /* fraud warning */
 .fraud-warn{background:#FFF8F0;border:1px solid #F5D5A0;color:#7A4F10;border-radius:8px;
@@ -674,6 +734,7 @@ a{color:var(--pine);}
       <button class="tab-btn" data-tab="income">Income</button>
       <button class="tab-btn" data-tab="pnl">P&amp;L</button>
       <button class="tab-btn" data-tab="invoices">Invoices</button>
+      <button class="tab-btn" data-tab="books">Books</button>
       <button class="tab-btn" data-tab="tax">Tax</button>
       <button class="tab-btn" data-tab="ai">AI Chat</button>
     </div>
@@ -949,6 +1010,170 @@ a{color:var(--pine);}
       <div class="card">
         <div class="card-head"><h3>Invoices</h3><span class="hint" id="invHint"></span></div>
         <div id="invoiceWrap"><div class="empty"><strong>No invoices yet</strong>Create your first invoice above.</div></div>
+      </div>
+    </div>
+
+    <!-- BOOKS / ACCOUNTING TAB -->
+    <div class="tab-pane" id="tab-books">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+        <div>
+          <div style="font-size:.76rem;font-weight:600;color:var(--pine);letter-spacing:.08em;">DOUBLE-ENTRY BOOKS</div>
+          <h2 style="font-size:1.15rem;font-weight:700;letter-spacing:-.01em;">Accounting</h2>
+        </div>
+        <button class="btn btn-outline" id="setupBooksBtn" style="font-size:.82rem;padding:8px 14px;">Set up books</button>
+      </div>
+
+      <div class="sub-nav">
+        <button class="sub-btn active" data-sub="accounts">Chart of accounts</button>
+        <button class="sub-btn" data-sub="trialbal">Trial balance</button>
+        <button class="sub-btn" data-sub="balsheet">Balance sheet</button>
+        <button class="sub-btn" data-sub="customers">Customers</button>
+        <button class="sub-btn" data-sub="aging">A/R aging</button>
+        <button class="sub-btn" data-sub="recurring">Recurring</button>
+        <button class="sub-btn" data-sub="dimensions">Classes &amp; locations</button>
+        <button class="sub-btn" data-sub="audit">Audit log</button>
+      </div>
+
+      <!-- Chart of accounts -->
+      <div class="sub-pane active" id="sub-accounts">
+        <div class="card">
+          <div class="card-head"><h3>Chart of accounts</h3><span class="hint" id="coaHint"></span></div>
+          <div id="coaWrap"><div class="empty" style="padding:20px;"><strong>No accounts yet</strong>Tap "Set up books" to create your starter chart of accounts.</div></div>
+        </div>
+      </div>
+
+      <!-- Trial balance -->
+      <div class="sub-pane" id="sub-trialbal">
+        <div class="card">
+          <div class="card-head"><h3>Trial balance</h3><span class="hint" id="tbHint"></span></div>
+          <div style="padding:12px 14px;" id="tbBadge"></div>
+          <div id="tbWrap"><div class="empty" style="padding:20px;">No journal entries yet.</div></div>
+        </div>
+      </div>
+
+      <!-- Balance sheet -->
+      <div class="sub-pane" id="sub-balsheet">
+        <div class="card">
+          <div class="card-head"><h3>Balance sheet</h3><span class="hint" id="bsHint"></span></div>
+          <div class="card-body" id="bsWrap"><div class="empty">No data yet.</div></div>
+        </div>
+      </div>
+
+      <!-- Customers -->
+      <div class="sub-pane" id="sub-customers">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:.86rem;color:var(--slate);">Client list with payment terms.</span>
+          <button class="btn btn-pine" id="addCustomerBtn" style="font-size:.82rem;padding:8px 14px;">+ Add customer</button>
+        </div>
+        <div class="card" id="customerFormCard" style="display:none;margin-bottom:12px;">
+          <div class="card-body">
+            <div class="grid2">
+              <div class="field"><label for="custName">Name</label><input type="text" id="custName" placeholder="Evans Landscaping"></div>
+              <div class="field"><label for="custCompany">Company</label><input type="text" id="custCompany"></div>
+              <div class="field"><label for="custEmail">Email</label><input type="email" id="custEmail"></div>
+              <div class="field"><label for="custPhone">Phone</label><input type="tel" id="custPhone"></div>
+              <div class="field"><label for="custTerms">Payment terms (days)</label><input type="text" id="custTerms" value="30" inputmode="numeric"></div>
+              <div class="field"><label for="custTax">Default tax rate %</label><input type="text" id="custTax" value="6.875" inputmode="decimal"></div>
+              <div class="field full"><label for="custAddress">Address</label><input type="text" id="custAddress"></div>
+            </div>
+            <div class="row-actions">
+              <button class="btn btn-primary" id="saveCustomerBtn">Save customer</button>
+              <button class="btn btn-outline" id="cancelCustomerBtn">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Customers</h3><span class="hint" id="custHint"></span></div>
+          <div id="customerWrap"><div class="empty" style="padding:20px;"><strong>No customers yet</strong>Add your clients to track invoices and receivables.</div></div>
+        </div>
+      </div>
+
+      <!-- A/R aging -->
+      <div class="sub-pane" id="sub-aging">
+        <div class="card">
+          <div class="card-head"><h3>Accounts receivable aging</h3><span class="hint" id="agingHint"></span></div>
+          <div id="agingWrap"><div class="empty" style="padding:20px;"><strong>Nothing outstanding</strong>All invoices are paid.</div></div>
+        </div>
+      </div>
+
+      <!-- Recurring -->
+      <div class="sub-pane" id="sub-recurring">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:.86rem;color:var(--slate);">Rent, insurance, software — set once, get reminded.</span>
+          <button class="btn btn-pine" id="addRecurringBtn" style="font-size:.82rem;padding:8px 14px;">+ Add recurring</button>
+        </div>
+        <div class="card" id="recurringFormCard" style="display:none;margin-bottom:12px;">
+          <div class="card-body">
+            <div class="grid2">
+              <div class="field"><label for="recName">Name</label><input type="text" id="recName" placeholder="Shop rent"></div>
+              <div class="field"><label for="recAmount">Amount ($)</label><input type="text" id="recAmount" inputmode="decimal"></div>
+              <div class="field"><label for="recType">Type</label>
+                <select id="recType"><option value="expense">Expense</option><option value="income">Income</option></select></div>
+              <div class="field"><label for="recFreq">Frequency</label>
+                <select id="recFreq">
+                  <option value="weekly">Weekly</option><option value="biweekly">Every 2 weeks</option>
+                  <option value="monthly" selected>Monthly</option><option value="quarterly">Quarterly</option>
+                  <option value="annually">Annually</option>
+                </select></div>
+              <div class="field"><label for="recCategory">Category</label>
+                <select id="recCategory">
+                  <option>Supplies</option><option>Materials</option><option>Equipment</option>
+                  <option>Fuel</option><option>Vehicle</option><option>Utilities</option>
+                  <option>Professional Services</option><option>Marketing</option>
+                  <option>Rent &amp; Lease</option><option>Other</option>
+                </select></div>
+              <div class="field"><label for="recStart">Next due</label><input type="date" id="recStart"></div>
+              <div class="field full"><label for="recVendor">Vendor / source</label><input type="text" id="recVendor"></div>
+            </div>
+            <div class="row-actions">
+              <button class="btn btn-primary" id="saveRecurringBtn">Save</button>
+              <button class="btn btn-outline" id="cancelRecurringBtn">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Recurring transactions</h3><span class="hint" id="recHint"></span></div>
+          <div id="recurringWrap"><div class="empty" style="padding:20px;"><strong>Nothing recurring yet</strong>Add rent, insurance or subscriptions.</div></div>
+        </div>
+      </div>
+
+      <!-- Classes & locations -->
+      <div class="sub-pane" id="sub-dimensions">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="card">
+            <div class="card-head"><h3>Classes</h3></div>
+            <div style="padding:12px 14px;display:flex;gap:8px;">
+              <input type="text" id="newClass" placeholder="e.g. Residential"
+                style="flex:1;padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;font-size:.84rem;">
+              <button class="btn btn-pine" id="addClassBtn" style="padding:8px 12px;font-size:.8rem;">Add</button>
+            </div>
+            <div id="classWrap"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Locations</h3></div>
+            <div style="padding:12px 14px;display:flex;gap:8px;">
+              <input type="text" id="newLocation" placeholder="e.g. North shop"
+                style="flex:1;padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;font-size:.84rem;">
+              <button class="btn btn-pine" id="addLocationBtn" style="padding:8px 12px;font-size:.8rem;">Add</button>
+            </div>
+            <div id="locationWrap"></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:12px;">
+          <div class="card-head"><h3>P&amp;L by class</h3></div>
+          <div id="dimPnlWrap"><div class="empty" style="padding:20px;">Tag receipts with a class to see the breakdown.</div></div>
+        </div>
+      </div>
+
+      <!-- Audit log -->
+      <div class="sub-pane" id="sub-audit">
+        <div class="card">
+          <div class="card-head">
+            <h3>Audit log</h3>
+            <span class="hint">Every change, permanently recorded</span>
+          </div>
+          <div id="auditWrap"><div class="empty" style="padding:20px;"><span class="spin"></span></div></div>
+        </div>
       </div>
     </div>
 
@@ -2702,6 +2927,7 @@ function switchTab(tabName){
   if(tabName === "ai") loadChatContext();
   if(tabName === "invoices") renderInvoices();
   if(tabName === "tax") loadTaxTab();
+  if(tabName === "books") loadSubPane("accounts");
 }
 
 /* ============================================================
@@ -2961,6 +3187,379 @@ const _origFileChange = null;
 // The fileInput change handler already exists — we need to patch
 // the mediaType detection to support PDFs
 // This is handled by the edge function checking isPDF
+
+/* ============================================================
+   BOOKS / DOUBLE-ENTRY ACCOUNTING
+   ============================================================ */
+let chartAccounts = [], customersList = [], classesList = [], locationsList = [];
+
+// ---- Sub-navigation ----
+document.querySelectorAll(".sub-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".sub-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".sub-pane").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    const pane = $("sub-" + btn.dataset.sub);
+    if(pane) pane.classList.add("active");
+    loadSubPane(btn.dataset.sub);
+  });
+});
+
+function loadSubPane(name){
+  if(name === "accounts")   loadChartOfAccounts();
+  if(name === "trialbal")   loadTrialBalance();
+  if(name === "balsheet")   loadBalanceSheet();
+  if(name === "customers")  loadCustomers();
+  if(name === "aging")      loadArAging();
+  if(name === "recurring")  loadRecurring();
+  if(name === "dimensions"){ loadDimensions(); loadDimensionPnl(); }
+  if(name === "audit")      loadAuditLog();
+}
+
+// ---- Set up books ----
+$("setupBooksBtn").addEventListener("click", async () => {
+  if(!confirm("Create your starter chart of accounts and post all existing receipts and income to the journal?")) return;
+  $("setupBooksBtn").disabled = true;
+  $("setupBooksBtn").textContent = "Setting up…";
+  try{
+    await supabase.rpc("seed_chart_of_accounts");
+    const { data } = await supabase.rpc("backfill_journal");
+    toast(data || "Books set up");
+    await loadChartOfAccounts();
+  }catch(e){ toast("Setup failed: " + e.message); }
+  finally{
+    $("setupBooksBtn").disabled = false;
+    $("setupBooksBtn").textContent = "Set up books";
+  }
+});
+
+// ---- Chart of accounts ----
+async function loadChartOfAccounts(){
+  const { data } = await supabase.from("accounts").select("*").order("code");
+  chartAccounts = data || [];
+  const wrap = $("coaWrap"), hint = $("coaHint");
+  if(!chartAccounts.length){
+    hint.textContent = "";
+    wrap.innerHTML = `<div class="empty" style="padding:20px;"><strong>No accounts yet</strong>Tap "Set up books" to create your starter chart.</div>`;
+    return;
+  }
+  hint.textContent = chartAccounts.length + " accounts";
+  const groups = {};
+  chartAccounts.forEach(a => { (groups[a.type] = groups[a.type] || []).push(a); });
+  const order = ["asset","liability","equity","income","expense"];
+  wrap.innerHTML = order.filter(t => groups[t]).map(t => `
+    <div class="bs-head">${t}s</div>` +
+    groups[t].map(a => `
+      <div class="acct-row">
+        <span class="acct-code">${esc(a.code)}</span>
+        <span>${esc(a.name)}${a.sch_c_line ? ` <span style="font-size:.7rem;color:var(--slate-2)">${esc(a.sch_c_line)}</span>` : ""}</span>
+        <span class="acct-bal"><span class="acct-type ${a.type}">${a.type.slice(0,3)}</span></span>
+      </div>`).join("")
+  ).join("");
+}
+
+// ---- Trial balance ----
+async function loadTrialBalance(){
+  const { data, error } = await supabase.rpc("trial_balance", { p_as_of: null });
+  const rows = data || [];
+  const wrap = $("tbWrap"), hint = $("tbHint"), badge = $("tbBadge");
+  if(!rows.length){
+    hint.textContent = "";
+    badge.innerHTML = "";
+    wrap.innerHTML = `<div class="empty" style="padding:20px;">No journal entries yet. Set up books first.</div>`;
+    return;
+  }
+  const totalDr = rows.reduce((s,r) => s + Number(r.total_debit||0), 0);
+  const totalCr = rows.reduce((s,r) => s + Number(r.total_credit||0), 0);
+  const diff = Math.abs(totalDr - totalCr);
+  const balanced = diff < 0.01;
+  hint.textContent = rows.length + " accounts";
+  badge.innerHTML = `<span class="balanced-badge ${balanced?'ok':'off'}">
+    ${balanced ? '✓ Books balance' : '⚠ Out by ' + money(diff)} · Dr ${money(totalDr)} · Cr ${money(totalCr)}
+  </span>`;
+  wrap.innerHTML = `
+    <div class="tb-row" style="font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--slate-2);border-bottom:2px solid var(--line);">
+      <div>Code</div><div>Account</div><div class="tb-num">Debit</div><div class="tb-num">Credit</div>
+    </div>` +
+    rows.map(r => `
+      <div class="tb-row">
+        <div class="acct-code">${esc(r.code)}</div>
+        <div>${esc(r.name)}</div>
+        <div class="tb-num">${Number(r.total_debit) ? money(r.total_debit) : "—"}</div>
+        <div class="tb-num">${Number(r.total_credit) ? money(r.total_credit) : "—"}</div>
+      </div>`).join("") +
+    `<div class="tb-row" style="font-weight:700;border-top:2px solid var(--line);">
+      <div></div><div>Totals</div>
+      <div class="tb-num">${money(totalDr)}</div>
+      <div class="tb-num">${money(totalCr)}</div>
+    </div>`;
+}
+
+// ---- Balance sheet ----
+async function loadBalanceSheet(){
+  const { data } = await supabase.rpc("balance_sheet", { p_as_of: null });
+  const wrap = $("bsWrap"), hint = $("bsHint");
+  if(!data){ wrap.innerHTML = `<div class="empty">No data yet.</div>`; return; }
+  hint.textContent = "as of " + new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+
+  const sect = (title, items, total) => {
+    if(!items || !items.length) return "";
+    return `<div class="bs-section">
+      <div class="bs-head">${title}</div>
+      ${items.map(i => `<div class="bs-row"><span>${esc(i.name)}</span><span class="bs-amt">${money(i.balance)}</span></div>`).join("")}
+      <div class="bs-total"><span>Total ${title.toLowerCase()}</span><span class="bs-amt">${money(total)}</span></div>
+    </div>`;
+  };
+
+  const liabEq = Number(data.total_liabilities||0) + Number(data.total_equity||0) + Number(data.net_income||0);
+  const assets = Number(data.total_assets||0);
+  const balanced = Math.abs(assets - liabEq) < 0.01;
+
+  wrap.innerHTML =
+    sect("Assets", data.assets, data.total_assets) +
+    sect("Liabilities", data.liabilities, data.total_liabilities) +
+    sect("Equity", data.equity, data.total_equity) +
+    `<div class="bs-section">
+      <div class="bs-row"><span>Net income (current period)</span><span class="bs-amt">${money(data.net_income)}</span></div>
+      <div class="bs-total" style="border-top:2px solid var(--ink);">
+        <span>Liabilities + Equity</span><span class="bs-amt">${money(liabEq)}</span>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <span class="balanced-badge ${balanced?'ok':'off'}">
+        ${balanced ? '✓ Balance sheet balances' : '⚠ Out by ' + money(Math.abs(assets-liabEq))}
+      </span>
+    </div>`;
+}
+
+// ---- Customers ----
+async function loadCustomers(){
+  const { data } = await supabase.from("customers").select("*").order("name");
+  customersList = data || [];
+  const wrap = $("customerWrap"), hint = $("custHint");
+  if(!customersList.length){
+    hint.textContent = "";
+    wrap.innerHTML = `<div class="empty" style="padding:20px;"><strong>No customers yet</strong>Add clients to track invoices and receivables.</div>`;
+    return;
+  }
+  hint.textContent = customersList.length + " customers";
+  wrap.innerHTML = customersList.map(c => `
+    <div class="inc-row">
+      <div>
+        <div style="font-weight:600;">${esc(c.name)}</div>
+        <div class="vsub">${esc(c.company || c.email || "")} · Net ${c.payment_terms}</div>
+      </div>
+      <div class="mono" style="font-size:.78rem;text-align:right;color:var(--slate);">${c.default_tax_rate || 0}% tax</div>
+      <div><button class="icon-btn danger del-customer" data-id="${c.id}" aria-label="Delete customer">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+      </button></div>
+    </div>`).join("");
+  wrap.querySelectorAll(".del-customer").forEach(b => b.addEventListener("click", async () => {
+    if(!confirm("Delete this customer?")) return;
+    await supabase.from("customers").delete().eq("id", b.dataset.id);
+    loadCustomers(); toast("Deleted");
+  }));
+}
+
+$("addCustomerBtn").addEventListener("click", () => {
+  $("customerFormCard").style.display = "block";
+  ["custName","custCompany","custEmail","custPhone","custAddress"].forEach(id => $(id).value = "");
+  $("custTerms").value = "30"; $("custTax").value = "6.875";
+});
+$("cancelCustomerBtn").addEventListener("click", () => { $("customerFormCard").style.display = "none"; });
+$("saveCustomerBtn").addEventListener("click", async () => {
+  const name = $("custName").value.trim();
+  if(!name) return toast("Enter a customer name.");
+  const { error } = await supabase.from("customers").insert({
+    user_id: user.id, name,
+    company: $("custCompany").value.trim() || null,
+    email: $("custEmail").value.trim() || null,
+    phone: $("custPhone").value.trim() || null,
+    address: $("custAddress").value.trim() || null,
+    payment_terms: parseInt($("custTerms").value) || 30,
+    default_tax_rate: parseFloat($("custTax").value) || 0,
+  });
+  if(error) return toast("Error: " + error.message);
+  $("customerFormCard").style.display = "none";
+  loadCustomers(); toast("Customer added");
+});
+
+// ---- A/R aging ----
+async function loadArAging(){
+  const { data } = await supabase.rpc("ar_aging");
+  const rows = data || [];
+  const wrap = $("agingWrap"), hint = $("agingHint");
+  if(!rows.length){
+    hint.textContent = "all clear";
+    wrap.innerHTML = `<div class="empty" style="padding:20px;"><strong>Nothing outstanding</strong>All invoices are paid.</div>`;
+    return;
+  }
+  const total = rows.reduce((s,r) => s + Number(r.balance||0), 0);
+  const overdue = rows.filter(r => r.days_overdue > 0).reduce((s,r) => s + Number(r.balance||0), 0);
+  hint.textContent = money(total) + " outstanding" + (overdue ? " · " + money(overdue) + " overdue" : "");
+  const bucketClass = b => b === "Current" ? "current" : b === "1-30 days" ? "b30" :
+                          b === "31-60 days" ? "b60" : "b90";
+  wrap.innerHTML = rows.map(r => `
+    <div class="inc-row">
+      <div>
+        <div style="font-weight:600;">${esc(r.customer_name)}</div>
+        <div class="vsub">#${esc(r.invoice_number || "—")} · due ${r.due_date || "—"}</div>
+      </div>
+      <div><span class="aging-bucket ${bucketClass(r.bucket)}">${esc(r.bucket)}</span></div>
+      <div class="amount">${money(r.balance)}</div>
+    </div>`).join("");
+}
+
+// ---- Recurring ----
+async function loadRecurring(){
+  const { data } = await supabase.from("recurring_transactions")
+    .select("*").order("next_run");
+  const rows = data || [];
+  const wrap = $("recurringWrap"), hint = $("recHint");
+  if(!rows.length){
+    hint.textContent = "";
+    wrap.innerHTML = `<div class="empty" style="padding:20px;"><strong>Nothing recurring yet</strong>Add rent, insurance or subscriptions.</div>`;
+    return;
+  }
+  const monthly = rows.filter(r => r.is_active).reduce((s,r) => {
+    const mult = { weekly:4.33, biweekly:2.17, monthly:1, quarterly:0.33, annually:0.083 }[r.frequency] || 1;
+    return s + Number(r.amount||0) * mult;
+  }, 0);
+  hint.textContent = rows.length + " items · ~" + money(monthly) + "/month";
+  wrap.innerHTML = rows.map(r => {
+    const due = new Date(r.next_run) <= new Date();
+    return `<div class="inc-row">
+      <div>
+        <div style="font-weight:600;">${esc(r.name)}${due ? ' <span class="aging-bucket b30">due</span>' : ''}</div>
+        <div class="vsub">${esc(r.frequency)} · next ${r.next_run}${r.vendor ? ' · ' + esc(r.vendor) : ''}</div>
+      </div>
+      <div class="amount">${money(r.amount)}</div>
+      <div style="display:flex;gap:2px;">
+        <button class="icon-btn adv-rec" data-id="${r.id}" title="Mark done, advance to next" aria-label="Advance">✓</button>
+        <button class="icon-btn danger del-rec" data-id="${r.id}" aria-label="Delete">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+        </button>
+      </div>
+    </div>`;
+  }).join("");
+  wrap.querySelectorAll(".adv-rec").forEach(b => b.addEventListener("click", async () => {
+    await supabase.rpc("advance_recurring", { p_id: b.dataset.id });
+    loadRecurring(); toast("Advanced to next period");
+  }));
+  wrap.querySelectorAll(".del-rec").forEach(b => b.addEventListener("click", async () => {
+    if(!confirm("Delete this recurring item?")) return;
+    await supabase.from("recurring_transactions").delete().eq("id", b.dataset.id);
+    loadRecurring(); toast("Deleted");
+  }));
+}
+
+$("addRecurringBtn").addEventListener("click", () => {
+  $("recurringFormCard").style.display = "block";
+  $("recName").value = ""; $("recAmount").value = ""; $("recVendor").value = "";
+  $("recStart").value = new Date().toISOString().slice(0,10);
+});
+$("cancelRecurringBtn").addEventListener("click", () => { $("recurringFormCard").style.display = "none"; });
+$("saveRecurringBtn").addEventListener("click", async () => {
+  const name = $("recName").value.trim();
+  const amount = parseFloat($("recAmount").value);
+  if(!name || !Number.isFinite(amount)) return toast("Enter a name and amount.");
+  const start = $("recStart").value || new Date().toISOString().slice(0,10);
+  const { error } = await supabase.from("recurring_transactions").insert({
+    user_id: user.id, name, amount,
+    template_type: $("recType").value,
+    category: $("recCategory").value,
+    vendor: $("recVendor").value.trim() || null,
+    frequency: $("recFreq").value,
+    start_date: start, next_run: start,
+  });
+  if(error) return toast("Error: " + error.message);
+  $("recurringFormCard").style.display = "none";
+  loadRecurring(); toast("Recurring item added");
+});
+
+// ---- Classes & locations ----
+async function loadDimensions(){
+  const [cRes, lRes] = await Promise.all([
+    supabase.from("classes").select("*").order("name"),
+    supabase.from("locations").select("*").order("name"),
+  ]);
+  classesList = cRes.data || [];
+  locationsList = lRes.data || [];
+
+  const render = (items, wrapId, table) => {
+    const w = $(wrapId);
+    if(!items.length){ w.innerHTML = `<div style="padding:14px;color:var(--slate-2);font-size:.84rem;">None yet.</div>`; return; }
+    w.innerHTML = items.map(i => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-bottom:1px solid var(--line);font-size:.85rem;">
+        <span>${esc(i.name)}</span>
+        <button class="icon-btn danger del-dim" data-table="${table}" data-id="${i.id}" aria-label="Delete">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+        </button>
+      </div>`).join("");
+    w.querySelectorAll(".del-dim").forEach(b => b.addEventListener("click", async () => {
+      await supabase.from(b.dataset.table).delete().eq("id", b.dataset.id);
+      loadDimensions();
+    }));
+  };
+  render(classesList, "classWrap", "classes");
+  render(locationsList, "locationWrap", "locations");
+}
+
+$("addClassBtn").addEventListener("click", async () => {
+  const name = $("newClass").value.trim();
+  if(!name) return;
+  await supabase.from("classes").insert({ user_id: user.id, name });
+  $("newClass").value = ""; loadDimensions(); toast("Class added");
+});
+$("addLocationBtn").addEventListener("click", async () => {
+  const name = $("newLocation").value.trim();
+  if(!name) return;
+  await supabase.from("locations").insert({ user_id: user.id, name });
+  $("newLocation").value = ""; loadDimensions(); toast("Location added");
+});
+
+async function loadDimensionPnl(){
+  const { data } = await supabase.rpc("pnl_by_dimension", { p_dimension: "class", p_year: null });
+  const rows = data || [];
+  const wrap = $("dimPnlWrap");
+  if(!rows.length){
+    wrap.innerHTML = `<div class="empty" style="padding:20px;">Tag receipts with a class to see the breakdown.</div>`;
+    return;
+  }
+  wrap.innerHTML = `
+    <div class="tb-row" style="font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--slate-2);border-bottom:2px solid var(--line);grid-template-columns:1fr 85px 85px;">
+      <div>Class</div><div class="tb-num">Income</div><div class="tb-num">Net</div>
+    </div>` +
+    rows.map(r => `
+      <div class="tb-row" style="grid-template-columns:1fr 85px 85px;">
+        <div>${esc(r.dimension_name)}</div>
+        <div class="tb-num" style="color:var(--pine)">${money(r.income)}</div>
+        <div class="tb-num" style="font-weight:700;color:${Number(r.net)>=0?'var(--pine)':'var(--alert)'}">${money(r.net)}</div>
+      </div>`).join("");
+}
+
+// ---- Audit log ----
+async function loadAuditLog(){
+  const { data } = await supabase.from("audit_log")
+    .select("*").order("changed_at", { ascending: false }).limit(100);
+  const rows = data || [];
+  const wrap = $("auditWrap");
+  if(!rows.length){
+    wrap.innerHTML = `<div class="empty" style="padding:20px;"><strong>No changes recorded yet</strong>Every edit will appear here.</div>`;
+    return;
+  }
+  wrap.innerHTML = rows.map(r => {
+    const d = new Date(r.changed_at);
+    const label = r.table_name.replace("_"," ");
+    const nd = r.new_data || {};
+    const desc = nd.vendor || nd.source || nd.client_name || nd.name || "record";
+    return `<div class="audit-row">
+      <span class="audit-action ${r.action}">${r.action}</span>
+      <strong>${esc(label)}</strong> — ${esc(desc)}
+      <div class="audit-time">${d.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</div>
+    </div>`;
+  }).join("");
+}
 
 /* ============================================================
    BOOT
