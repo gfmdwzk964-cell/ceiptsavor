@@ -363,6 +363,43 @@ a{color:var(--pine);}
 .balanced-badge.ok{background:var(--pine-soft);color:var(--pine);}
 .balanced-badge.off{background:var(--alert-soft);color:var(--alert);}
 
+/* ---- BANK RECONCILIATION ---- */
+.bank-row{display:grid;grid-template-columns:72px 1fr 90px 30px;gap:8px;align-items:center;
+  padding:10px 14px;border-bottom:1px solid var(--line);font-size:.84rem;}
+.bank-row:last-child{border-bottom:none;}
+.bank-row:hover{background:var(--mist);}
+.bank-row.reconciled{opacity:.55;}
+.recon-tick{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;
+  font-size:.75rem;flex-shrink:0;}
+.recon-tick.yes{background:var(--pine-soft);color:var(--pine);}
+.recon-tick.no{background:var(--mist);color:var(--slate-2);border:1px dashed var(--line-2);}
+.match-card{background:var(--mist);border:1px solid var(--line);border-radius:8px;
+  padding:10px 12px;margin:6px 0;font-size:.82rem;cursor:pointer;transition:border-color .15s;}
+.match-card:hover{border-color:var(--pine);background:var(--pine-soft);}
+.conf-pill{font-size:.62rem;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:6px;}
+.conf-pill.exact{background:var(--pine);color:#fff;}
+.conf-pill.high{background:var(--pine-soft);color:var(--pine);}
+.conf-pill.possible{background:var(--amber-soft);color:var(--amber);}
+.recon-bar{height:10px;background:var(--mist);border-radius:5px;overflow:hidden;margin:10px 0;}
+.recon-fill{height:100%;background:var(--pine);border-radius:5px;transition:width .4s;}
+
+/* ---- BILLING / SETTINGS ---- */
+.plan-card{background:var(--ink);color:#fff;border-radius:var(--radius);padding:20px;margin-bottom:14px;}
+.plan-status{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:12px;}
+.plan-status.active{background:rgba(99,199,168,.18);color:var(--mint);}
+.plan-status.trial{background:rgba(181,130,42,.2);color:#E0B968;}
+.plan-status.expired{background:rgba(176,65,62,.2);color:#E88C89;}
+.plan-price{font-family:'JetBrains Mono',monospace;font-size:1.9rem;font-weight:700;letter-spacing:-.03em;}
+.plan-meta{font-size:.82rem;color:#8C97A8;margin-top:4px;}
+
+.access-row{display:grid;grid-template-columns:1fr auto 34px;gap:10px;align-items:center;
+  padding:11px 14px;border-bottom:1px solid var(--line);font-size:.85rem;}
+.access-row:last-child{border-bottom:none;}
+.link-box{background:var(--mist);border:1px solid var(--line-2);border-radius:8px;
+  padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:.72rem;
+  word-break:break-all;margin-top:8px;}
+
 /* fraud warning */
 .fraud-warn{background:#FFF8F0;border:1px solid #F5D5A0;color:#7A4F10;border-radius:8px;
   padding:10px 14px;font-size:.82rem;margin-top:10px;display:flex;align-items:flex-start;gap:10px;}
@@ -735,8 +772,10 @@ a{color:var(--pine);}
       <button class="tab-btn" data-tab="pnl">P&amp;L</button>
       <button class="tab-btn" data-tab="invoices">Invoices</button>
       <button class="tab-btn" data-tab="books">Books</button>
+      <button class="tab-btn" data-tab="bank">Bank</button>
       <button class="tab-btn" data-tab="tax">Tax</button>
       <button class="tab-btn" data-tab="ai">AI Chat</button>
+      <button class="tab-btn" data-tab="settings">Settings</button>
     </div>
 
     <!-- HOME TAB -->
@@ -1254,6 +1293,156 @@ a{color:var(--pine);}
           <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem;"><span>1099-NEC to contractors</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--pine);">January 31, 2027</span></div>
           <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.86rem;"><span>Schedule C filing deadline</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--pine);">April 15, 2027</span></div>
           <p style="margin-top:12px;font-size:.76rem;color:var(--slate-2);">Dates are informational only. Verify with your accountant or the IRS/MN DOR.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANK RECONCILIATION TAB -->
+    <div class="tab-pane" id="tab-bank">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+        <div>
+          <div style="font-size:.76rem;font-weight:600;color:var(--pine);letter-spacing:.08em;">RECONCILIATION</div>
+          <h2 style="font-size:1.15rem;font-weight:700;">Bank matching</h2>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-outline" id="importBankTxnBtn" style="font-size:.82rem;padding:8px 14px;">Import CSV</button>
+          <button class="btn btn-pine" id="autoReconBtn" style="font-size:.82rem;padding:8px 14px;">Auto-match</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-body">
+          <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px;">
+            <span id="reconLabel">No transactions imported</span>
+            <span class="mono" id="reconPct">0%</span>
+          </div>
+          <div class="recon-bar"><div class="recon-fill" id="reconFill" style="width:0%"></div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;font-size:.82rem;">
+            <div><div style="color:var(--slate-2);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;">Matched</div><div class="mono" style="font-weight:700;color:var(--pine)" id="reconMatched">0</div></div>
+            <div><div style="color:var(--slate-2);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;">To review</div><div class="mono" style="font-weight:700;color:var(--amber)" id="reconUnmatched">0</div></div>
+            <div><div style="color:var(--slate-2);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;">Receipts unlinked</div><div class="mono" style="font-weight:700;" id="reconOrphan">0</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSV import -->
+      <div class="card" id="bankImportPanel" style="display:none;margin-bottom:14px;">
+        <div class="card-head"><h3>Import bank statement</h3><span class="hint">CSV from your bank</span></div>
+        <div class="card-body">
+          <p style="color:var(--slate);font-size:.86rem;margin-bottom:12px;">
+            Export transactions as CSV from your bank's website. Most US banks support this
+            under Transactions &rarr; Download.
+          </p>
+          <div class="field">
+            <label for="bankAcctSelect">Bank account</label>
+            <select id="bankAcctSelect"></select>
+          </div>
+          <div class="field"><label for="bankTxnFile">CSV file</label>
+            <input type="file" id="bankTxnFile" accept=".csv,.txt"
+              style="padding:8px;border:1px solid var(--line-2);border-radius:8px;width:100%;background:var(--surface);"></div>
+          <div class="grid2">
+            <div class="field"><label for="colDate">Date column</label><input type="text" id="colDate" value="Date"></div>
+            <div class="field"><label for="colAmount">Amount column</label><input type="text" id="colAmount" value="Amount"></div>
+            <div class="field full"><label for="colDesc">Description column</label><input type="text" id="colDesc" value="Description"></div>
+          </div>
+          <div class="row-actions">
+            <button class="btn btn-pine" id="doBankImportBtn">Import transactions</button>
+            <button class="btn btn-outline" id="cancelBankImportBtn">Cancel</button>
+          </div>
+          <div id="bankImportMsg" class="msg hidden" style="margin-top:10px;"></div>
+        </div>
+      </div>
+
+      <!-- Add bank account -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-head"><h3>Bank accounts</h3>
+          <button class="btn btn-quiet" id="addBankAcctBtn" style="font-size:.8rem;">+ Add</button></div>
+        <div id="bankAcctForm" style="display:none;padding:14px;border-bottom:1px solid var(--line);background:var(--mist);">
+          <div class="grid2">
+            <div class="field"><label for="baName">Name</label><input type="text" id="baName" placeholder="Business Checking"></div>
+            <div class="field"><label for="baInst">Bank</label><input type="text" id="baInst" placeholder="Wells Fargo"></div>
+            <div class="field"><label for="baLast4">Last 4 digits</label><input type="text" id="baLast4" maxlength="4" inputmode="numeric"></div>
+            <div class="field"><label for="baType">Type</label>
+              <select id="baType"><option value="checking">Checking</option><option value="savings">Savings</option>
+                <option value="credit_card">Credit card</option><option value="cash">Cash</option></select></div>
+          </div>
+          <div class="row-actions"><button class="btn btn-primary" id="saveBankAcctBtn">Save</button>
+            <button class="btn btn-outline" id="cancelBankAcctBtn">Cancel</button></div>
+        </div>
+        <div id="bankAcctWrap"><div class="empty" style="padding:16px;">No bank accounts yet.</div></div>
+      </div>
+
+      <!-- Transactions -->
+      <div class="card">
+        <div class="card-head"><h3>Transactions</h3>
+          <select id="reconFilter" style="padding:5px 9px;border:1px solid var(--line-2);border-radius:6px;font-size:.8rem;">
+            <option value="unmatched">Needs review</option>
+            <option value="all">All</option>
+            <option value="matched">Matched</option>
+          </select></div>
+        <div id="bankTxnWrap"><div class="empty" style="padding:20px;"><strong>No transactions</strong>Import a bank CSV to start reconciling.</div></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div class="tab-pane" id="tab-settings">
+      <div style="margin-bottom:14px;">
+        <div style="font-size:.76rem;font-weight:600;color:var(--pine);letter-spacing:.08em;">ACCOUNT</div>
+        <h2 style="font-size:1.15rem;font-weight:700;">Settings</h2>
+      </div>
+
+      <!-- Billing -->
+      <div class="plan-card" id="planCard">
+        <span class="plan-status trial" id="planStatus">Loading</span>
+        <div class="plan-price" id="planPrice">—</div>
+        <div class="plan-meta" id="planMeta">&nbsp;</div>
+        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;" id="planActions"></div>
+      </div>
+
+      <!-- Accountant access -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-head">
+          <h3>Accountant access</h3>
+          <button class="btn btn-quiet" id="addAccessBtn" style="font-size:.8rem;">+ Invite</button>
+        </div>
+        <div style="padding:12px 14px;font-size:.85rem;color:var(--slate);border-bottom:1px solid var(--line);">
+          Give your accountant a read-only link. They see your books and can leave notes —
+          they can't change anything. Links expire after 90 days.
+        </div>
+        <div id="accessForm" style="display:none;padding:14px;border-bottom:1px solid var(--line);background:var(--mist);">
+          <div class="grid2">
+            <div class="field"><label for="acName">Accountant name</label><input type="text" id="acName" placeholder="Jane Doe CPA"></div>
+            <div class="field"><label for="acEmail">Their email</label><input type="email" id="acEmail" placeholder="jane@cpafirm.com"></div>
+          </div>
+          <div class="row-actions"><button class="btn btn-primary" id="saveAccessBtn">Create link</button>
+            <button class="btn btn-outline" id="cancelAccessBtn">Cancel</button></div>
+        </div>
+        <div id="accessWrap"><div class="empty" style="padding:16px;">No accountant links yet.</div></div>
+      </div>
+
+      <!-- Payroll -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-head"><h3>Payroll</h3></div>
+        <div class="card-body">
+          <p style="color:var(--slate);font-size:.88rem;margin-bottom:12px;">
+            CeiptSavor doesn't run payroll — tax deposits, W-2s and withholding are regulated
+            territory best handled by a specialist. We recommend <strong>Gusto</strong>, which
+            handles filings automatically and exports cleanly into the books you keep here.
+          </p>
+          <a href="https://gusto.com" target="_blank" rel="noopener noreferrer"
+             class="btn btn-outline" style="font-size:.86rem;">Set up payroll with Gusto →</a>
+        </div>
+      </div>
+
+      <!-- Data -->
+      <div class="card">
+        <div class="card-head"><h3>Your data</h3></div>
+        <div class="card-body">
+          <p style="color:var(--slate);font-size:.86rem;margin-bottom:12px;">
+            Export everything you have — receipts, income, invoices and images — at any time.
+            We don't lock your records in.
+          </p>
+          <button class="btn btn-outline" id="exportAllBtn" style="font-size:.86rem;">Export all data (CSV)</button>
         </div>
       </div>
     </div>
@@ -2928,6 +3117,8 @@ function switchTab(tabName){
   if(tabName === "invoices") renderInvoices();
   if(tabName === "tax") loadTaxTab();
   if(tabName === "books") loadSubPane("accounts");
+  if(tabName === "bank") loadBankTab();
+  if(tabName === "settings") loadSettings();
 }
 
 /* ============================================================
@@ -3559,6 +3750,354 @@ async function loadAuditLog(){
       <div class="audit-time">${d.toLocaleDateString("en-US",{month:"short",day:"numeric"})} ${d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}</div>
     </div>`;
   }).join("");
+}
+
+/* ============================================================
+   BANK RECONCILIATION
+   ============================================================ */
+let bankAccounts = [], bankTxns = [];
+
+// --- Lemon Squeezy checkout URL — replace STORE/VARIANT after setup ---
+const LS_CHECKOUT = "https://ceiptsavor.lemonsqueezy.com/buy/YOUR-VARIANT-ID";
+
+async function loadBankAccounts(){
+  const { data } = await supabase.from("bank_accounts").select("*").order("name");
+  bankAccounts = data || [];
+  const wrap = $("bankAcctWrap"), sel = $("bankAcctSelect");
+  if(sel) sel.innerHTML = bankAccounts.map(a =>
+    `<option value="${a.id}">${esc(a.name)}${a.last_four ? " ••"+esc(a.last_four) : ""}</option>`).join("");
+  if(!bankAccounts.length){
+    wrap.innerHTML = `<div class="empty" style="padding:16px;">No bank accounts yet. Add one to import transactions.</div>`;
+    return;
+  }
+  wrap.innerHTML = bankAccounts.map(a => `
+    <div class="access-row">
+      <div><div style="font-weight:600;">${esc(a.name)}</div>
+        <div class="vsub">${esc(a.institution||"")}${a.last_four ? " ••"+esc(a.last_four) : ""} · ${esc(a.account_type)}</div></div>
+      <div></div>
+      <button class="icon-btn danger del-ba" data-id="${a.id}" aria-label="Delete account">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+      </button>
+    </div>`).join("");
+  wrap.querySelectorAll(".del-ba").forEach(b => b.addEventListener("click", async () => {
+    if(!confirm("Delete this account and all its imported transactions?")) return;
+    await supabase.from("bank_accounts").delete().eq("id", b.dataset.id);
+    loadBankAccounts(); loadBankTxns(); loadReconSummary();
+  }));
+}
+
+$("addBankAcctBtn").addEventListener("click", () => {
+  $("bankAcctForm").style.display = "block";
+  ["baName","baInst","baLast4"].forEach(i => $(i).value = "");
+});
+$("cancelBankAcctBtn").addEventListener("click", () => { $("bankAcctForm").style.display = "none"; });
+$("saveBankAcctBtn").addEventListener("click", async () => {
+  const name = $("baName").value.trim();
+  if(!name) return toast("Enter an account name.");
+  const { error } = await supabase.from("bank_accounts").insert({
+    user_id: user.id, name,
+    institution: $("baInst").value.trim() || null,
+    last_four: $("baLast4").value.trim() || null,
+    account_type: $("baType").value,
+  });
+  if(error) return toast("Error: " + error.message);
+  $("bankAcctForm").style.display = "none";
+  loadBankAccounts(); toast("Account added");
+});
+
+async function loadReconSummary(){
+  const { data } = await supabase.rpc("reconciliation_summary");
+  if(!data) return;
+  const total = Number(data.total_txns||0);
+  const rec = Number(data.reconciled||0);
+  const pct = total ? Math.round(rec/total*100) : 0;
+  $("reconFill").style.width = pct + "%";
+  $("reconPct").textContent = pct + "%";
+  $("reconLabel").textContent = total
+    ? `${rec} of ${total} transactions reconciled`
+    : "No transactions imported";
+  $("reconMatched").textContent   = rec;
+  $("reconUnmatched").textContent = data.unreconciled || 0;
+  $("reconOrphan").textContent    = data.receipts_unmatched || 0;
+}
+
+async function loadBankTxns(){
+  const filter = $("reconFilter") ? $("reconFilter").value : "unmatched";
+  let q = supabase.from("bank_transactions").select("*")
+    .order("txn_date", { ascending: false }).limit(200);
+  if(filter === "unmatched") q = q.eq("is_reconciled", false);
+  if(filter === "matched")   q = q.eq("is_reconciled", true);
+  const { data } = await q;
+  bankTxns = data || [];
+  const wrap = $("bankTxnWrap");
+  if(!bankTxns.length){
+    wrap.innerHTML = `<div class="empty" style="padding:20px;"><strong>Nothing here</strong>${
+      filter==="unmatched" ? "Everything is reconciled." : "Import a bank CSV to start."}</div>`;
+    return;
+  }
+  wrap.innerHTML = bankTxns.map(t => `
+    <div class="bank-row ${t.is_reconciled?'reconciled':''}" data-id="${t.id}">
+      <div class="mono" style="font-size:.74rem;color:var(--slate);">${esc(t.txn_date)}</div>
+      <div>
+        <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(t.description||"—")}</div>
+        ${t.is_reconciled ? `<div class="vsub">matched to ${esc(t.matched_type||"")}</div>` : ""}
+      </div>
+      <div class="mono" style="font-weight:700;text-align:right;color:${Number(t.amount)>=0?'var(--pine)':'var(--ink)'};">
+        ${money(Math.abs(t.amount))}</div>
+      <div><span class="recon-tick ${t.is_reconciled?'yes':'no'}">${t.is_reconciled?'✓':'?'}</span></div>
+    </div>
+    <div id="match-${t.id}" style="display:none;padding:4px 14px 12px;background:var(--mist);border-bottom:1px solid var(--line);"></div>`).join("");
+
+  wrap.querySelectorAll(".bank-row").forEach(row => {
+    row.addEventListener("click", () => showMatches(row.dataset.id));
+  });
+}
+
+async function showMatches(txnId){
+  const box = $("match-" + txnId);
+  if(!box) return;
+  if(box.style.display === "block"){ box.style.display = "none"; return; }
+  box.style.display = "block";
+  box.innerHTML = `<div style="padding:8px 0;"><span class="spin"></span></div>`;
+
+  const { data } = await supabase.rpc("suggest_matches", { p_txn_id: txnId });
+  const ms = data || [];
+  if(!ms.length){
+    box.innerHTML = `<div style="font-size:.82rem;color:var(--slate);padding:6px 0;">
+      No matching receipt or income entry found.
+      <button class="btn btn-quiet mark-manual" data-id="${txnId}" style="font-size:.78rem;">Mark reconciled anyway</button>
+    </div>`;
+  } else {
+    box.innerHTML = `<div style="font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--slate-2);padding:6px 0 2px;">Suggested matches</div>` +
+      ms.map(m => `
+        <div class="match-card do-match" data-txn="${txnId}" data-type="${esc(m.match_type)}" data-mid="${esc(m.match_id)}">
+          <strong>${esc(m.match_label)}</strong>
+          <span class="conf-pill ${esc(m.confidence)}">${esc(m.confidence)}</span>
+          <div style="font-size:.76rem;color:var(--slate);margin-top:2px;">
+            ${esc(m.match_date)} · ${money(m.match_amount)}
+          </div>
+        </div>`).join("");
+  }
+
+  box.querySelectorAll(".do-match").forEach(c => c.addEventListener("click", async e => {
+    e.stopPropagation();
+    await supabase.from("bank_transactions").update({
+      matched_type: c.dataset.type, matched_id: c.dataset.mid,
+      is_reconciled: true, reconciled_at: new Date().toISOString(),
+    }).eq("id", c.dataset.txn);
+    toast("Matched"); loadBankTxns(); loadReconSummary();
+  }));
+  box.querySelectorAll(".mark-manual").forEach(b => b.addEventListener("click", async e => {
+    e.stopPropagation();
+    await supabase.from("bank_transactions").update({
+      matched_type: "manual", is_reconciled: true, reconciled_at: new Date().toISOString(),
+    }).eq("id", b.dataset.id);
+    toast("Marked reconciled"); loadBankTxns(); loadReconSummary();
+  }));
+}
+
+$("reconFilter") && $("reconFilter").addEventListener("change", loadBankTxns);
+
+$("autoReconBtn").addEventListener("click", async () => {
+  $("autoReconBtn").disabled = true;
+  $("autoReconBtn").textContent = "Matching…";
+  try{
+    const { data } = await supabase.rpc("auto_reconcile");
+    toast(data?.message || "Done");
+    loadBankTxns(); loadReconSummary();
+  }catch(e){ toast("Failed: " + e.message); }
+  finally{ $("autoReconBtn").disabled=false; $("autoReconBtn").textContent="Auto-match"; }
+});
+
+$("importBankTxnBtn").addEventListener("click", () => {
+  const p = $("bankImportPanel");
+  p.style.display = p.style.display === "block" ? "none" : "block";
+});
+$("cancelBankImportBtn").addEventListener("click", () => { $("bankImportPanel").style.display="none"; });
+
+$("doBankImportBtn").addEventListener("click", async () => {
+  const file = $("bankTxnFile").files[0];
+  const acctId = $("bankAcctSelect").value;
+  const msg = $("bankImportMsg");
+  const show = (t,k) => { msg.className="msg msg-"+(k||"error"); msg.textContent=t; msg.classList.remove("hidden"); };
+  if(!file)   return show("Choose a CSV file first.");
+  if(!acctId) return show("Add a bank account first.");
+
+  $("doBankImportBtn").disabled = true;
+  try{
+    const text = await file.text();
+    const rows = parseCSV(text);
+    if(rows.length < 2) throw new Error("No data rows found.");
+    const headers = rows[0].map(h => h.trim().toLowerCase());
+    const di = findCol(headers, $("colDate").value);
+    const ai = findCol(headers, $("colAmount").value);
+    const si = findCol(headers, $("colDesc").value);
+    if(di < 0) throw new Error(`Can't find the "${$("colDate").value}" column.`);
+    if(ai < 0) throw new Error(`Can't find the "${$("colAmount").value}" column.`);
+
+    const batch = crypto.randomUUID();
+    const txns = rows.slice(1).map(r => ({
+      user_id: user.id, bank_account_id: acctId,
+      txn_date: parseDate(r[di]),
+      amount: parseFloat((r[ai]||"").replace(/[^0-9.\-]/g,"")),
+      description: si >= 0 ? (r[si]||"").trim().slice(0,300) : null,
+      import_batch: batch,
+    })).filter(t => t.txn_date && Number.isFinite(t.amount));
+
+    if(!txns.length) throw new Error("No valid transactions found. Check the column names.");
+
+    // upsert ignores exact duplicates thanks to the unique index
+    const { error } = await supabase.from("bank_transactions")
+      .upsert(txns, { onConflict: "user_id,bank_account_id,txn_date,amount,description",
+                      ignoreDuplicates: true });
+    if(error) throw new Error(error.message);
+
+    show(`${txns.length} transactions imported. Run Auto-match next.`, "ok");
+    $("bankTxnFile").value = "";
+    loadBankTxns(); loadReconSummary();
+  }catch(err){ show(err.message); }
+  finally{ $("doBankImportBtn").disabled = false; }
+});
+
+async function loadBankTab(){
+  await Promise.all([loadBankAccounts(), loadBankTxns(), loadReconSummary()]);
+}
+
+/* ============================================================
+   BILLING (Lemon Squeezy) + SETTINGS
+   ============================================================ */
+async function loadBilling(){
+  const { data } = await supabase.rpc("my_subscription");
+  if(!data) return;
+  const st = $("planStatus"), pr = $("planPrice"), mt = $("planMeta"), ac = $("planActions");
+
+  if(data.has_subscription && data.status === "active"){
+    st.className = "plan-status active"; st.textContent = "Active";
+    pr.textContent = "$" + (data.price_cents/100).toFixed(0) + "/month";
+    mt.textContent = [
+      data.renews_at ? "Renews " + new Date(data.renews_at).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"}) : null,
+      data.card_brand ? `${data.card_brand} ••${data.card_last_four}` : null,
+    ].filter(Boolean).join(" · ");
+    ac.innerHTML = `
+      ${data.portal_url ? `<a href="${esc(data.portal_url)}" target="_blank" rel="noopener" class="btn btn-outline" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff;font-size:.84rem;">Manage subscription</a>` : ""}
+      ${data.update_url ? `<a href="${esc(data.update_url)}" target="_blank" rel="noopener" class="btn btn-quiet" style="color:#8C97A8;font-size:.84rem;">Update card</a>` : ""}`;
+  } else if(data.trial_expired){
+    st.className = "plan-status expired"; st.textContent = "Trial ended";
+    pr.textContent = "$30/month";
+    mt.textContent = "Subscribe to keep filing receipts. Your data stays safe either way.";
+    ac.innerHTML = `<button class="btn btn-pine" id="subscribeBtn" style="font-size:.9rem;">Subscribe — $30/month</button>`;
+    wireSubscribe();
+  } else {
+    st.className = "plan-status trial"; st.textContent = "Free trial";
+    pr.textContent = data.trial_days_left + " day" + (data.trial_days_left===1?"":"s") + " left";
+    mt.textContent = "Everything unlocked. No card needed until the trial ends.";
+    ac.innerHTML = `<button class="btn btn-pine" id="subscribeBtn" style="font-size:.9rem;">Subscribe now — $30/month</button>`;
+    wireSubscribe();
+  }
+}
+
+function wireSubscribe(){
+  const b = $("subscribeBtn");
+  if(!b) return;
+  b.addEventListener("click", () => {
+    // Pass user_id so the webhook can link the subscription back to this account
+    const url = LS_CHECKOUT
+      + "?checkout[email]=" + encodeURIComponent(user.email)
+      + "&checkout[custom][user_id]=" + encodeURIComponent(user.id);
+    window.open(url, "_blank", "noopener");
+  });
+}
+
+/* ---- Accountant access ---- */
+async function loadAccess(){
+  const { data } = await supabase.from("accountant_access")
+    .select("*").order("created_at", { ascending: false });
+  const rows = data || [];
+  const wrap = $("accessWrap");
+  if(!rows.length){
+    wrap.innerHTML = `<div class="empty" style="padding:16px;">No accountant links yet.</div>`;
+    return;
+  }
+  wrap.innerHTML = rows.map(a => {
+    const url = location.origin + "/accountant.html?t=" + a.access_token;
+    const exp = new Date(a.expires_at);
+    const days = Math.ceil((exp - new Date()) / 86400000);
+    const dead = days <= 0 || !a.is_active;
+    return `<div style="padding:12px 14px;border-bottom:1px solid var(--line);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+        <div>
+          <div style="font-weight:600;">${esc(a.accountant_name)}</div>
+          <div class="vsub">${esc(a.accountant_email)} · ${
+            dead ? "expired" : `expires in ${days} days`} · viewed ${a.access_count}×</div>
+        </div>
+        <div style="display:flex;gap:2px;">
+          <button class="icon-btn copy-link" data-url="${esc(url)}" title="Copy link" aria-label="Copy link">⧉</button>
+          <button class="icon-btn danger del-access" data-id="${a.id}" aria-label="Revoke">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="link-box">${esc(url)}</div>
+    </div>`;
+  }).join("");
+
+  wrap.querySelectorAll(".copy-link").forEach(b => b.addEventListener("click", () => {
+    navigator.clipboard.writeText(b.dataset.url).then(() => toast("Link copied"));
+  }));
+  wrap.querySelectorAll(".del-access").forEach(b => b.addEventListener("click", async () => {
+    if(!confirm("Revoke this accountant's access? The link stops working immediately.")) return;
+    await supabase.from("accountant_access").delete().eq("id", b.dataset.id);
+    loadAccess(); toast("Access revoked");
+  }));
+}
+
+$("addAccessBtn").addEventListener("click", () => {
+  $("accessForm").style.display = "block";
+  $("acName").value = ""; $("acEmail").value = "";
+});
+$("cancelAccessBtn").addEventListener("click", () => { $("accessForm").style.display="none"; });
+$("saveAccessBtn").addEventListener("click", async () => {
+  const name = $("acName").value.trim(), email = $("acEmail").value.trim();
+  if(!name || !email) return toast("Enter a name and email.");
+  const { error } = await supabase.from("accountant_access").insert({
+    user_id: user.id, accountant_name: name, accountant_email: email,
+  });
+  if(error) return toast("Error: " + error.message);
+  $("accessForm").style.display = "none";
+  loadAccess(); toast("Access link created — copy it and send it over");
+});
+
+/* ---- Export everything ---- */
+$("exportAllBtn").addEventListener("click", async () => {
+  const cell = v => { const s = String(v ?? ""); return /[",\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; };
+  const parts = [];
+
+  parts.push("RECEIPTS");
+  parts.push(["Date","Vendor","Category","Job","Total","Tax","Payment","Notes","Confidence","Has image"].join(","));
+  receipts.forEach(r => parts.push([r.receipt_date,r.vendor,r.category,r.job_tag,r.total,r.tax,
+    r.payment_method,r.notes,r.scan_confidence,r.image_path?"yes":"no"].map(cell).join(",")));
+
+  parts.push(""); parts.push("INCOME");
+  parts.push(["Date","Source","Category","Job","Amount","Notes"].join(","));
+  incomeEntries.forEach(i => parts.push([i.entry_date,i.source,i.category,i.job_tag,i.amount,i.notes].map(cell).join(",")));
+
+  parts.push(""); parts.push("INVOICES");
+  parts.push(["Number","Client","Issue date","Due date","Status","Total","Paid"].join(","));
+  invoices.forEach(v => parts.push([v.invoice_number,v.client_name,v.issue_date,v.due_date,
+    v.status,v.total,v.amount_paid].map(cell).join(",")));
+
+  const blob = new Blob(["\uFEFF" + parts.join("\r\n")], { type:"text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "ceiptsavor-full-export-" + new Date().toISOString().slice(0,10) + ".csv";
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  toast("Export downloaded");
+});
+
+async function loadSettings(){
+  await Promise.all([loadBilling(), loadAccess()]);
 }
 
 /* ============================================================
