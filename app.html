@@ -1661,15 +1661,21 @@ function friendlyAuthError(err){
 $("authSubmit").addEventListener("click", submitAuth);
 ["aEmail","aPass","aBiz"].forEach(id => $(id).addEventListener("keydown", e => { if(e.key === "Enter") submitAuth(); }));
 $("signOutBtn").addEventListener("click", async () => {
+  const btn = $("signOutBtn");
+  btn.disabled = true;
   try{
-    await supabase.auth.signOut();
+    // Don't let a slow or failed server call trap the user in the app
+    const res = await Promise.race([
+      supabase.auth.signOut(),
+      new Promise(r => setTimeout(() => r({ error: new Error("timeout") }), 4000)),
+    ]);
+    if(res?.error) await supabase.auth.signOut({ scope: "local" });
   }catch(err){
     console.error("Sign out error:", err);
-    // Force client-side sign out even if server call fails
-    user = null; profile = null;
-    $("appView").classList.add("hidden");
-    $("authView").classList.remove("hidden");
-    setMode("signin");
+    try{ await supabase.auth.signOut({ scope: "local" }); }catch(_){}
+  }finally{
+    btn.disabled = false;
+    showSignedOut();
   }
 });
 $("refreshReceiptsBtn").addEventListener("click", async () => {
@@ -1683,11 +1689,9 @@ $("refreshReceiptsBtn").addEventListener("click", async () => {
 /* ============================================================
    SESSION → APP
    ============================================================ */
-supabase.auth.onAuthStateChange(async (event, session) => {
-  if(session?.user){
-    user = session.user;
-    await enterApp();
-  } else {
+let _enteredUserId = null;
+function showSignedOut(){
+  _enteredUserId = null;
     user = null; profile = null; receipts = [];
     incomeEntries = []; invoices = []; bankTxs = [];
     chatContext = null; knownJobs = []; supplierMemory = [];
@@ -1703,7 +1707,23 @@ supabase.auth.onAuthStateChange(async (event, session) => {
     if(homeBtn) homeBtn.classList.add("active");
     if(homePane) homePane.classList.add("active");
     if(mode !== "reset") setMode("signin");
-  }
+}
+// Supabase runs this callback while holding its auth lock. Awaiting database
+// calls in here can deadlock auth (sign-out then hangs), so hand off with setTimeout.
+supabase.auth.onAuthStateChange((event, session) => {
+  setTimeout(async () => {
+    if(session?.user){
+      user = session.user;
+      // Token refreshes fire this too — only load the app on a real sign-in
+      if(_enteredUserId !== session.user.id){
+        _enteredUserId = session.user.id;
+        await enterApp();
+      }
+    } else {
+      user = null; profile = null;
+      showSignedOut();
+    }
+  }, 0);
 });
 
 let _refreshInterval = null;

@@ -316,13 +316,23 @@ async function signIn(){
 }
 $("gSubmit").addEventListener("click", signIn);
 ["gEmail","gPass"].forEach(id => $(id).addEventListener("keydown", e => { if(e.key==="Enter") signIn(); }));
-$("gSignOut").addEventListener("click", () => supabase.auth.signOut());
-$("signOutBtn").addEventListener("click", () => supabase.auth.signOut());
+async function safeSignOut(){
+  try{
+    const res = await Promise.race([
+      supabase.auth.signOut(),
+      new Promise(r => setTimeout(() => r({ error: new Error("timeout") }), 4000)),
+    ]);
+    if(res?.error) await supabase.auth.signOut({ scope: "local" });
+  }catch(_){ try{ await supabase.auth.signOut({ scope: "local" }); }catch(__){} }
+  showGate("form");
+}
+$("gSignOut").addEventListener("click", safeSignOut);
+$("signOutBtn").addEventListener("click", safeSignOut);
 $("refreshBtn").addEventListener("click", () => load(true));
 
-supabase.auth.onAuthStateChange(async (_e, session) => {
-  if(session?.user) await checkAdmin();
-  else showGate("form");
+// Defer out of Supabase's auth lock to avoid deadlocks (see app.html)
+supabase.auth.onAuthStateChange((_e, session) => {
+  setTimeout(() => { if(session?.user) checkAdmin(); else showGate("form"); }, 0);
 });
 
 function showGate(which){
