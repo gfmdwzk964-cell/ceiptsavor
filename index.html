@@ -36,8 +36,8 @@ nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);backdrop-f
 .mark-glyph::before{content:"";width:12px;height:12px;border-radius:3px;background:linear-gradient(160deg,#fff 0 55%,var(--pine) 55% 100%);}
 .mark-word em{font-style:normal;color:var(--pine);}
 .nav-links{display:flex;align-items:center;gap:28px;font-size:.9rem;}
-.nav-links a{color:var(--slate);font-weight:500;}
-.nav-links a:hover{color:var(--ink);text-decoration:none;}
+.nav-links a:not(.btn){color:var(--slate);font-weight:500;}
+.nav-links a:not(.btn):hover{color:var(--ink);text-decoration:none;}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:8px;padding:10px 20px;font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .15s;text-decoration:none;}
 .btn-primary{background:var(--ink);color:#fff;}.btn-primary:hover{background:#232C3B;text-decoration:none;}
 .btn-pine{background:var(--pine);color:#fff;}.btn-pine:hover{background:var(--pine-mid);text-decoration:none;}
